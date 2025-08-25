@@ -7,12 +7,66 @@ body,
     box-sizing: border-box;
     font-family: 'Roboto', sans-serif !important;
     font-weight: bold;
+    overflow-x: hidden;
     /* define a fonte padrão */
 }
 
 iframe {
     display: block;
 }
+
+/*CARD*/
+.list-group-item {
+    font-weight: lighter;
+}
+
+.card-com-brilho {
+    width: 18rem;
+    /* Define a largura do card */
+    margin: 2rem auto;
+    /* Centraliza e adiciona espaço para o brilho "respirar" */
+
+    /* O brilho preto sutil que cria contraste sobre o fundo laranja.
+    X=0, Y=0, Desfoque=20px, Expansão=2px, Cor=preto com 40% de opacidade
+  */
+    box-shadow: 0 0 20px 2px rgba(0, 0, 0, 0.4);
+}
+
+/*Estilização do texto do site*/
+h1 {
+    margin: 0 auto;
+    text-align: center;
+    padding: 1em;
+    color: #eb650b;
+    box-shadow: inset;
+}
+
+@keyframes animate-background {
+    0% {
+        background-position: 0 50%;
+    }
+
+    100% {
+        background-position: 100% 50%;
+    }
+}
+
+.masked-text {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: transparent;
+    background-image: linear-gradient(45deg, #ffc300, #eb650b, #ff5e00);
+    background-size: 200%;
+    /* Enlarged for smooth animation */
+    background-position: 0 50%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: animate-background 2s infinite alternate linear;
+}
+
+
+
 
 /*            NAVBAR            */
 .bg-body-tertiary {
@@ -58,9 +112,10 @@ iframe {
 /*           SECTION           */
 .espacamento {
 
-    padding: 10em 0em;
+    padding: 1em 0em;
 }
 
+/*SECTION LOCALIDADE*/
 .section-localidade {
 
     background-color: black;
@@ -84,11 +139,36 @@ iframe {
 
 .col img {
     object-fit: cover;
-    height: 100%;
+    max-height: 460px !important;
+    height: 460px;
     width: 100%;
     border-top: 3px solid #eb650b;
 }
 
+/*SECTION AULAS REGULARES*/
+.quadrado {
+    margin: 0 auto;
+    height: 460px;
+    max-width: 600px;
+    width: 100%;
+    border: 2px solid black;
+}
+
+.section-regular {
+    background-color: #eb650b;
+}
+
+.section-regular h1 {
+    color: black;
+    background: linear-gradient(45deg, black, #eb650b);
+    background-size: 200%;
+    /* Enlarged for smooth animation */
+    background-position: 0 50%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: animate-background 2s infinite alternate linear;
+}
 
 
 @media screen and (min-width: 320px) {
@@ -124,4 +204,39 @@ iframe {
         border-top: none;
         border-left: 3px solid #eb650b;
     }
+
+    /*SECTION AULAS REGULARES*/
+    .quadrado {
+        margin: 0 auto;
+
+        height: 460px;
+        max-width: 900px;
+        width: 100%;
+        border: 2px solid black;
+    }
+
+    /*SECTION AULAS REGULARES*/
+    .quadrado {
+        height: 460px;
+        max-width: 600px;
+        width: 100%;
+        border: 2px solid black;
+    }
+
+    .section-regular {
+        background-color: #eb650b;
+    }
+
+    .section-regular h1 {
+        color: black;
+        background: linear-gradient(45deg, black, #eb650b);
+        background-size: 200%;
+        /* Enlarged for smooth animation */
+        background-position: 0 50%;
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: animate-background 2s infinite alternate linear;
+    }
+
 }

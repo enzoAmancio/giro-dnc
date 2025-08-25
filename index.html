@@ -7,6 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
     <link rel="stylesheet" href="home.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <title>Home</title>
 </head>
 
@@ -17,7 +18,7 @@
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <a class="navbar-brand" href="#home">
+            <a class="navbar-brand justify-content-center" href="#home">
                 <img src="giroLogo.png" alt="Logo" width="60" height="60" class="d-inline-block align-text-top">
                 Bootstrap
             </a>
@@ -43,14 +44,58 @@
                 <img src="FOTOS-2 (1).jpg" class="d-block w-100 h-2" alt="...">
             </div>
         </div>
-        <div class="espacamento container-fluid style=" background-color: #eb650b ;">
-            <section class="container-fluid">
-                AULAS REGULARES:
+        <div class=" masking-container container-fluid p-0 m-0" style="background-color: #eb650b " ;>
+            <section data-aos-delay="200" data-aos="fade-up" class="container-fluid espacamento section-regular">
+                <div data-aos-delay="300" data-aos="fade-up" class="masked-text p-0 m-0">
+                    <h1>AULAS REGULARES:</h1>
+                </div>
+                <div class="row container-fluid">
+                    <div class="container-fluid col-md ">
+                        <div data-aos="fade-left" class="card justify-content-start card-com-brilho "
+                            style="width: 18rem;margin:0 auto;">
+                            <img src="IMG_2087 (1).jpg" class="card-img-top" alt="...">
+                            <div data-aos="fade-left" class="card-body">
+                                <h5 class="card-title text-center">AULA MINISTRADA POR:</h5>
+                                <p class="card-text text-center">Uni Yong</p>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item ">Jazz Funk</li>
+                                <li class="list-group-item">Hip Hop</li>
+                                <li class="list-group-item">Comercial</li>
+                            </ul>
+                            <div class="card-body">
+                                <button></button>
+                                <a href="#" class="card-link">Card link</a>
+                                <a href="#" class="card-link">Another link</a>
+                            </div>
+                        </div>
+                        <div class="justify-content-center text-center mt-1">
+
+                        </div>
+
+                    </div>
+                    <div class="col-md container-fluid ">
+                        <div class="justify-content-center">
+                            <div class="quadrado">
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
             </section>
         </div>
-        <div class="espacamento container-fluid">
-            LOCALIDADE
-            <section class="section-localidade container-fluid ">
+        <div class="container-fluid p-0 m-0">
+            <section data-aos-delay="100" data-aos="fade-up"
+                class=" section-localidade p-0 m-0 container-fluid text-center ">
+
+                <div class="masking-container text-center justify-content-center">
+                    <h1 class="masked-text">LOCALIZAÇÃO</h1>
+                </div>
+
+
                 <div class="row">
                     <div class="col justify-content-start">
 
@@ -60,8 +105,8 @@
                             loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
 
                     </div>
-                    <div class="col m-0 p-0">
-                        <img src="FOTOS-5 (1).jpg" alt="">
+                    <div data-aos="fade-right" class="col m-0 p-0">
+                        <img src="FOTOS-5 (1).jpg" style="" alt="">
                     </div>
 
                 </div>
@@ -74,8 +119,11 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous">
-
         </script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init();
+    </script>
 
 </body>
 
