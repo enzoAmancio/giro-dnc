@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Área de Login</title>
+    <link rel="stylesheet" href="{% static 'login/login.css' %}">
 </head>
 <body>
-    <form action="/login/" method="POST">
+    <div class="center">
+        <form action="/login/" method="POST">
         {% csrf_token %}
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" required>
@@ -14,11 +17,14 @@
         <label for="password">Password:</label>
         <input type="password" id="password" name="password" required>
         <br>
-        <button type="submit" name="acao" value="login">Login</button>
-        <button type="submit" name="acao" value="cadastro">Cadastrar</button>
-    </form>
-    {% if mensagem %}
+        <button type="submit" name="acao" value="login" style="color: black;">Login</button>
+        <button type="submit" name="acao" value="cadastro" style="color: black">Cadastrar</button>
+            {% if mensagem %}
         <p>{{ mensagem }}</p>
     {% endif %}
+    </form>
+    </div>
+    
+
 </body>
 </html>
