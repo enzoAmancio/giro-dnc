@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
 
+/* ---------- VARIÁVEIS GERAIS ---------- */
 :root {
   --gd-orange: #f97316;
   --gd-bg: #000;
@@ -9,12 +10,13 @@
   --gd-white: #fff;
 }
 
+/* ---------- BASE DO SITE ---------- */
 body {
   background: #f1f5f9;
   font-family: 'Montserrat', Arial, Helvetica, sans-serif;
 }
 
-
+/* ---------- TOPO (NAV BAR) ---------- */
 .gd-topbar {
   position: fixed;
   top: 0;
@@ -38,7 +40,7 @@ body {
   padding: .35rem .6rem;
 }
 
-
+/* ---------- MENU LATERAL ---------- */
 .gd-sidebar {
   position: fixed;
   top: 76px;
@@ -76,7 +78,7 @@ body {
   background: transparent;
   color: #fff;
   border: none;
-  border-radius: 0px;
+  border-radius: 0;
   font-weight: 500;
   font-size: 0.95rem;
   text-align: left;
@@ -96,7 +98,7 @@ body {
   color: var(--gd-white);
   font-size: 0.92rem;
   text-decoration: none;
-  border-radius: 0px;
+  border-radius: 0;
   transition: all 0.2s ease;
   white-space: nowrap;
 }
@@ -126,7 +128,7 @@ body {
   margin-bottom: 0;
 }
 
-
+/* ---------- LAYOUT GERAL ---------- */
 .gd-main {
   margin-left: 260px;
   padding: 100px 40px 40px 40px;
@@ -144,100 +146,7 @@ body {
   max-width: none;
 }
 
-.gd-breadcrumb {
-  color: #555;
-  font-size: 0.9rem;
-}
-
-.titulo-principal {
-  color: var(--gd-orange);
-  font-weight: 700;
-  font-size: 2rem;
-  margin-bottom: 1.5rem;
-}
-
-.titulo-detalhes {
-  font-weight: 600;
-}
-
-
-.card-pagamento {
-  border-radius: 10px;
-  background-color: #fff;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-}
-
-.btn-pagar {
-  background: var(--gd-orange);
-  color: #000;
-  font-weight: 600;
-  border: none;
-  border-radius: 6px;
-  padding: 8px 16px;
-  transition: all 0.2s;
-}
-
-.btn-pagar:hover {
-  background: #ff7b29;
-}
-
-.btn-boleto {
-  border: 1.5px solid #000;
-  color: #000;
-  font-weight: 500;
-  border-radius: 6px;
-  padding: 8px 16px;
-  background: #fff;
-  transition: all 0.2s;
-}
-
-.btn-boleto:hover {
-  border-color: var(--gd-orange);
-  color: var(--gd-orange);
-}
-
-.card-pagamento .table {
-  border-collapse: separate;
-  border-spacing: 0 10px;
-}
-
-.card-pagamento .table thead th {
-  background-color: #f5f6f8;
-  font-weight: 600;
-  color: #333;
-  border: none;
-  text-transform: capitalize;
-  padding: 14px;
-  font-size: 15px;
-}
-
-.card-pagamento .table tbody tr {
-  background-color: #fafafa;
-  border-radius: 8px;
-  transition: all 0.2s ease;
-}
-
-.card-pagamento .table tbody tr:hover {
-  background-color: #f0f0f0;
-}
-
-.card-pagamento .table tbody td {
-  border: none;
-  padding: 14px;
-  color: #444;
-  font-size: 14px;
-}
-
-.card-pagamento .table tbody tr td:first-child {
-  border-top-left-radius: 8px;
-  border-bottom-left-radius: 8px;
-}
-
-.card-pagamento .table tbody tr td:last-child {
-  border-top-right-radius: 8px;
-  border-bottom-right-radius: 8px;
-}
-
+/* ---------- MODO COLAPSADO ---------- */
 .sidebar-collapsed {
   width: 70px !important;
 }
@@ -251,6 +160,7 @@ body {
   margin-left: 70px !important;
 }
 
+/* ---------- RESPONSIVIDADE ---------- */
 @media (max-width: 768px) {
   .gd-sidebar {
     position: fixed;
