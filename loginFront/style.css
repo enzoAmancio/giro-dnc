@@ -1,0 +1,211 @@
+
+
+
+
+
+body{
+    background:black;
+
+    width: 90rem;
+    height: 64rem;
+   
+}
+
+
+
+
+
+
+
+
+
+
+.quadradoMagico {
+    /* Max e min me permite mover a div com o padding ou margin  */
+    width: 25.1875rem;
+    height: 26.8125rem;
+  
+    
+    
+    color: #FFFCF9;
+    font-family: Montserrat;
+    font-size: 1.5rem;
+    font-style: normal;
+    font-weight: 400;
+    
+    text-align: center;
+    margin: 200px;
+    padding: -100px;    
+   
+    
+   
+    
+    
+    
+    
+
+}
+
+
+.imagemLogo{
+    border-radius:15vh  ;
+    width: 8.625;
+    height: 8.625;
+    top:15.75rem;
+    left: 59.375;
+}
+
+
+
+.email{
+    color: #FFF;
+    font-family: Montserrat;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.senha{
+    max-width: 100%;
+    max-height: 100%;
+
+    margin: 1vh;
+}
+
+
+.entrar{
+    max-width: 100%;/*ajuda no espaçamento entre as divs*/
+    max-height: 100%;/*ajuda no espaçamento entre as divs*/
+    
+    padding-top: 5vh;
+   
+}
+
+.fundoEntrar{
+    background-color:transparent;
+    
+    color: aliceblue;
+    outline: none;
+    border-bottom-color: white;
+    border-right-color: transparent;
+    border-left-color:transparent;
+    border-top-color:transparent;    
+    
+    
+}
+
+.textoLogin{
+    width: 144px;
+    height: 15px;
+    flex-shrink: 0;
+
+    color: #FFF;
+    font-family: Montserrat;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.fundoSenha{
+    background-color:transparent;
+    border-bottom-color: white;
+    border-right-color: transparent;
+    border-left-color:transparent;
+    border-top-color:transparent;    
+    color: aliceblue;
+    outline: none;
+    height: 2vh;
+}
+
+.butaoEntrar{
+    width: 147px;
+    height: 32px;
+    flex-shrink: 0;
+    border-radius: 25px;
+    background: #F56E1D;    
+
+}
+
+.butaoEntrar:hover{
+     background: linear-gradient(rgb(255, 89, 0), 10%, rgb(165, 214, 239));
+     color: rgb(255, 255, 255);
+    transform: scale(1.05); /* Aumenta um pouco o tamanho */    
+}
+
+
+
+
+
+.logo{
+    width: 138px;
+    height: 138px;
+    flex-shrink: 0;
+    aspect-ratio: 1/1;
+
+
+
+}
+
+.esqueceuSenha{
+color: rgb(255, 255, 255);
+text-decoration: none;
+}
+
+
+.cadastrar{
+color: rgb(251, 144, 4);
+text-decoration: none;
+}
+   
+
+.linha{
+   width: 403px; 
+   height: 1px;
+    
+}
+
+
+.imagemFundo{
+    width: 683px;
+    height: 1024px;
+    margin: -10px;
+    padding: 5px;
+    
+    
+    box-shadow: 0 0 20px 0 white;
+    border-bottom: transparent;
+    border-left: transparent;
+    border-top: transparent;
+    border-right:solid white;
+    
+    
+    
+    background: url(/imagemFuno.jpg) lightgray 50% / cover no-repeat;
+
+    
+}
+
+.textoSenha{
+    width: 144px;
+    height: 15px;
+    flex-shrink: 0;
+
+
+    color: #FFFCF9;
+    font-family: Montserrat;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 115px;
+    
+    
+}
