@@ -1,0 +1,304 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
+
+:root {
+  --gd-orange: #f97316;
+  --gd-bg: #000;
+  --gd-border: #242426;
+  --gd-text-dim: #a1a1aa;
+  --gd-surface: #f9f9fb;
+  --gd-white: #fff;
+}
+
+body {
+  background: #f1f5f9;
+  font-family: 'Montserrat', Arial, Helvetica, sans-serif;
+}
+
+/* ---------------------------------- */
+/* ---------- ESTRUTURA E TOPO ---------- */
+/* ---------------------------------- */
+
+.gd-topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 76px;
+  background: var(--gd-bg);
+  color: #fff;
+  z-index: 1030;
+  display: flex;
+  align-items: center;
+}
+
+.gd-pill {
+  background: var(--gd-orange);
+  color: #000;
+  font-weight: 700;
+  font-size: .75rem;
+  letter-spacing: .06em;
+  border-radius: 999px;
+  padding: .35rem .6rem;
+}
+
+/* ---------------------------------- */
+/* ---------- BARRA LATERAL (SIDEBAR) ---------- */
+/* ---------------------------------- */
+
+.gd-sidebar {
+  position: fixed;
+  top: 76px;
+  bottom: 0;
+  left: 0;
+  width: 260px; 
+  background: var(--gd-bg);
+  color: #fff;
+  border-right: 1px solid var(--gd-border);
+  transition: width 0.3s;
+  overflow-x: hidden;
+  padding-top: 10px;
+}
+
+.menu-sanduiche {
+  background: transparent;
+  border: none;
+  color: var(--gd-orange);
+  font-size: 1.8rem;
+  cursor: pointer;
+  margin: 0 0 15px 10px;
+}
+
+.gd-submenu {
+  margin: 0 10px;
+}
+
+.btn-toggle.sidebar-option {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  padding: 8px 12px;
+  background: transparent;
+  color: #fff;
+  border: none;
+  border-radius: 0px;
+  font-weight: 500;
+  font-size: 0.95rem;
+  text-align: left;
+  transition: background 0.2s, color 0.2s;
+}
+
+.btn-toggle.sidebar-option:hover {
+  background: rgba(249, 115, 22, 0.15);
+  color: var(--gd-orange);
+}
+
+.nav-link.sidebar-option {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 20px 8px 45px;
+  color: var(--gd-white);
+  font-size: 0.92rem;
+  text-decoration: none;
+  border-radius: 0px;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.nav-link.sidebar-option:hover {
+  background: rgba(249, 115, 22, 0.15);
+  color: var(--gd-orange);
+}
+
+.nav-link.active {
+  background: var(--gd-orange) !important;
+  font-weight: 700;
+  color: white !important;
+}
+
+.nav-link.sidebar-option i,
+.sidebar-icon {
+  width: 18px;
+  height: 18px;
+  margin-right: 4px;
+  filter: brightness(0) invert(1);
+}
+
+.gd-sidebar ul {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 0;
+}
+
+/* ---------------------------------- */
+/* ---------- CONTEÚDO PRINCIPAL (MAIN) ---------- */
+/* ---------------------------------- */
+
+.gd-main {
+  margin-left: 260px;
+  padding: 100px 40px 40px 40px;
+  min-height: 100vh;
+  background: #f1f5f9;
+  transition: margin-left 0.3s;
+  width: calc(100% - 260px);
+  display: flex;
+  flex-direction: column;
+}
+
+.conteudo {
+  flex: 1;
+  width: 100%;
+  max-width: none;
+}
+
+.gd-breadcrumb {
+  color: #555;
+  font-size: 0.9rem;
+}
+
+.titulo-principal {
+  color: var(--gd-orange);
+  font-weight: 700;
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.titulo-detalhes {
+  font-weight: 600;
+}
+
+/* ---------------------------------- */
+/* ---------- ESTILOS DE MENSALIDADES E TABELAS ---------- */
+/* ---------------------------------- */
+
+/* Estilo Base do Card de Pagamento (Usado para o card de detalhes E para estrutura de tabelas) */
+.card-pagamento {
+  border-radius: 10px;
+  background-color: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  /* A regra padding: 10px 15px; foi movida para as regras de tabela abaixo,
+     ou use as classes p-4 ou p-3 do Bootstrap no HTML */
+}
+
+/* ESTILO ORIGINAL DO ALERTA (Se você quiser o visual da 1ª imagem/antigo): */
+/*
+.alerta {
+  background: #fff1e6;
+  border: 1px solid var(--gd-orange);
+  color: #FB8740;
+  padding: 8px 12px;
+  font-size: 0.9rem;
+}
+.alerta img {
+  width: 18px;  
+  height: 18px;
+  object-fit: contain;
+}
+*/
+
+/* --- ESTILOS DE BOTÕES --- */
+
+.btn-pagar {
+  background: var(--gd-orange);
+  color: #000;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 16px;
+  transition: all 0.2s;
+}
+
+.btn-pagar:hover {
+  background: #ff7b29;
+}
+
+.btn-boleto {
+  border: 1.5px solid #000;
+  color: #000;
+  font-weight: 500;
+  border-radius: 6px;
+  padding: 8px 16px;
+  background: #fff;
+  transition: all 0.2s;
+}
+
+.btn-boleto:hover {
+  border-color: var(--gd-orange);
+  color: var(--gd-orange);
+}
+
+/* --- ESTILO MELHORADO PARA A TABELA DE EXTRATO FINANCEIRO --- */
+
+.card-pagamento .table {
+  border-collapse: separate;
+  border-spacing: 0 10px;
+}
+
+.card-pagamento .table thead th {
+  background-color: #f5f6f8;
+  font-weight: 600;
+  color: #333;
+  border: none;
+  text-transform: capitalize;
+  padding: 14px;
+  font-size: 15px;
+}
+
+.card-pagamento .table tbody tr {
+  background-color: #fafafa;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.card-pagamento .table tbody tr:hover {
+  background-color: #f0f0f0;
+}
+
+.card-pagamento .table tbody td {
+  border: none;
+  padding: 14px;
+  color: #444;
+  font-size: 14px;
+}
+
+.card-pagamento .table tbody tr td:first-child {
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+}
+
+.card-pagamento .table tbody tr td:last-child {
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+
+/* ---------------------------------- */
+/* ---------- RESPONSIVIDADE E TOGGLE ---------- */
+/* ---------------------------------- */
+
+.sidebar-collapsed {
+  width: 70px !important;
+}
+
+.sidebar-collapsed .btn-toggle.sidebar-option span,
+.sidebar-collapsed .nav-link.sidebar-option span {
+  display: none;
+}
+
+.sidebar-collapsed ~ .gd-main {
+  margin-left: 70px !important;
+}
+
+@media (max-width: 768px) {
+  .gd-sidebar {
+    position: fixed;
+    z-index: 1050;
+  }
+
+  .gd-main {
+    margin-left: 0 !important;
+    width: 100%;
+  }
+}

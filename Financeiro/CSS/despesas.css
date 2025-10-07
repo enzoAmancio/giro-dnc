@@ -1,0 +1,87 @@
+
+
+.card-despesas {
+  border-radius: 10px;
+  background-color: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  padding: 10px 15px;
+}
+
+
+.card-despesas .table thead th {
+  background-color: #f5f6f8;
+  font-weight: 600;
+  color: #333;
+  border: none;
+  text-transform: capitalize;
+  padding: 14px;
+  font-size: 15px;
+  text-align: center;
+}
+
+
+.card-despesas .table tbody tr {
+  background-color: #fafafa;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.card-despesas .table tbody tr:hover {
+  background-color: #fff3e6;
+}
+
+.card-despesas .table tbody td {
+  border: none;
+  padding: 14px;
+  color: #444;
+  font-size: 14px;
+  text-align: center;
+}
+
+
+.status-pendente {
+  color: #d97706;
+  font-weight: 600;
+}
+
+.status-aberto {
+  color: #eab308;
+  font-weight: 600;
+}
+
+.status-pago {
+  color: #16a34a;
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .card-despesas .table thead {
+    display: none;
+  }
+
+  .card-despesas .table tbody tr {
+    display: block;
+    margin-bottom: 1rem;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+  }
+
+  .card-despesas .table tbody td {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 14px;
+    border-bottom: 1px solid #f1f1f1;
+  }
+
+  .card-despesas .table tbody td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: #222;
+  }
+
+  .card-despesas .table tbody td:last-child {
+    border-bottom: none;
+  }
+}
