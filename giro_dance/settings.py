@@ -147,3 +147,11 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 CSRF_COOKIE_NAME = "csrftoken"   # padrão
 CSRF_USE_SESSIONS = False        # padrão
 CSRF_COOKIE_SECURE = False       # se usar https, deve ser True
+
+# girodnc_project/settings.py
+
+# ... (resto do arquivo)
+
+# Configurações de Mídia para Upload de Arquivos
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'

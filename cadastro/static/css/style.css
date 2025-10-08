@@ -1,0 +1,89 @@
+/* Estilo do Card Branco (Onde o formulário se encontra) */
+.gd-card {
+    background: var(--gd-white);
+    padding: 30px 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    margin-top: 10px;
+}
+
+/* Estilo do Breadcrumb */
+.gd-breadcrumb {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #333;
+    padding-bottom: 15px;
+    margin-bottom: 25px;
+    border-bottom: 1px solid #eee;
+}
+
+/* Estilo para Títulos dentro do Formulário */
+.data-column h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #000;
+    margin-bottom: 25px;
+}
+
+/* Layout de duas colunas (Para Cadastro de Aluno) */
+.registration-form {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+}
+/* Força o botão a ocupar as duas colunas */
+.gd-submit-button {
+    grid-column: 1 / -1; 
+}
+
+/* Layout de coluna única (Para Cadastro de Professor) */
+.registration-form .single-column {
+    grid-column: 1 / -1; /* Ocupa as duas colunas */
+    display: block; /* Volta para o layout padrão de bloco */
+}
+
+/* Campos de Formulário */
+.input-group label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #444;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+}
+.form-control {
+    border: 1px solid #ddd;
+    background-color: #fcfcfc;
+    height: 45px;
+    border-radius: 4px;
+    font-weight: 400;
+    font-size: 0.95rem;
+    padding: 8px 12px;
+}
+
+/* Botão CADASTRAR */
+.gd-submit-button {
+    display: block;
+    width: 250px;
+    margin: 40px auto 10px auto;
+    padding: 15px 30px;
+    background-color: var(--gd-orange);
+    color: white;
+    font-weight: 700;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    box-shadow: 0 4px #c95d0b; 
+    transition: background-color 0.2s;
+}
+.gd-submit-button:hover {
+    background-color: #ff8c37;
+}
+
+/* Estilo para inputs com erro (a classe 'is-invalid' é comum no Bootstrap) */
+.form-control.is-invalid {
+    border-color: #dc3545; /* Cor vermelha do Bootstrap */
+    padding-right: calc(1.5em + .75rem);
+    background-image: url("data:image/svg+xml,..."); /* Ícone de erro (opcional) */
+}
