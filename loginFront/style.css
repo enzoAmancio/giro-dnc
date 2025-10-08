@@ -3,12 +3,14 @@
 
 
 
-body{
-    background:black;
 
-    width: 90rem;
-    height: 64rem;
-   
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    min-width: 100vw;
+    background: #000;
+    font-family: Montserrat, Arial, sans-serif;
 }
 
 
@@ -169,10 +171,8 @@ text-decoration: none;
 
 .imagemFundo{
     width: 683px;
-    height: 1024px;
-    margin: -10px;
-    padding: 5px;
-    
+    height: 1000px;
+    margin: -20px;
     
     box-shadow: 0 0 20px 0 white;
     border-bottom: transparent;
@@ -201,11 +201,118 @@ text-decoration: none;
     line-height: normal;
 }
 
-.container{
+.container {
     display: flex;
-    justify-content: center;
+    height: 100vh;
+    width: 100vw;
+}
+
+.imagemFundo {
+    width: 50vw;
+    height: 100vh;
+    object-fit: cover;
+    box-shadow: 2px 0 20px 0 #222;
+    border: none;
+    margin: 0;
+    padding: 0;
+    background: url(/imagemFuno.jpg) center center / cover no-repeat;
+}
+
+.quadradoMagico {
+    width: 50vw;
+    height: 100vh;
+    background: #000;
+    display: flex;
+    flex-direction: column;
     align-items: center;
-    padding: 115px;
-    
-    
+    justify-content: center;
+    color: #fff;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0 2vw;
+}
+
+.logo {
+    width: 120px;
+    height: 120px;
+    margin-bottom: 2rem;
+}
+
+.email, .senha {
+    width: 100%;
+    max-width: 350px;
+    margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.email label, .senha label {
+    color: #fff;
+    font-size: 1rem;
+    margin-bottom: 0.3rem;
+    letter-spacing: 1px;
+}
+
+.fundoEntrar, .fundoSenha {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #fff;
+    color: #fff;
+    font-size: 1.1rem;
+    padding: 0.5rem 0;
+    margin-bottom: 0.5rem;
+    outline: none;
+    transition: border-color 0.2s;
+}
+.fundoEntrar:focus, .fundoSenha:focus {
+    border-bottom: 1.5px solid #ff7300;
+}
+
+.butaoEntrar {
+    width: 160px;
+    height: 40px;
+    background: #ff7300;
+    color: #fff;
+    border: none;
+    border-radius: 25px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin: 2rem 0 1rem 0;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+.butaoEntrar:hover {
+    background: #ff8c1a;
+    transform: scale(1.05);
+}
+
+.esqueceuSenha {
+    color: #fff;
+    font-size: 0.9rem;
+    text-align: center;
+    display: block;
+    margin-top: 1rem;
+    text-decoration: none;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+.esqueceuSenha:hover {
+    opacity: 1;
+    text-decoration: underline;
+}
+
+.cadastrar {
+    color: #ff7300;
+    text-decoration: none;
+    margin-left: 0.3rem;
+}
+.cadastrar:hover {
+    text-decoration: underline;
+}
+
+.linha {
+    display: none;
 }
