@@ -52,7 +52,6 @@ body {
   padding-top: 10px;
 }
 
-/* Estilos para desktop apenas */
 @media (min-width: 769px) {
   .gd-sidebar.collapsed {
     width: 60px;
@@ -84,7 +83,7 @@ body {
     display: none !important;
   }
 
-  /* NUNCA esconder o menu hambúrguer, mesmo collapsed */
+
   .gd-sidebar.collapsed .menu-sanduiche,
   .gd-sidebar.collapsed .sidebar-item {
     display: block !important;
@@ -235,7 +234,6 @@ body {
     width: 100%;
   }
 
-  /* Reset collapsed styles on mobile */
   .gd-sidebar.collapsed .gd-submenu span,
   .gd-sidebar.collapsed .nav-link.sidebar-option span {
     display: block;

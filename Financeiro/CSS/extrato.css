@@ -84,7 +84,7 @@ body {
     display: none !important;
   }
 
-  /* NUNCA esconder o menu hambúrguer, mesmo collapsed */
+ 
   .gd-sidebar.collapsed .menu-sanduiche,
   .gd-sidebar.collapsed .sidebar-item {
     display: block !important;

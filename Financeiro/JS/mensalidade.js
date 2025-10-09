@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Toggle do menu lateral
+
     const sidebarToggle = document.getElementById('sidebar-toggle');
     const sidebar = document.querySelector('.gd-sidebar');
     const mainContent = document.querySelector('.gd-main');
@@ -13,17 +13,17 @@ document.addEventListener('DOMContentLoaded', function() {
     if (sidebarToggle && sidebar && mainContent) {
         sidebarToggle.addEventListener('click', function() {
             if (window.innerWidth <= 768) {
-                // Mobile: mostrar/esconder completamente
+                
                 sidebar.classList.toggle('show');
             } else {
-                // Desktop: colapsar/expandir
+              dir
                 sidebar.classList.toggle('collapsed');
                 mainContent.classList.toggle('sidebar-collapsed');
             }
         });
     }
 
-    // Fechar menu quando clicar fora (mobile)
+
     document.addEventListener('click', function(e) {
         if (window.innerWidth <= 768 && 
             sidebar &&
@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Remover collapsed quando mudar para mobile
+  
     window.addEventListener('resize', function() {
         if (sidebar && mainContent) {
             if (window.innerWidth <= 768) {
@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Funcionalidade específica de pagamento (mantida do código original)
+  
     const pagamentoCards = document.querySelectorAll('.pagamento-card');
     
     pagamentoCards.forEach(function(card) {
