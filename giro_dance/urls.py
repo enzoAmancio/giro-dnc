@@ -23,7 +23,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('login/', include('login.urls')),
-    path('', include('cadastro.urls')),
+    #path('', include('cadastro.urls')),
 ]
 
 # Adicione as configurações de mídia se necessário

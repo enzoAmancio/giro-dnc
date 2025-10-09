@@ -2,11 +2,12 @@
 <html lang="pt-br">
     
 <head>
+    {% load static %} 
     <meta charset="UTF-8">
     <meta name="viewport" 
     content="width=device-width, initial-scale=1.0">
     <title>LOGIN</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="{% static 'login/style.css' %}">
 </head>
 <body>
     <div class="container">
@@ -16,17 +17,15 @@
     <!--Formulario básico-->
     <div class="quadradoMagico">
     <!--Imagem de fundo de login-->
-   
-    
-
     
     <img src="logo.jpg" alt="" class="logo">
    
     
-    
+    <form action="/login/" method="POST">
+    {% csrf_token %}
     <div class="email">
     <label for="email" class="">LOGIN:</label>
-    <input type="email" id="email" class="fundoEntrar">
+    <input type="email" id="username" name="username" class="fundoEntrar">
     </div>
     <div class="linha">
 
@@ -34,14 +33,21 @@
 
     <div class="senha">
     <label for="senha" class="textoSenha">SENHA:</label>
-    <input type="password" id="password" class="fundoSenha">
+    <input type="password" id="password" name="password" class="fundoSenha">
     <div class="linha">
 
     </div>
 
     </div class="entrar">
+    
 
-    <button type="submit" class="butaoEntrar" >Entrar</button>
+    <button type="submit" name="acao" value="login" class="butaoEntrar" >Entrar</button>
+    <button type="submit" name="acao" value="cadastro" class="butaoEntrar" >Cadastrar</button>
+
+          {% if mensagem %}
+        <p>{{ mensagem }}</p>
+    {% endif %}
+    </form>
     <p>Novo aqui?<a href="#" class="cadastrar">Cadastre-se</a></p>
 
     <div>

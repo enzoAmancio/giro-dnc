@@ -41,4 +41,4 @@ def login_view(request):
                     mensagem = "Login realizado com sucesso!"
                 else:
                     mensagem = "Senha incorreta."
-    return render(request, 'login.html', {"mensagem": mensagem})
+    return render(request, 'index.html', {"mensagem": mensagem})
