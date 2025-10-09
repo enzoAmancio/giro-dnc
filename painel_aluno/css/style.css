@@ -248,10 +248,10 @@ body {
 }
 
 .gd-breadcrumb {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--gd-orange);
-  margin-bottom: 2rem;
+  font-size: 1rem;
+  color: #212529BF;
+  margin-top: 2rem;
+  margin-bottom: 0.5rem;
   padding: 0;
 }
 
@@ -693,6 +693,6 @@ button#sidebar-toggle.menu-sanduiche {
 
 /* ---------- ESTADOS ATIVOS ---------- */
 .sidebar-option.active {
-  background: rgba(249, 115, 22, 0.15) !important;
-  color: var(--gd-orange) !important;
+  background: rgba(249, 115, 22,) !important;
+  color: var(--gd-white) !important;
 }
