@@ -6,7 +6,7 @@
 }
 
 .navback {
-    background-color: #000000; /* cor de fundo personalizada */
+    background-color: #000000; 
     color: #FFF !important;
     text-align: center !important;
     font-family: Montserrat !important;
@@ -39,7 +39,7 @@
     font-style: normal !important;
     font-weight: 700 !important;
     line-height: normal !important;
-    margin-right: 5px !important; /* Adjust value as needed */
+    margin-right: 5px !important; 
 }
 
 .btn {
@@ -50,20 +50,20 @@
     border-radius: 27px !important;
     cursor: pointer !important;
     width: 150px !important;
-    height: 48px !important; /* Slightly increased for better vertical centering */
-    background-color: #F56E1D !important; /* Set background color */
+    height: 48px !important; 
+    background-color: #F56E1D !important; 
     color: #fff !important;
     font-family: Montserrat !important;
     font-size: px !important;
     font-weight: 700 !important;
     text-align: center !important;
-    padding: 0 !important; /* Remove extra padding */
+    padding: 0 !important;
     line-height: normal !important;
 }
 
 .btn:hover {
-    box-shadow: 0px 0px 3px 3px #F56E1D !important; /* Add glow effect on hover */
-    background-color: #F56E1D !important; /* Maintain background color on hover */
+    box-shadow: 0px 0px 3px 3px #F56E1D !important; 
+    background-color: #F56E1D !important; 
     color: #fff !important;
     text-decoration: none !important;
 }
@@ -77,12 +77,12 @@
     background-position: top center;
     display: flex;
     flex-direction: column;
-    justify-content: center;      /* vertical center */
-    align-items: flex-end;        /* move content to right */
+    justify-content: center;      
+    align-items: flex-end;      
     color: #fff;
     text-shadow: 1px 1px 8px #000;
     margin: 0;
-    padding-right: 100px;          /* space from right edge */
+    padding-right: 100px;          
     padding-left: 0;
     padding-bottom: 550px;
     position: relative;
@@ -92,7 +92,7 @@
 
 .girocrew h2 {
     font-size: 40px;
-    margin: 0 0 10px 0; /* space below heading */
+    margin: 0 0 10px 0; 
 }
 
 .girocrew span {
@@ -103,7 +103,7 @@
 .girocrew-text {
   display: flex;
   flex-direction: column;
-  align-items: center; /* centers children horizontally */
+  align-items: center; 
   width: fit-content;
 }
 
@@ -121,7 +121,7 @@
 
 .flashcards {
     font-family: Montserrat !important;
-    margin-top: -40px; /* Diminua o valor para subir a seção */
+    margin-top: -40px; 
 }
 
 .flashcards h2 {
@@ -135,17 +135,17 @@
     font-size: 25px !important;
     font-weight: 400 !important;
     text-align: center !important;
-    margin-top: 24px; /* ajuste o valor conforme necessário */
-    display: block;   /* garante que o margin-top funcione */
+    margin-top: 24px; 
+    display: block;   
 }
 
 .blocklist {
     text-align: center;
     display: flex;
-    gap: 70px; /* space between blocks */
+    gap: 70px; 
     list-style: none;
     padding: 0;
-    justify-content: space-around; /* Distributes blocks evenly */
+    justify-content: space-around; 
     align-items: flex-start;
     width: 100%;
     margin-top: 35px;
@@ -154,7 +154,7 @@
 .blocklist li {
     display: flex;
     flex-direction: column;
-    align-items: center; /* centers all children horizontally */
+    align-items: center; 
     padding: 16px 24px;
     border-radius: 8px;
     width: 500px;
@@ -166,9 +166,9 @@
 
 .flashinfo {
     font-size: 20px;
-    text-align: center; /* ensures text is centered */
-    margin-top: 8px;    /* space below the title */
-    width: 100%;        /* or set a max-width if needed */
+    text-align: center; 
+    margin-top: 8px;    
+    width: 100%;        
 }
 
 .rev {
@@ -185,8 +185,8 @@
 }
 .reviews { 
     display: flex;
-    gap: 100px; /* space between reviews */
-    justify-content: center; /* center reviews horizontally */
+    gap: 100px; 
+    justify-content: center;
     margin-top: 32px;
     font-family: Montserrat;
 }
