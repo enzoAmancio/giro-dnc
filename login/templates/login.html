@@ -1,30 +1,71 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Área de Login</title>
+    <title>GIRO DNC - Login</title>
     <link rel="stylesheet" href="{% static 'login/login.css' %}">
 </head>
 <body>
-    <div class="center">
-        <form action="/login/" method="POST">
-        {% csrf_token %}
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required>
-        <br>
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
-        <br>
-        <button type="submit" name="acao" value="login" style="color: black;">Login</button>
-        <button type="submit" name="acao" value="cadastro" style="color: black">Cadastrar</button>
-            {% if mensagem %}
-        <p>{{ mensagem }}</p>
-    {% endif %}
-    </form>
-    </div>
-    
+    <div class="login-container">
+        <!-- Lado esquerdo com imagem -->
+        <div class="login-left">
+            <div class="dancers-image">
+                <img src="{% static 'login/foto/imagemFuno.jpg' %}"  alt="Dancers" class="background-image">
+            </div>
+        </div>
 
+        <!-- Lado direito com formulário -->
+        <div class="login-right">
+            <div class="login-form-container">
+                <!-- Logo -->
+                <div class="logo-container">
+                    <div class="">
+                        <img src="{% static 'login/foto/logo.jpg' %}" style="width:80px;height:76px;object-fit:contain;" alt="">
+                    </div>
+                </div>
+
+                <!-- Formulário -->
+                <form method="POST" class="login-form">
+                    {% csrf_token %}
+                    
+                    <!-- Campo Login -->
+                    <div class="input-group">
+                        <input type="text" id="username" name="username" class="form-input" 
+                               placeholder="LOGIN" required>
+                        <div class="input-underline"></div>
+                    </div>
+
+                    <!-- Campo Senha -->
+                    <div class="input-group">
+                        <input type="password" id="password" name="password" class="form-input" 
+                               placeholder="SENHA" required>
+                        <div class="input-underline"></div>
+                    </div>
+
+                    <!-- Botão -->
+                    <button type="submit" name="acao" value="login" class="login-btn">
+                        ENTRAR
+                    </button>
+                     <button type="submit" name="acao" value="cadastro" class="login-btn">
+                        CADASTRAR
+                    </button>
+
+                    <!-- Link esqueceu senha -->
+                    <div class="forgot-password">
+                        <a href="#">Esqueceu a senha?</a>
+                    </div>
+
+                    <!-- Mensagem de erro -->
+                    {% if mensagem %}
+                        <div class="error-message">
+                            {{ mensagem }}
+                        </div>
+                    {% endif %}
+                </form>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "login",
+    "painel_aluno_app",
 ]
 
 MIDDLEWARE = [
@@ -68,7 +69,13 @@ ROOT_URLCONF = "giro_dance.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [
+            BASE_DIR / "templates",        # Templates globais
+            BASE_DIR / "painel_aluno",     # Templates do painel
+            BASE_DIR / "Financeiro" / "HTML", # Templates financeiro
+            BASE_DIR / "GIROHOME",         # Templates home
+            BASE_DIR / "login" / "templates", # Templates login
+        ],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -134,10 +141,15 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = "/static/"
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = BASE_DIR / 'staticfiles'  # Para produção (collectstatic)
 
+# Diretórios de arquivos estáticos para desenvolvimento
 #STATICFILES_DIRS = [
-#    BASE_DIR / "login" / "static",
+#    BASE_DIR / "static",           # Pasta principal de estáticos
+#    BASE_DIR / "painel_aluno",     # Painel do aluno
+#    BASE_DIR / "Financeiro",       # Módulo financeiro  
+#    BASE_DIR / "GIROHOME",         # Home page
+#    BASE_DIR / "login" / "static", # Login
 #]
 
 # Default primary key field type
