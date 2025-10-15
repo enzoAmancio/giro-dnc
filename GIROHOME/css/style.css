@@ -283,3 +283,271 @@ iframe {
 #toknow {
     margin-bottom: 5.25rem;
 }
+
+/* Responsive Media Queries */
+
+/* Tablets and Medium Screens */
+@media (max-width: 1024px) {
+    .girocrew {
+        min-height: 35rem;
+    }
+
+    .girocrew-text {
+        top: 35%;
+        left: 70%;
+    }
+
+    .blocklist {
+        gap: 2rem;
+        margin-top: 3rem;
+    }
+
+    .blocklist li {
+        width: 350px;
+    }
+
+    .reviews {
+        gap: 3rem;
+    }
+
+    .revblock {
+        width: 320px;
+    }
+
+    .moreinfo {
+        gap: 2rem;
+        padding: 12rem 1.5rem 3rem 1.5rem;
+    }
+
+    iframe {
+        width: 22rem;
+        height: 22rem;
+    }
+}
+
+/* Tablets */
+@media (max-width: 768px) {
+    .girocrew {
+        min-height: 30rem;
+        background-position: center;
+    }
+
+    .girocrew-text {
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 90%;
+        padding: 0 1rem;
+    }
+
+    .girocrew h2 {
+        font-size: clamp(1.5rem, 4vw, 1.8rem);
+        white-space: normal;
+    }
+
+    .girocrew span {
+        font-size: clamp(0.9rem, 3vw, 1.2rem);
+    }
+
+    .flashcards {
+        padding: 0 1rem;
+    }
+
+    .blocklist {
+        flex-direction: column;
+        align-items: center;
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+
+    .blocklist li {
+        width: 100%;
+        max-width: 500px;
+    }
+
+    .reviews {
+        flex-direction: column;
+        align-items: center;
+        gap: 2rem;
+    }
+
+    .revblock {
+        width: 100%;
+        max-width: 400px;
+    }
+
+    .stars {
+        margin-left: 3rem;
+    }
+
+    .moreinfo {
+        flex-direction: column;
+        gap: 3rem;
+        margin-top: -4rem;
+        padding: 10rem 1.5rem 3rem 1.5rem;
+    }
+
+    .locmore {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    iframe {
+        width: 100%;
+        max-width: 500px;
+        height: 20rem;
+    }
+
+    .tswift {
+        margin-left: 0;
+        text-align: center;
+    }
+
+    .links {
+        justify-content: center;
+    }
+
+    .moreinfo h3 {
+        margin-bottom: 2rem;
+    }
+
+    #toknow {
+        margin-bottom: 2rem;
+    }
+}
+
+/* Mobile Phones */
+@media (max-width: 480px) {
+    .logo {
+        width: 3rem;
+        height: 3rem;
+    }
+
+    .navback .navbar-nav .nav-link {
+        font-size: 0.9rem !important;
+        padding: 0.5rem !important;
+    }
+
+    .nav-item {
+        margin: 0.5rem 0 !important;
+    }
+
+    .btn {
+        width: 7rem !important;
+        height: 2.5rem !important;
+        font-size: 0.9rem !important;
+    }
+
+    .girocrew {
+        min-height: 25rem;
+    }
+
+    .girocrew h2 {
+        font-size: 1.3rem;
+    }
+
+    .girocrew span {
+        font-size: 0.9rem;
+    }
+
+    .girocrew-text button {
+        width: 10rem !important;
+        height: 2.8rem !important;
+        font-size: 1rem !important;
+    }
+
+    .flashcards h2 {
+        font-size: 1.5rem !important;
+        padding-top: 2rem !important;
+    }
+
+    .flashcards span {
+        font-size: 0.9rem !important;
+        padding: 0 0.5rem;
+    }
+
+    .blocklist {
+        gap: 1.5rem;
+        margin-top: 1.5rem;
+    }
+
+    .blocklist li {
+        padding: 12px 16px;
+    }
+
+    .flashtitle {
+        font-size: 1.2rem;
+        margin-top: 1rem;
+    }
+
+    .flashinfo {
+        font-size: 0.9rem;
+    }
+
+    .revblock {
+        padding: 12px 16px;
+        height: auto;
+        min-height: 10rem;
+    }
+
+    .pfp {
+        width: 4rem;
+        height: 4rem;
+        margin-top: 1rem;
+    }
+
+    .stars {
+        width: 7rem;
+        margin-left: 1.5rem;
+    }
+
+    .name {
+        font-size: 1rem;
+    }
+
+    .revblock p {
+        font-size: 0.85rem;
+    }
+
+    .moreinfo {
+        padding: 8rem 1rem 2rem 1rem;
+        margin-top: -3rem;
+    }
+
+    .moreinfo h3 {
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    iframe {
+        height: 16rem;
+    }
+
+    .links {
+        font-size: 0.9rem;
+        gap: 0.8rem;
+    }
+
+    .tswift {
+        font-size: 0.9rem;
+    }
+}
+
+/* Landscape mode for mobile devices */
+@media (max-height: 600px) and (orientation: landscape) {
+    .girocrew {
+        min-height: 100vh;
+    }
+
+    .girocrew-text {
+        top: 50%;
+    }
+
+    .flashcards {
+        padding: 1rem;
+    }
+
+    .moreinfo {
+        padding: 6rem 1rem 2rem 1rem;
+    }
+}
