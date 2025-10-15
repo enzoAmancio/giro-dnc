@@ -22,8 +22,9 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('login/', include('login.urls')),
-    path('', include('cadastro.urls')),
+    path('', include('login.urls')),
+    path('painel-aluno/', include('painel_aluno_app.urls')),
+    #path('', include('cadastro.urls')),
 ]
 
 # Adicione as configurações de mídia se necessário

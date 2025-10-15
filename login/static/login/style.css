@@ -1,0 +1,318 @@
+
+
+
+
+
+
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    min-width: 100vw;
+    background: #000;
+    font-family: Montserrat, Arial, sans-serif;
+}
+
+
+
+
+
+
+
+
+
+
+.quadradoMagico {
+    /* Max e min me permite mover a div com o padding ou margin  */
+    width: 25.1875rem;
+    height: 26.8125rem;
+  
+    
+    
+    color: #FFFCF9;
+    font-family: Montserrat;
+    font-size: 1.5rem;
+    font-style: normal;
+    font-weight: 400;
+    
+    text-align: center;
+    margin: 200px;
+    padding: -100px;    
+   
+    
+   
+    
+    
+    
+    
+
+}
+
+
+.imagemLogo{
+    border-radius:15vh  ;
+    width: 8.625;
+    height: 8.625;
+    top:15.75rem;
+    left: 59.375;
+}
+
+
+
+.email{
+    color: #FFF;
+    font-family: Montserrat;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.senha{
+    max-width: 100%;
+    max-height: 100%;
+
+    margin: 1vh;
+}
+
+
+.entrar{
+    max-width: 100%;/*ajuda no espaçamento entre as divs*/
+    max-height: 100%;/*ajuda no espaçamento entre as divs*/
+    
+    padding-top: 5vh;
+   
+}
+
+.fundoEntrar{
+    background-color:transparent;
+    
+    color: aliceblue;
+    outline: none;
+    border-bottom-color: white;
+    border-right-color: transparent;
+    border-left-color:transparent;
+    border-top-color:transparent;    
+    
+    
+}
+
+.textoLogin{
+    width: 144px;
+    height: 15px;
+    flex-shrink: 0;
+
+    color: #FFF;
+    font-family: Montserrat;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.fundoSenha{
+    background-color:transparent;
+    border-bottom-color: white;
+    border-right-color: transparent;
+    border-left-color:transparent;
+    border-top-color:transparent;    
+    color: aliceblue;
+    outline: none;
+    height: 2vh;
+}
+
+.butaoEntrar{
+    width: 147px;
+    height: 32px;
+    flex-shrink: 0;
+    border-radius: 25px;
+    background: #F56E1D;    
+
+}
+
+.butaoEntrar:hover{
+     background: linear-gradient(rgb(255, 89, 0), 10%, rgb(165, 214, 239));
+     color: rgb(255, 255, 255);
+    transform: scale(1.05); /* Aumenta um pouco o tamanho */    
+}
+
+
+
+
+
+.logo{
+    width: 138px;
+    height: 138px;
+    flex-shrink: 0;
+    aspect-ratio: 1/1;
+
+
+
+}
+
+.esqueceuSenha{
+color: rgb(255, 255, 255);
+text-decoration: none;
+}
+
+
+.cadastrar{
+color: rgb(251, 144, 4);
+text-decoration: none;
+}
+   
+
+.linha{
+   width: 403px; 
+   height: 1px;
+    
+}
+
+
+.imagemFundo{
+    width: 683px;
+    height: 1000px;
+    margin: -20px;
+    
+    box-shadow: 0 0 20px 0 white;
+    border-bottom: transparent;
+    border-left: transparent;
+    border-top: transparent;
+    border-right:solid white;
+    
+    
+    
+    background: url(/imagemFuno.jpg) lightgray 50% / cover no-repeat;
+
+    
+}
+
+.textoSenha{
+    width: 144px;
+    height: 15px;
+    flex-shrink: 0;
+
+
+    color: #FFFCF9;
+    font-family: Montserrat;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.container {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+}
+
+.imagemFundo {
+    width: 50vw;
+    height: 100vh;
+    object-fit: cover;
+    box-shadow: 2px 0 20px 0 #222;
+    border: none;
+    margin: 0;
+    padding: 0;
+    background: url(/imagemFuno.jpg) center center / cover no-repeat;
+}
+
+.quadradoMagico {
+    width: 50vw;
+    height: 100vh;
+    background: #000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0 2vw;
+}
+
+.logo {
+    width: 120px;
+    height: 120px;
+    margin-bottom: 2rem;
+}
+
+.email, .senha {
+    width: 100%;
+    max-width: 350px;
+    margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.email label, .senha label {
+    color: #fff;
+    font-size: 1rem;
+    margin-bottom: 0.3rem;
+    letter-spacing: 1px;
+}
+
+.fundoEntrar, .fundoSenha {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #fff;
+    color: #fff;
+    font-size: 1.1rem;
+    padding: 0.5rem 0;
+    margin-bottom: 0.5rem;
+    outline: none;
+    transition: border-color 0.2s;
+}
+.fundoEntrar:focus, .fundoSenha:focus {
+    border-bottom: 1.5px solid #ff7300;
+}
+
+.butaoEntrar {
+    width: 160px;
+    height: 40px;
+    background: #ff7300;
+    color: #fff;
+    border: none;
+    border-radius: 25px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin: 2rem 0 1rem 0;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+.butaoEntrar:hover {
+    background: #ff8c1a;
+    transform: scale(1.05);
+}
+
+.esqueceuSenha {
+    color: #fff;
+    font-size: 0.9rem;
+    text-align: center;
+    display: block;
+    margin-top: 1rem;
+    text-decoration: none;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+.esqueceuSenha:hover {
+    opacity: 1;
+    text-decoration: underline;
+}
+
+.cadastrar {
+    color: #ff7300;
+    text-decoration: none;
+    margin-left: 0.3rem;
+}
+.cadastrar:hover {
+    text-decoration: underline;
+}
+
+.linha {
+    display: none;
+}
