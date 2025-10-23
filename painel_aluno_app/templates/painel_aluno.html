@@ -45,15 +45,15 @@
                   <i class="bi bi-chevron-down ms-auto"></i>
                 </button>
                 <div class="collapse show" id="collapseAluno" data-bs-parent="#sidebarAccordion">
-                  <a href="#" class="nav-link sidebar-option active">
+                  <a href="{% url 'painel_aluno' %}" class="nav-link sidebar-option active">
                     <i class="bi bi-speedometer2"></i>
                     <span>Visão Geral</span>
                   </a>
-                  <a href="#" class="nav-link sidebar-option">
+                  <a href="{% url 'paginas:painel_horarios' %}" class="nav-link sidebar-option">
                     <i class="bi bi-clock"></i>
                     <span>Horários de aula</span>
                   </a>
-                  <a href="#" class="nav-link sidebar-option">
+                  <a href="{% url 'paginas:painel_avisos' %}" class="nav-link sidebar-option">
                     <i class="bi bi-bell"></i>
                     <span>Avisos</span>
                   </a>
@@ -68,15 +68,15 @@
                   <i class="bi bi-chevron-down ms-auto"></i>
                 </button>
                 <div class="collapse" id="collapseFinanceiro" data-bs-parent="#sidebarAccordion">
-                  <a href="#" class="nav-link sidebar-option">
+                  <a href="{% url 'paginas:financeiro_mensalidades' %}" class="nav-link sidebar-option">
                     <img src="{% static 'painel_aluno_app/Financeiro/IMG/Mensalidades.png' %}" alt="Mensalidades" class="sidebar-icon">
                     <span>Mensalidades</span>
                   </a>
-                  <a href="#" class="nav-link sidebar-option">
+                  <a href="{% url 'paginas:financeiro_extrato' %}" class="nav-link sidebar-option">
                     <img src="{% static 'painel_aluno_app/Financeiro/IMG/extraroFinanceiro.png' %}" alt="ExtratoFinanceiro" class="sidebar-icon">
                     <span>Extrato Financeiro</span>
                   </a>
-                  <a href="#" class="nav-link sidebar-option">
+                  <a href="{% url 'paginas:financeiro_despesas' %}" class="nav-link sidebar-option">
                     <img src="{% static 'painel_aluno_app/Financeiro/IMG/Despesas.png' %}" alt="DespesasGiro" class="sidebar-icon">
                     <span>Despesas Giro</span>
                   </a>
@@ -91,7 +91,10 @@
                   <i class="bi bi-chevron-down ms-auto"></i>
                 </button>
                 <div class="collapse" id="collapseAulas" data-bs-parent="#sidebarAccordion">
-                  <a href="#" class="nav-link sidebar-option"><span>Minhas aulas</span></a>
+                  <a href="{% url 'paginas:painel_minhas_aulas' %}" class="nav-link sidebar-option">
+                    <i class="bi bi-book"></i>
+                    <span>Minhas aulas</span>
+                  </a>
                 </div>
               </div>
             </li>
@@ -103,13 +106,19 @@
                   <i class="bi bi-chevron-down ms-auto"></i>
                 </button>
                 <div class="collapse" id="collapseComunicacao" data-bs-parent="#sidebarAccordion">
-                  <a href="#" class="nav-link sidebar-option"><span>Converse conosco</span></a>
-                  <a href="#" class="nav-link sidebar-option"><span>Chat</span></a>
+                  <a href="{% url 'paginas:painel_comunicacao' %}" class="nav-link sidebar-option">
+                    <i class="bi bi-envelope"></i>
+                    <span>Converse conosco</span>
+                  </a>
+                  <a href="{% url 'paginas:painel_chat' %}" class="nav-link sidebar-option">
+                    <i class="bi bi-chat-dots"></i>
+                    <span>Chat</span>
+                  </a>
                 </div>
               </div>
             </li>
             <li>
-              <a href="#" class="nav-link sidebar-option" onclick="alert('Função de logout será implementada')">
+              <a href="{% url 'logout' %}" class="nav-link sidebar-option">
                 <i class="bi bi-box-arrow-right"></i>
                 <span>Sair</span>
               </a>

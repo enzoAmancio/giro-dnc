@@ -42,8 +42,8 @@
                   <i class="bi bi-chevron-down ms-auto"></i>
                 </button>
                 <div class="collapse" id="collapseAluno" data-bs-parent="#sidebarAccordion">
-                  <a href="#" class="nav-link sidebar-option"><span>Visão Geral</span></a>
-                  <a href="#" class="nav-link sidebar-option"><span>Horários de Aula</span></a>
+                  <a href="{% url 'painel_aluno' %}" class="nav-link sidebar-option"><span>Visão Geral</span></a>
+                  <a href="{% url 'paginas:painel_horarios' %}" class="nav-link sidebar-option"><span>Horários de Aula</span></a>
                 </div>
               </div>
             </li>
@@ -56,15 +56,15 @@
                   <i class="bi bi-chevron-down ms-auto"></i>
                 </button>
                 <div class="collapse show" id="collapseCadastro" data-bs-parent="#sidebarAccordion">
-                  <a href="#" class="nav-link sidebar-option">
+                  <a href="{% url 'paginas:cadastro_professor' %}" class="nav-link sidebar-option">
                     <i class="bi bi-person-badge"></i>
                     <span>Cadastro Professor</span>
                   </a>
-                  <a href="#" class="nav-link sidebar-option active">
+                  <a href="{% url 'paginas:cadastro_aluno' %}" class="nav-link sidebar-option active">
                     <i class="bi bi-person"></i>
                     <span>Cadastro Aluno</span>
                   </a>
-                  <a href="#" class="nav-link sidebar-option">
+                  <a href="{% url 'paginas:cadastro_aluno' %}" class="nav-link sidebar-option">
                     <i class="bi bi-list-task"></i>
                     <span>Cadastro Atividades</span>
                   </a>
@@ -80,15 +80,15 @@
                   <i class="bi bi-chevron-down ms-auto"></i>
                 </button>
                 <div class="collapse" id="collapseFinanceiro" data-bs-parent="#sidebarAccordion">
-                  <a href="#" class="nav-link sidebar-option">
+                  <a href="{% url 'paginas:financeiro_mensalidades' %}" class="nav-link sidebar-option">
                     <img src="/Financeiro/IMG/Mensalidades.png" alt="Mensalidades" class="sidebar-icon">
                     <span>Mensalidades</span>
                   </a>
-                  <a href="#" class="nav-link sidebar-option">
+                  <a href="{% url 'paginas:financeiro_extrato' %}" class="nav-link sidebar-option">
                     <img src="/Financeiro/IMG/extraroFinanceiro.png" alt="ExtratoFinanceiro" class="sidebar-icon">
                     <span>Extrato Financeiro</span>
                   </a>
-                  <a href="#" class="nav-link sidebar-option">
+                  <a href="{% url 'paginas:financeiro_despesas' %}" class="nav-link sidebar-option">
                     <img src="/Financeiro/IMG/Despesas.png" alt="DespesasGiro" class="sidebar-icon">
                     <span>Despesas Giro</span>
                   </a>
@@ -104,7 +104,7 @@
                   <i class="bi bi-chevron-down ms-auto"></i>
                 </button>
                 <div class="collapse" id="collapseAulas" data-bs-parent="#sidebarAccordion">
-                  <a href="#" class="nav-link sidebar-option"><span>Minhas aulas</span></a>
+                  <a href="{% url 'paginas:painel_minhas_aulas' %}" class="nav-link sidebar-option"><span>Minhas aulas</span></a>
                 </div>
               </div>
             </li>
@@ -117,8 +117,8 @@
                   <i class="bi bi-chevron-down ms-auto"></i>
                 </button>
                 <div class="collapse" id="collapseComunicacao" data-bs-parent="#sidebarAccordion">
-                  <a href="#" class="nav-link sidebar-option"><span>Converse conosco</span></a>
-                  <a href="#" class="nav-link sidebar-option"><span>Chat</span></a>
+                  <a href="{% url 'paginas:painel_comunicacao' %}" class="nav-link sidebar-option"><span>Converse conosco</span></a>
+                  <a href="{% url 'paginas:painel_chat' %}" class="nav-link sidebar-option"><span>Chat</span></a>
                 </div>
               </div>
             </li>

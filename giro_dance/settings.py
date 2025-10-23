@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "login",
     "painel_aluno_app",
+    "paginas",
 ]
 
 MIDDLEWARE = [
@@ -91,7 +92,9 @@ WSGI_APPLICATION = "giro_dance.wsgi.application"
 
 CSRF_TRUSTED_ORIGINS = [
     "https://localhost:8000",
-    "https://upgraded-space-enigma-v6wgpjx5x97w2x475-8000.app.github.dev"
+    "http://localhost:8000",
+    "https://*.app.github.dev",
+    "https://redesigned-journey-wrw794q6q4c5pqv-8000.app.github.dev",
 ]
 
 
@@ -144,13 +147,13 @@ STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / 'staticfiles'  # Para produção (collectstatic)
 
 # Diretórios de arquivos estáticos para desenvolvimento
-#STATICFILES_DIRS = [
-#    BASE_DIR / "static",           # Pasta principal de estáticos
-#    BASE_DIR / "painel_aluno",     # Painel do aluno
-#    BASE_DIR / "Financeiro",       # Módulo financeiro  
-#    BASE_DIR / "GIROHOME",         # Home page
-#    BASE_DIR / "login" / "static", # Login
-#]
+STATICFILES_DIRS = [
+    BASE_DIR / "GIROHOME",           # Home page (css, img)
+    BASE_DIR / "painel_aluno",       # Painel do aluno estático
+    BASE_DIR / "Financeiro",         # Módulo financeiro  
+    BASE_DIR / "feedback",           # Feedback
+    BASE_DIR / "NAV&MENU",           # Menu e navegação
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
@@ -168,3 +171,8 @@ CSRF_COOKIE_SECURE = False       # se usar https, deve ser True
 # Configurações de Mídia para Upload de Arquivos
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+# Configurações de Login/Logout
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/painel-aluno/'
+LOGOUT_REDIRECT_URL = '/login/'
