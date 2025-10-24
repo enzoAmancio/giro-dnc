@@ -26,7 +26,7 @@ SECRET_KEY = "django-insecure-p6y9^dgkmyasld_c9=3i%()%x#f#k@++odxqap3@-dj)m0jui6
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['129.146.67.23','localhost']
+ALLOWED_HOSTS = ['129.146.67.23','localhost', 'girodnc.qzz.io']
 
 STATIC_URL = '/static/'
 # Application definition
@@ -95,6 +95,7 @@ CSRF_TRUSTED_ORIGINS = [
     "http://localhost:8000",
     "https://*.app.github.dev",
     "https://redesigned-journey-wrw794q6q4c5pqv-8000.app.github.dev",
+    "girodnc.qzz.io"
 ]
 
 
