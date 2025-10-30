@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "rest_framework",
     "login",
     "painel_aluno_app",
     "paginas",
@@ -55,14 +56,15 @@ MIDDLEWARE = [
 
 
 REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': (
+    'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
-    ),
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.BasicAuthentication',
-    ),
+    ],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 20,
 }
 
 ROOT_URLCONF = "giro_dance.urls"
@@ -95,7 +97,8 @@ CSRF_TRUSTED_ORIGINS = [
     "http://localhost:8000",
     "https://*.app.github.dev",
     "https://redesigned-journey-wrw794q6q4c5pqv-8000.app.github.dev",
-    "girodnc.qzz.io"
+    "https://girodnc.qzz.io",
+    "http://girodnc.qzz.io"
 ]
 
 

@@ -1,5 +1,7 @@
 asgiref
 Django
+djangorestframework
+Pillow
 gunicorn
 packaging
 python-decouple
