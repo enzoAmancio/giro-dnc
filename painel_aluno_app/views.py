@@ -88,7 +88,7 @@ def horarios_aulas(request):
     try:
         aluno = request.user.aluno
     except Aluno.DoesNotExist:
-        return redirect('painel_aluno')
+        return redirect('painel_aluno_app:painel_aluno')
     
     turmas = aluno.turmas.filter(ativa=True)
     horarios = HorarioAula.objects.filter(turma__in=turmas).order_by('dia_semana', 'hora_inicio')
@@ -117,7 +117,7 @@ def avisos(request):
     try:
         aluno = request.user.aluno
     except Aluno.DoesNotExist:
-        return redirect('painel_aluno')
+        return redirect('painel_aluno_app:painel_aluno')
     
     turmas = aluno.turmas.filter(ativa=True)
     
@@ -144,7 +144,7 @@ def minhas_aulas(request):
     try:
         aluno = request.user.aluno
     except Aluno.DoesNotExist:
-        return redirect('painel_aluno')
+        return redirect('painel_aluno_app:painel_aluno')
     
     turmas = aluno.turmas.filter(ativa=True)
     
@@ -183,7 +183,7 @@ def frequencia_aluno(request):
     try:
         aluno = request.user.aluno
     except Aluno.DoesNotExist:
-        return redirect('painel_aluno')
+        return redirect('painel_aluno_app:painel_aluno')
     
     turmas = aluno.turmas.filter(ativa=True)
     
@@ -222,7 +222,7 @@ def mensalidades_aluno(request):
     try:
         aluno = request.user.aluno
     except Aluno.DoesNotExist:
-        return redirect('painel_aluno')
+        return redirect('painel_aluno_app:painel_aluno')
     
     mensalidades = Mensalidade.objects.filter(aluno=aluno).order_by('-mes_referencia')
     
@@ -247,7 +247,7 @@ def comunicacao(request):
     try:
         aluno = request.user.aluno
     except Aluno.DoesNotExist:
-        return redirect('painel_aluno')
+        return redirect('painel_aluno_app:painel_aluno')
     
     # Buscar conversas (mensagens recebidas e enviadas)
     mensagens_recebidas = Mensagem.objects.filter(
@@ -323,7 +323,7 @@ def perfil_aluno(request):
     try:
         aluno = request.user.aluno
     except Aluno.DoesNotExist:
-        return redirect('painel_aluno')
+        return redirect('painel_aluno_app:painel_aluno')
     
     if request.method == 'POST':
         # Atualizar dados do perfil
@@ -336,7 +336,7 @@ def perfil_aluno(request):
         
         aluno.save()
         
-        return redirect('perfil_aluno')
+        return redirect('painel_aluno_app:perfil_aluno')
     
     context = {
         'usuario': request.user,

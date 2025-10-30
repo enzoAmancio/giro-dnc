@@ -101,6 +101,13 @@ CSRF_TRUSTED_ORIGINS = [
     "http://girodnc.qzz.io"
 ]
 
+# Configurações adicionais de CSRF
+CSRF_FAILURE_VIEW = 'django.views.csrf.csrf_failure'
+CSRF_COOKIE_DOMAIN = None  # None permite qualquer domínio em ALLOWED_HOSTS
+
+# Template customizado para erro CSRF
+# O Django procura automaticamente por 403_csrf.html
+
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
@@ -166,7 +173,11 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 CSRF_COOKIE_NAME = "csrftoken"   # padrão
 CSRF_USE_SESSIONS = False        # padrão
-CSRF_COOKIE_SECURE = False       # se usar https, deve ser True
+CSRF_COOKIE_SECURE = False       # True apenas se usar HTTPS em produção
+CSRF_COOKIE_SAMESITE = 'Lax'     # Permite cookies em redirecionamentos
+CSRF_COOKIE_HTTPONLY = False     # Permite JavaScript acessar o cookie se necessário
+SESSION_COOKIE_SAMESITE = 'Lax'  # Configura o SameSite para sessões também
+SESSION_COOKIE_SECURE = False    # True apenas se usar HTTPS em produção
 
 # girodnc_project/settings.py
 

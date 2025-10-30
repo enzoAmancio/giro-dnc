@@ -2,11 +2,16 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.models import User 
 from django.contrib.auth import authenticate, login, logout
+from django.views.decorators.csrf import ensure_csrf_cookie
 import unicodedata
 
 # Create your views here.
+@ensure_csrf_cookie
 def login_view(request):
-    print(request.method)
+    print(f"Method: {request.method}")
+    print(f"CSRF Cookie: {request.COOKIES.get('csrftoken', 'NOT FOUND')}")
+    print(f"CSRF Token from POST: {request.POST.get('csrfmiddlewaretoken', 'NOT FOUND')}")
+    
     mensagem = ""
     password = ""
     if request.method == "POST":
@@ -39,7 +44,7 @@ def login_view(request):
                 if user is not None:
                     login(request, user)
                     # Redireciona para o painel do aluno autenticado
-                    return redirect('painel_aluno')
+                    return redirect('painel_aluno_app:painel_aluno')
                 else:
                     mensagem = "Senha incorreta."
             
