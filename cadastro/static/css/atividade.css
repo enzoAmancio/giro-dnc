@@ -1,0 +1,118 @@
+/* Conteúdo de professor.css, aluno.css, e atividade.css */
+
+/* ---------- CARTÕES (Cards) ---------- */
+.gd-card {
+    background: var(--gd-white);
+    border-radius: 12px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+    padding: 35px 30px; 
+    margin-bottom: 30px;
+    width: 100%;
+}
+
+.gd-card h1.gd-breadcrumb {
+    color: #333;
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin-bottom: 25px;
+    border-bottom: 1px solid #f1f1f1;
+    padding-bottom: 15px;
+}
+
+/* ---------- ESTRUTURA DOS FORMULÁRIOS ---------- */
+.registration-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px; 
+}
+
+.single-column-form {
+    display: block;
+}
+
+/* 🚨 AJUSTE DE LARGURA: Ocupa 100% no modo de coluna única */
+.registration-form .data-column {
+    flex: 1 1 100%; 
+    min-width: unset; 
+}
+
+.data-column h2 {
+    color: #333;
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+    padding-bottom: 5px;
+    border-bottom: 2px solid var(--gd-orange);
+    display: inline-block;
+}
+
+.form-row {
+    display: flex;
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.form-row .input-group {
+    padding-left: 10px;
+    padding-right: 10px;
+    flex: 1;
+}
+
+/* ---------- CAMPOS DE INPUT E LABELS (AJUSTADOS E FORÇADOS) ---------- */
+.input-group {
+    margin-bottom: 18px; 
+    display: flex;
+    flex-direction: column;
+}
+
+.input-group label {
+    font-weight: 600;
+    color: #555;
+    margin-bottom: 12px;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+}
+
+.form-control {
+    border: 1px solid var(--gd-border-color);
+    border-radius: 6px; 
+    padding: 15px 16px !important; 
+    font-size: 1.1rem !important; 
+    color: #333;
+    background-color: #fafafa;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    width: 100%;
+}
+
+.form-control:focus {
+    border-color: var(--gd-orange);
+    box-shadow: 0 0 0 1px var(--gd-orange);
+    outline: none;
+    background-color: var(--gd-white);
+}
+
+textarea.form-control {
+    resize: vertical;
+}
+
+/* ---------- BOTÕES DE SUBMISSÃO ---------- */
+.gd-submit-button {
+    background: var(--gd-orange);
+    color: var(--gd-white);
+    border: none;
+    border-radius: 6px;
+    padding: 12px 30px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.2s, box-shadow 0.2s;
+    margin-top: 25px;
+    display: block;
+    margin-left: auto;
+}
+
+.gd-submit-button:hover {
+    background: #e96306; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+/* ... Adicione a mídia query de responsividade aqui também se desejar ... */

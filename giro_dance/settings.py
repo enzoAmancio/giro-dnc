@@ -26,7 +26,7 @@ SECRET_KEY = "django-insecure-p6y9^dgkmyasld_c9=3i%()%x#f#k@++odxqap3@-dj)m0jui6
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['129.146.67.23','localhost']
+ALLOWED_HOSTS = ['129.146.67.23','localhost', 'girodnc.qzz.io']
 
 STATIC_URL = '/static/'
 # Application definition
@@ -38,8 +38,10 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "rest_framework",
     "login",
     "painel_aluno_app",
+    "paginas",
 ]
 
 MIDDLEWARE = [
@@ -54,14 +56,15 @@ MIDDLEWARE = [
 
 
 REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': (
+    'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
-    ),
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.BasicAuthentication',
-    ),
+    ],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 20,
 }
 
 ROOT_URLCONF = "giro_dance.urls"
@@ -91,8 +94,19 @@ WSGI_APPLICATION = "giro_dance.wsgi.application"
 
 CSRF_TRUSTED_ORIGINS = [
     "https://localhost:8000",
-    "https://upgraded-space-enigma-v6wgpjx5x97w2x475-8000.app.github.dev"
+    "http://localhost:8000",
+    "https://*.app.github.dev",
+    "https://redesigned-journey-wrw794q6q4c5pqv-8000.app.github.dev",
+    "https://girodnc.qzz.io",
+    "http://girodnc.qzz.io"
 ]
+
+# Configurações adicionais de CSRF
+CSRF_FAILURE_VIEW = 'django.views.csrf.csrf_failure'
+CSRF_COOKIE_DOMAIN = None  # None permite qualquer domínio em ALLOWED_HOSTS
+
+# Template customizado para erro CSRF
+# O Django procura automaticamente por 403_csrf.html
 
 
 # Database
@@ -144,13 +158,13 @@ STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / 'staticfiles'  # Para produção (collectstatic)
 
 # Diretórios de arquivos estáticos para desenvolvimento
-#STATICFILES_DIRS = [
-#    BASE_DIR / "static",           # Pasta principal de estáticos
-#    BASE_DIR / "painel_aluno",     # Painel do aluno
-#    BASE_DIR / "Financeiro",       # Módulo financeiro  
-#    BASE_DIR / "GIROHOME",         # Home page
-#    BASE_DIR / "login" / "static", # Login
-#]
+STATICFILES_DIRS = [
+    BASE_DIR / "GIROHOME",           # Home page (css, img)
+    BASE_DIR / "painel_aluno",       # Painel do aluno estático
+    BASE_DIR / "Financeiro",         # Módulo financeiro  
+    BASE_DIR / "feedback",           # Feedback
+    BASE_DIR / "NAV&MENU",           # Menu e navegação
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
@@ -159,7 +173,11 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 CSRF_COOKIE_NAME = "csrftoken"   # padrão
 CSRF_USE_SESSIONS = False        # padrão
-CSRF_COOKIE_SECURE = False       # se usar https, deve ser True
+CSRF_COOKIE_SECURE = False       # True apenas se usar HTTPS em produção
+CSRF_COOKIE_SAMESITE = 'Lax'     # Permite cookies em redirecionamentos
+CSRF_COOKIE_HTTPONLY = False     # Permite JavaScript acessar o cookie se necessário
+SESSION_COOKIE_SAMESITE = 'Lax'  # Configura o SameSite para sessões também
+SESSION_COOKIE_SECURE = False    # True apenas se usar HTTPS em produção
 
 # girodnc_project/settings.py
 
@@ -168,3 +186,8 @@ CSRF_COOKIE_SECURE = False       # se usar https, deve ser True
 # Configurações de Mídia para Upload de Arquivos
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+# Configurações de Login/Logout
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/painel-aluno/'
+LOGOUT_REDIRECT_URL = '/login/'

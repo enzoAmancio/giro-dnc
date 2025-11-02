@@ -22,8 +22,10 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('login.urls')),
+    path('login/', include('login.urls')),
     path('painel-aluno/', include('painel_aluno_app.urls')),
+    path('api/painel-aluno/', include('painel_aluno_app.api_urls')),  # API REST
+    path('', include('paginas.urls')),  # Páginas estáticas (home, financeiro, etc) - deve ser por último
     #path('', include('cadastro.urls')),
 ]
 
