@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 
+body {
+    overflow-x: hidden;
+}
+
 .logo {
     width: 4rem;
     height: 4rem;
@@ -160,7 +164,7 @@
 .blocklist {
     text-align: center;
     display: flex;
-    gap: 10rem; 
+    gap: 5rem; 
     list-style: none;
     padding: 0;
     justify-content: center; 
@@ -221,7 +225,7 @@
 
 .reviews { 
     display: flex;
-    gap: 7rem; 
+    gap: 3rem; 
     justify-content: center;
     margin-top: 5rem;
     font-family: Montserrat;
@@ -357,11 +361,59 @@ iframe {
     align-items: center;
 }
 
-@media (max-width: 1400px) {
+@media (max-width: 768px) {
     .blocklist,
     .reviews,
     .moreinfo {
+        display: column;
         flex-direction: column;
+        align-items: center;
+        gap: 3rem; 
+    }
+
+.girocrew-text {
+    justify-content: center;
+    text-align: center;
+    display: flex;
+    margin-right: 5rem;
+    margin-left: 5rem;
+}
+
+    .reviews,
+    .moreinfo {
+    padding-top: 8rem;
+    margin-top: -6.9rem;
+    }
+
+    .blocklist li,
+    .revblock,
+    .loc,
+    .redes {
+        width: 90%;   
+        max-width: 56rem; 
+        height: auto; 
+    }
+
+    .locmore {
+        flex-direction: column; 
+        gap: 2rem;
+    }
+
+    iframe {
+        width: 100%; 
+        height: 20rem;
+    }
+
+    .tswift {
+        margin-left: 0; 
+    }
+}
+
+/* @media (max-width: 1400px) {
+    .blocklist,
+    .reviews,
+    .moreinfo {
+        flex-direction: row;
         align-items: center;
         gap: 3rem; 
     }
