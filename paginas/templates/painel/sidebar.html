@@ -1,0 +1,171 @@
+{% load static %}
+<!-- Sidebar usado em templates com estrutura container-fluid -->
+<nav class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse" id="sidebarMenu">
+  <div class="position-sticky pt-3">
+    <div class="accordion" id="sidebarAccordion">
+      <ul class="nav flex-column">
+        <li class="nav-item">
+          <div class="gd-submenu mb-1">
+            <button class="btn-toggle sidebar-option w-100" data-bs-toggle="collapse" data-bs-target="#collapseAluno" {% if sidebar_section == 'painel' %}aria-expanded="true"{% endif %}>
+              <i class="bi bi-person-circle"></i>
+              <span>Painel do aluno</span>
+              <i class="bi bi-chevron-down ms-auto"></i>
+            </button>
+            <div class="collapse {% if sidebar_section == 'painel' %}show{% endif %}" id="collapseAluno" data-bs-parent="#sidebarAccordion">
+              <a href="{% url 'paginas:painel_index' %}" class="nav-link sidebar-option {% if sidebar_active == 'painel_index' %}active{% endif %}">
+                <i class="bi bi-speedometer2"></i>
+                <span>Visão Geral</span>
+              </a>
+              <a href="{% url 'paginas:painel_horarios' %}" class="nav-link sidebar-option {% if sidebar_active == 'painel_horarios' %}active{% endif %}">
+                <i class="bi bi-clock"></i>
+                <span>Horários de aula</span>
+              </a>
+              <a href="{% url 'paginas:painel_avisos' %}" class="nav-link sidebar-option {% if sidebar_active == 'painel_avisos' %}active{% endif %}">
+                <i class="bi bi-bell"></i>
+                <span>Avisos</span>
+              </a>
+            </div>
+          </div>
+        </li>
+        
+        <li class="nav-item">
+          <div class="gd-submenu mb-2">
+            <button class="btn-toggle sidebar-option w-100" data-bs-toggle="collapse" data-bs-target="#collapseFinanceiro" {% if sidebar_section == 'financeiro' %}aria-expanded="true"{% endif %}>
+              <i class="bi bi-cash-stack"></i>
+              <span>Financeiro</span>
+              <i class="bi bi-chevron-down ms-auto"></i>
+            </button>
+            <div class="collapse {% if sidebar_section == 'financeiro' %}show{% endif %}" id="collapseFinanceiro" data-bs-parent="#sidebarAccordion">
+              <a href="{% url 'paginas:financeiro_mensalidades' %}" class="nav-link sidebar-option {% if sidebar_active == 'financeiro_mensalidades' %}active{% endif %}">
+                <img src="{% static 'paginas/img/Mensalidades.png' %}" alt="Mensalidades" class="sidebar-icon">
+                <span>Mensalidades</span>
+              </a>
+              <a href="{% url 'paginas:financeiro_extrato' %}" class="nav-link sidebar-option {% if sidebar_active == 'financeiro_extrato' %}active{% endif %}">
+                <img src="{% static 'paginas/img/extraroFinanceiro.png' %}" alt="ExtratoFinanceiro" class="sidebar-icon">
+                <span>Extrato Financeiro</span>
+              </a>
+              <a href="{% url 'paginas:financeiro_despesas' %}" class="nav-link sidebar-option {% if sidebar_active == 'financeiro_despesas' %}active{% endif %}">
+                <img src="{% static 'paginas/img/Despesas.png' %}" alt="DespesasGiro" class="sidebar-icon">
+                <span>Despesas Giro</span>
+              </a>
+            </div>
+          </div>
+        </li>
+        
+        <li class="nav-item">
+          <div class="gd-submenu mb-2">
+            <button class="btn-toggle sidebar-option w-100" data-bs-toggle="collapse" data-bs-target="#collapseEventos" {% if sidebar_section == 'eventos' %}aria-expanded="true"{% endif %}>
+              <i class="bi bi-ticket-perforated"></i>
+              <span>Eventos</span>
+              <i class="bi bi-chevron-down ms-auto"></i>
+            </button>
+            <div class="collapse {% if sidebar_section == 'eventos' %}show{% endif %}" id="collapseEventos" data-bs-parent="#sidebarAccordion">
+              <a href="{% url 'paginas:eventos_lista' %}" class="nav-link sidebar-option {% if sidebar_active == 'eventos_lista' %}active{% endif %}">
+                <i class="bi bi-calendar-event"></i>
+                <span>Eventos Ativos</span>
+              </a>
+              <a href="{% url 'paginas:minhas_vendas' %}" class="nav-link sidebar-option {% if sidebar_active == 'minhas_vendas' %}active{% endif %}">
+                <i class="bi bi-graph-up"></i>
+                <span>Minhas Vendas</span>
+              </a>
+            </div>
+          </div>
+        </li>
+        
+        <li class="nav-item">
+          <div class="gd-submenu mb-2">
+            <button class="btn-toggle sidebar-option w-100" data-bs-toggle="collapse" data-bs-target="#collapseAulas" {% if sidebar_section == 'aulas' %}aria-expanded="true"{% endif %}>
+              <i class="bi bi-journal-bookmark"></i>
+              <span>Minhas aulas</span>
+              <i class="bi bi-chevron-down ms-auto"></i>
+            </button>
+            <div class="collapse {% if sidebar_section == 'aulas' %}show{% endif %}" id="collapseAulas" data-bs-parent="#sidebarAccordion">
+              <a href="{% url 'paginas:painel_minhas_aulas' %}" class="nav-link sidebar-option {% if sidebar_active == 'painel_minhas_aulas' %}active{% endif %}">
+                <i class="bi bi-book"></i>
+                <span>Minhas aulas</span>
+              </a>
+            </div>
+          </div>
+        </li>
+        
+        <li class="nav-item">
+          <div class="gd-submenu mb-3">
+            <button class="btn-toggle sidebar-option w-100" data-bs-toggle="collapse" data-bs-target="#collapseComunicacao" {% if sidebar_section == 'comunicacao' %}aria-expanded="true"{% endif %}>
+              <i class="bi bi-chat-left-text"></i>
+              <span>Comunicação</span>
+              <i class="bi bi-chevron-down ms-auto"></i>
+            </button>
+            <div class="collapse {% if sidebar_section == 'comunicacao' %}show{% endif %}" id="collapseComunicacao" data-bs-parent="#sidebarAccordion">
+              <a href="{% url 'paginas:painel_comunicacao' %}" class="nav-link sidebar-option {% if sidebar_active == 'painel_comunicacao' %}active{% endif %}">
+                <i class="bi bi-envelope"></i>
+                <span>Converse conosco</span>
+              </a>
+              <a href="{% url 'paginas:painel_chat' %}" class="nav-link sidebar-option {% if sidebar_active == 'painel_chat' %}active{% endif %}">
+                <i class="bi bi-chat-dots"></i>
+                <span>Chat</span>
+              </a>
+            </div>
+          </div>
+        </li>
+        
+        {% if user.is_superuser %}
+        <li class="nav-item">
+          <div class="gd-submenu mb-3">
+            <button class="btn-toggle sidebar-option w-100" data-bs-toggle="collapse" data-bs-target="#collapseAdmin" {% if sidebar_section == 'admin' %}aria-expanded="true"{% endif %}>
+              <i class="bi bi-shield-lock-fill"></i>
+              <span>Administração</span>
+              <i class="bi bi-chevron-down ms-auto"></i>
+            </button>
+            <div class="collapse {% if sidebar_section == 'admin' %}show{% endif %}" id="collapseAdmin" data-bs-parent="#sidebarAccordion">
+              <a href="{% url 'paginas:admin_dashboard' %}" class="nav-link sidebar-option {% if sidebar_active == 'admin_dashboard' %}active{% endif %}">
+                <i class="bi bi-speedometer"></i>
+                <span>Dashboard Admin</span>
+              </a>
+              <a href="{% url 'paginas:admin_alunos' %}" class="nav-link sidebar-option {% if sidebar_active == 'admin_alunos' %}active{% endif %}">
+                <i class="bi bi-people"></i>
+                <span>Gerenciar Alunos</span>
+              </a>
+              <a href="{% url 'paginas:admin_turmas' %}" class="nav-link sidebar-option {% if sidebar_active == 'admin_turmas' %}active{% endif %}">
+                <i class="bi bi-collection"></i>
+                <span>Gerenciar Turmas</span>
+              </a>
+              <a href="{% url 'paginas:admin_aulas' %}" class="nav-link sidebar-option {% if sidebar_active == 'admin_aulas' %}active{% endif %}">
+                <i class="bi bi-calendar-week"></i>
+                <span>Gerenciar Aulas</span>
+              </a>
+              <a href="{% url 'paginas:admin_frequencia' %}" class="nav-link sidebar-option {% if sidebar_active == 'admin_frequencia' %}active{% endif %}">
+                <i class="bi bi-clipboard-check"></i>
+                <span>Frequência</span>
+              </a>
+              <a href="{% url 'paginas:admin_mensalidades' %}" class="nav-link sidebar-option {% if sidebar_active == 'admin_mensalidades' %}active{% endif %}">
+                <i class="bi bi-currency-dollar"></i>
+                <span>Mensalidades</span>
+              </a>
+              <a href="{% url 'paginas:admin_eventos' %}" class="nav-link sidebar-option {% if sidebar_active == 'admin_eventos' %}active{% endif %}">
+                <i class="bi bi-calendar-event"></i>
+                <span>Eventos</span>
+              </a>
+              <a href="{% url 'paginas:admin_avisos' %}" class="nav-link sidebar-option {% if sidebar_active == 'admin_avisos' %}active{% endif %}">
+                <i class="bi bi-megaphone"></i>
+                <span>Avisos</span>
+              </a>
+              <a href="/admin/" class="nav-link sidebar-option" target="_blank">
+                <i class="bi bi-gear-fill"></i>
+                <span>Django Admin</span>
+              </a>
+            </div>
+          </div>
+        </li>
+        {% endif %}
+        
+        <!-- Botão Sair -->
+        <li class="nav-item mt-auto">
+          <a href="{% url 'login:logout' %}" class="nav-link sidebar-option btn-sair">
+            <i class="bi bi-box-arrow-right"></i>
+            <span>Sair</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

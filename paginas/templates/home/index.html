@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Giro Dance - Escola de dança com aulas presenciais para todos os níveis. Sistema completo de gestão para sua empresa.">
+    <title>Home - Giro Dance | Dança e Gestão</title>
+    <link rel="stylesheet" href="{% static 'paginas/css/home.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark navback">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="{% url 'paginas:home' %}">
+          <img src="{% static 'paginas/img/Girologo.jpg' %}" alt="Giro Dance Logo" class="logo">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse " id="navbarNav">
+          <ul class="navbar-nav flex-grow-1 align-items-center justify-content-center mb-2 mb-lg-0">
+            <li class="nav-item mx-5">
+              <a class="nav-link" aria-current="page" href="{% url 'paginas:home' %}">Home</a>
+            </li>
+            <li class="nav-item mx-5">
+              <a class="nav-link" href="{% url 'paginas:sistema' %}">Conheça nosso sistema</a>
+            </li>
+            <li class="nav-item mx-5">
+              <a class="nav-link" href="#a">Sobre nós</a>
+            </li>
+            <li class="nav-item mx-5">
+              <a class="nav-link" href="#b">Contato</a>
+            </li>
+          </ul>
+          <button class="btn btn-success btn-lg"> <a href="{% url 'login:login' %}">Login</a></button>
+        </div>
+      </div>
+    </nav>
+    <div class="girocrew">
+      <div class="girocrew-text">
+        <h2>SOLICITE SEU ORÇAMENTO AGORA!</h2>
+        <span>Sem compromisso e com total<br>transparência!</span>
+        <button class="btn btn-primary btn-lg mt-3" href="#">Saiba mais</button>
+      </div>
+    </div>
+    <div class="flashcards text-center">
+        <h2>Dança presencial para todos os níveis</h2>
+        <span>Aprenda e se divirta com nossos professores em aulas dinâmicas e cheias de energia. Escolha seu estilo favorito e venha dançar com a gente!</span>
+        <ul class="blocklist">
+            <li> 
+                <img src="{% static 'paginas/img/community.png' %}" alt="Community Icon" class="icon">
+                <h3 class="flashtitle">Comunidade Vibrante</h3>
+                <p class="flashinfo">Conecte-se com outros apaixonados por dança, faça amizades e evolua com a energia do grupo.</p>
+            </li>
+            <li>
+                <img src="{% static 'paginas/img/dance.png' %}" alt="Fun Icon" class="icon">
+                <h3 class="flashtitle">Variedade de Estilos</h3>
+                <p class="flashinfo">Aulas presenciais acompanhadas nos seguintes estilos: Waacking, Vogue, Dance Hall, Hip Hop, Jazz Funk e K-POP.</p>
+            </li>
+            <li>
+                <img src="{% static 'paginas/img/ambiente.png' %}" alt="Variety Icon" class="icon">
+                <h3 class="flashtitle">Ambiente Aconchegante</h3>
+                <p class="flashinfo">Espaço preparado para que você tenha conforto e motivação durante as aulas.</p>
+            </li>
+        </ul>
+    </div>
+    
+    <!-- CTA Section - Conheça nosso Sistema -->
+    <section class="cta-sistema">
+        <div class="cta-sistema-content">
+            <h2>Transforme a gestão da sua empresa</h2>
+            <p>Conheça nosso sistema completo de gestão com planos a partir de R$ 97/mês. Teste grátis por 7 dias!</p>
+            <a href="{% url 'paginas:sistema' %}" class="btn btn-cta">
+                <i class="fas fa-rocket"></i>
+                <span>Conheça nosso sistema</span>
+            </a>
+        </div>
+    </section>
+    
+    <div class="revbg">
+        <ul class="reviews"> 
+            <li class="revblock">
+                <div class="rev">
+                    <img src="{% static 'paginas/img/lidia.png' %}" alt="Foto de Lídia Matorazzo" class="pfp"> 
+                    <img src="{% static 'paginas/img/five.png' %}" alt="5 Estrelas" class="stars">
+                    <h4 class="name">Lídia Matorazzo</h4>
+                    <p>Exemplo de excelência e profissionalismo.</p>
+                </div>
+            </li>
+            <li class="revblock">
+                <div class="rev">
+                    <img src="{% static 'paginas/img/bruna.png' %}" alt="Foto de Bruna Abdias" class="pfp"> 
+                    <img src="{% static 'paginas/img/fourhalf.png' %}" alt="4.5 Estrelas" class="stars">
+                    <h4 class="name">Bruna Abdias</h4>
+                    <p>Excelente na proposta e na execução.</p>
+                </div>
+            </li>
+            <li class="revblock">
+                <div class="rev">
+                    <img src="{% static 'paginas/img/tanisha.png' %}" alt="Foto de Tanisha Swift" class="pfp"> 
+                    <img src="{% static 'paginas/img/five.png' %}" alt="5 Estrelas" class="stars">
+                    <h4 class="name">Tanisha Swift</h4>
+                    <p>Giro Dance é cultura acima de tudo.</p>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <<!-- SEÇÃO DE CONTATO -->
+<div class="moreinfo" id="a">
+  <!-- Bloco de localização -->
+  <div class="loc">
+    <h3>Nos encontre</h3>
+    <ul class="locmore">
+      <li>
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3781.6899802543267!2d-46.50650239999999!3d-18.5880105!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ae8ac57fa930dd%3A0x8ca5853bdc199f4e!2sR.%20Alc%C3%ADdes%20Pereira%20da%20Silveira%2C%20143%20-%20Jardim%20Centro%2C%20Patos%20de%20Minas%20-%20MG%2C%2038703-014!5e0!3m2!1spt-BR!2sbr!4v1760047667201!5m2!1spt-BR!2sbr"
+          width="600" height="450" style="border:0;" allowfullscreen=""
+          loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </li>
+      <li class="tswift">
+        <span>
+          Rua Alcídes Pereira da Silveira, 143<br>
+          Jardim Centro<br>
+          Patos de Minas - MG<br>
+          38703-014
+        </span>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Bloco de redes sociais -->
+  <div class="redes" id="b">
+    <h3>Nos conheça</h3>
+    <ul class="smedia">
+      <li class="mrc">
+        <ul class="links">
+          <li><img src="{% static 'paginas/img/ig.png' %}" alt="Instagram Icon" class="social"></li>
+          <li><a href="https://www.instagram.com/girodancecrew" target="_blank">@girodancecrew</a></li>
+        </ul>
+      </li>
+      <li class="mrc">
+        <ul class="links">
+          <li><img src="{% static 'paginas/img/phone.png' %}" alt="Phone Icon" class="social"></li>
+          <li>(xx) xxxxx-xxxx</li>
+        </ul>
+      </li>
+      <li class="mrc">
+        <ul class="links">
+          <li><img src="{% static 'paginas/img/letter.png' %}" alt="Mail Icon" class="social"></li>
+          <li>suportegiro@gmail.com</li>
+        </ul>
+      </li>
+      <li class="mrc">
+        <ul class="links">
+          <li><img src="{% static 'paginas/img/yt.png' %}" alt="YouTube Icon" class="social"></li>
+          <li>@girodancecrew</li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</div>
+    <nav class="navbar navbar-expand-lg navbar-dark navback">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="{% url 'paginas:home' %}">
+          <img src="{% static 'paginas/img/Girologo.jpg' %}" alt="Giro Dance Logo" class="logo">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav flex-grow-1 justify-content-center mb-2 mb-lg-0">
+            <li class="nav-item mx-5">
+              <a class="nav-link" aria-current="page" href="{% url 'paginas:home' %}">Home</a>
+            </li>
+            <li class="nav-item mx-5">
+              <a class="nav-link" href="{% url 'paginas:sistema' %}">Conheça nosso sistema</a>
+            </li>
+            <li class="nav-item mx-5">
+              <a class="nav-link" href="#a">Sobre nós</a>
+            </li>
+            <li class="nav-item mx-5">
+              <a class="nav-link" href="#b">Contato</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'paginas/js/home.js' %}"></script>
+</body>
+</html>

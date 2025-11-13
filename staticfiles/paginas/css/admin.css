@@ -1,0 +1,349 @@
+/* Estilos do Painel Administrativo */
+
+/* Header Admin */
+.admin-header {
+    background: #fff;
+    border-left: 4px solid #f97316;
+    padding: 20px 25px;
+    border-radius: 4px;
+    margin-bottom: 25px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.admin-header h1 {
+    margin: 0 0 5px 0;
+    font-size: 1.5rem;
+    color: #333;
+    font-weight: 600;
+}
+
+.admin-header p {
+    margin: 0;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+/* Cards Admin */
+.admin-card {
+    background: white;
+    border-radius: 4px;
+    padding: 25px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    margin-bottom: 25px;
+}
+
+.admin-card h3 {
+    font-size: 1.1rem;
+    color: #333;
+    margin: 0 0 20px 0;
+    font-weight: 600;
+}
+
+/* Estatísticas */
+.stat-box {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-left: 4px solid #f97316;
+    padding: 20px;
+    border-radius: 4px;
+    text-align: center;
+    transition: all 0.3s;
+}
+
+.stat-box:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transform: translateY(-2px);
+}
+
+.stat-box.stat-success {
+    border-left-color: #10b981;
+}
+
+.stat-box.stat-warning {
+    border-left-color: #f97316;
+}
+
+.stat-box.stat-danger {
+    border-left-color: #ef4444;
+}
+
+.stat-box.stat-info {
+    border-left-color: #3b82f6;
+}
+
+.stat-box i {
+    font-size: 2rem;
+    color: #f97316;
+    margin-bottom: 10px;
+}
+
+.stat-box.stat-success i {
+    color: #10b981;
+}
+
+.stat-box.stat-warning i {
+    color: #f97316;
+}
+
+.stat-box.stat-danger i {
+    color: #ef4444;
+}
+
+.stat-box.stat-info i {
+    color: #3b82f6;
+}
+
+.stat-box h3 {
+    font-size: 2rem;
+    margin: 10px 0;
+    font-weight: bold;
+    color: #333;
+}
+
+.stat-box p {
+    margin: 0;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+/* Botões Admin */
+.btn-admin {
+    background: #f97316;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-weight: 500;
+    transition: all 0.3s;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-admin:hover {
+    background: #ea580c;
+    color: white;
+    box-shadow: 0 2px 8px rgba(249, 115, 22, 0.3);
+    text-decoration: none;
+}
+
+.btn-admin i {
+    margin-right: 5px;
+}
+
+/* Remove sublinhados de todos os links do admin */
+.gd-main a,
+.admin-card a,
+.conteudo a {
+    text-decoration: none;
+}
+
+.gd-main a:hover,
+.admin-card a:hover,
+.conteudo a:hover {
+    text-decoration: none;
+}
+
+/* Tabelas Admin */
+.table-admin {
+    background: white;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.table-admin thead {
+    background: #f97316;
+    color: white;
+}
+
+.table-admin thead th {
+    font-weight: 500;
+    padding: 12px 15px;
+    border: none;
+}
+
+.table-admin tbody td {
+    padding: 12px 15px;
+    vertical-align: middle;
+}
+
+.table-admin tbody tr {
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.table-admin tbody tr:last-child {
+    border-bottom: none;
+}
+
+.table-admin tbody tr:hover {
+    background: #f9fafb;
+}
+
+/* Badges de Status */
+.badge-status {
+    padding: 5px 12px;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.badge-ativo {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.badge-inativo {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.badge-pago {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.badge-pendente {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.badge-atrasado {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+/* Alertas */
+.alert-box {
+    background: #fef3c7;
+    border-left: 4px solid #f97316;
+    padding: 15px 20px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+.alert-box.alert-danger {
+    background: #fee2e2;
+    border-left-color: #ef4444;
+}
+
+.alert-box.alert-success {
+    background: #d1fae5;
+    border-left-color: #10b981;
+}
+
+.alert-box h4 {
+    margin: 0 0 10px 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #333;
+}
+
+.alert-box p {
+    margin: 0;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+/* Gráficos */
+.chart-container {
+    position: relative;
+    height: 250px;
+    margin-top: 15px;
+}
+
+/* Ações Rápidas */
+.quick-actions {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.quick-action-btn {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-left: 4px solid #f97316;
+    padding: 15px;
+    border-radius: 4px;
+    text-align: center;
+    text-decoration: none;
+    color: #333;
+    transition: all 0.3s;
+}
+
+.quick-action-btn:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transform: translateY(-2px);
+    color: #f97316;
+    text-decoration: none;
+}
+
+.quick-action-btn i {
+    font-size: 1.5rem;
+    display: block;
+    margin-bottom: 8px;
+    color: #f97316;
+}
+
+.quick-action-btn span {
+    display: block;
+    font-weight: 500;
+}
+
+/* Breadcrumb Admin */
+.admin-breadcrumb {
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+}
+
+/* Badge Personalizado */
+.badge-admin {
+    background: #f97316;
+    color: white;
+    padding: 3px 10px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    margin-left: 10px;
+}
+
+/* Topbar Admin */
+.gd-topbar .gd-pill.admin-pill {
+    background: #000000;
+    color: white
+}
+
+/* Filtros */
+.filter-box {
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    padding: 15px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+.filter-box .form-select,
+.filter-box .form-control {
+    border-color: #d1d5db;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .stat-box h3 {
+        font-size: 1.5rem;
+    }
+    
+    .quick-actions {
+        grid-template-columns: 1fr;
+    }
+    
+    .admin-header h1 {
+        font-size: 1.2rem;
+    }
+}
+
+/* Empty States */
+.empty-icon {
+    font-size: 3rem;
+    color: #9ca3af;
+}

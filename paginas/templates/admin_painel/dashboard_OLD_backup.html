@@ -1,0 +1,193 @@
+{% extends 'admin_painel/base_admin.html' %}
+{% load static %}
+
+{% block title %}Dashboard Administrativo - GIRO DNC{% endblock %}
+{% block page_title %}Dashboard{% endblock %}
+
+{% block extra_css %}
+<style>
+  .chart-container {
+    position: relative;
+    height: 300px;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="admin-header">
+  <h1><i class="bi bi-speedometer2 me-2"></i>Dashboard Administrativo</h1>
+  <p class="mb-0">Visão geral do sistema</p>
+</div>
+
+<!-- Estatísticas Principais -->
+<div class="row g-4 mb-4">
+  <div class="col-md-3">
+    <div class="stat-box">
+      <i class="bi bi-people-fill"></i>
+      <h3>{{ total_alunos }}</h3>
+      <p>Alunos Ativos</p>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="stat-box">
+      <i class="bi bi-collection-fill"></i>
+      <h3>{{ total_turmas }}</h3>
+      <p>Turmas Ativas</p>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="stat-box">
+      <i class="bi bi-calendar-event-fill"></i>
+      <h3>{{ aulas_proximos_7_dias }}</h3>
+      <p>Aulas (Próx. 7 dias)</p>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="stat-box">
+      <i class="bi bi-currency-dollar"></i>
+      <h3>R$ {{ receita_mes|floatformat:0 }}</h3>
+      <p>Receita do Mês</p>
+    </div>
+  </div>
+</div>
+
+<!-- Resumo Financeiro -->
+<div class="row g-4 mb-4">
+  <div class="col-md-12">
+    <div class="admin-card">
+      <h3><i class="bi bi-graph-up me-2"></i>Receita - Últimos 6 Meses</h3>
+      <div class="chart-container">
+        <canvas id="chartFinanceiro"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Mensalidades Atrasadas -->
+{% if mensalidades_atrasadas %}
+<div class="admin-card">
+  <h3>
+    <i class="bi bi-exclamation-triangle-fill text-danger me-2"></i>
+    Mensalidades Pendentes/Atrasadas - Cobrança Necessária
+  </h3>
+  <div class="table-responsive">
+    <table class="table table-hover table-admin" id="tableMensalidades">
+      <thead>
+        <tr>
+          <th>Aluno</th>
+          <th>Mês</th>
+          <th>Valor</th>
+          <th>Vencimento</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for mens in mensalidades_atrasadas|slice:":10" %}
+        <tr>
+          <td>
+            <strong>{{ mens.aluno.usuario.get_full_name }}</strong><br>
+            <small class="text-muted">{{ mens.aluno.usuario.email }}</small>
+          </td>
+          <td>{{ mens.mes_referencia|date:"m/Y" }}</td>
+          <td><strong>R$ {{ mens.valor_final|floatformat:2 }}</strong></td>
+          <td><span class="badge badge-atrasado">{{ mens.data_vencimento|date:"d/m/Y" }}</span></td>
+          <td>
+            <a href="/admin/paginas/mensalidade/{{ mens.id }}/change/" class="btn btn-sm btn-admin">
+              <i class="bi bi-pencil"></i> Editar
+            </a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endif %}
+
+<!-- Atalhos Rápidos -->
+<div class="admin-card">
+  <h3><i class="bi bi-lightning-fill text-warning me-2"></i>Atalhos Rápidos</h3>
+  <div class="row g-3">
+    <div class="col-md-3">
+      <a href="/admin/paginas/aluno/add/" class="btn btn-admin w-100">
+        <i class="bi bi-person-plus-fill me-2"></i>Novo Aluno
+      </a>
+    </div>
+    <div class="col-md-3">
+      <a href="/admin/paginas/turma/add/" class="btn btn-admin w-100">
+        <i class="bi bi-plus-circle-fill me-2"></i>Nova Turma
+      </a>
+    </div>
+    <div class="col-md-3">
+      <a href="/admin/paginas/aula/add/" class="btn btn-admin w-100">
+        <i class="bi bi-calendar-plus-fill me-2"></i>Nova Aula
+      </a>
+    </div>
+    <div class="col-md-3">
+      <a href="/admin/paginas/aviso/add/" class="btn btn-admin w-100">
+        <i class="bi bi-megaphone-fill me-2"></i>Novo Aviso
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script>
+// Gráfico Financeiro
+const ctxFinanceiro = document.getElementById('chartFinanceiro');
+if (ctxFinanceiro) {
+  new Chart(ctxFinanceiro, {
+  type: 'line',
+  data: {
+    labels: {{ receita_labels|safe }},
+    datasets: [{
+      label: 'Receita (R$)',
+      data: {{ receita_valores|safe }},
+      backgroundColor: 'rgba(249, 115, 22, 0.1)',
+      borderColor: '#f97316',
+      borderWidth: 2,
+      fill: true,
+      tension: 0.3
+    }]
+  },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { 
+          display: true,
+          position: 'top'
+        }
+      },
+      scales: {
+        y: { 
+          beginAtZero: true,
+          ticks: {
+            callback: function(value) {
+              return 'R$ ' + value.toLocaleString('pt-BR');
+            }
+          }
+        }
+      }
+    }
+  });
+}
+
+// DataTable para mensalidades
+$(document).ready(function() {
+  if ($('#tableMensalidades').length) {
+    $('#tableMensalidades').DataTable({
+      language: {
+        url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/pt-BR.json'
+      },
+      order: [[3, 'asc']],
+      pageLength: 10,
+      searching: false,
+      info: false
+    });
+  }
+});
+</script>
+{% endblock %}

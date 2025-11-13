@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    {% load static %}
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Gerenciar Turmas - GIRO DNC</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="{% static 'paginas/css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'paginas/css/admin.css' %}">
+</head>
+
+<body>
+  <header class="gd-topbar">
+    <div class="gd-logo-container">
+      <a href="{% url 'paginas:home' %}">
+        <img src="{% static 'paginas/img/Girologo.jpg' %}" alt="Logo Giro" class="gd-logo">
+      </a>
+    </div>
+    <div class="gd-topbar-content">
+      <span class="gd-pill" style="background: #f97316; color: white;">
+        <i class="bi bi-shield-lock-fill me-2"></i>ADMIN - GIRO DNC
+      </span>
+    </div>
+  </header>
+  <!-- Menu Sanduíche - FORA do header -->
+  <div class="sidebar-item">
+    <button id="sidebar-toggle" class="menu-sanduiche">
+      <i class="bi bi-list"></i>
+    </button>
+  </div>
+
+
+  <div class="gd-layout d-flex">
+    <!-- Sidebar Padronizado -->
+    {% with sidebar_section='admin' sidebar_active='admin_turmas' %}
+      {% include 'includes/sidebar.html' %}
+    {% endwith %}
+
+    <main class="gd-main">
+      <div>
+        <span>Olá, {{ user.get_full_name|default:user.username }} <span class="badge bg-warning text-dark ms-2">Admin</span></span>
+      </div>
+      
+      <div class="conteudo">
+        <h1 class="gd-breadcrumb">Administração / Acadêmico / Turmas</h1>
+
+<div class="admin-header">
+  <div class="d-flex justify-content-between align-items-center">
+    <div>
+      <h1><i class="bi bi-collection-fill me-2"></i>Gerenciar Turmas</h1>
+      <p class="mb-0">Total: {{ turmas.count }} turma(s)</p>
+    </div>
+    <a href="/admin/paginas/turma/add/" class="btn btn-admin btn-lg">
+      <i class="bi bi-plus-circle-fill me-2"></i>Nova Turma
+    </a>
+  </div>
+</div>
+
+<div class="admin-card">
+  <div class="table-responsive">
+    <table class="table table-admin table-hover">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nome</th>
+          <th>Modalidade</th>
+          <th>Nível</th>
+          <th>Alunos</th>
+          <th>Professor</th>
+          <th>Status</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for turma in turmas %}
+        <tr>
+          <td>#{{ turma.id }}</td>
+          <td><strong>{{ turma.nome }}</strong></td>
+          <td>{{ turma.modalidade }}</td>
+          <td>{{ turma.get_nivel_display }}</td>
+          <td>
+            <span class="badge bg-info">{{ turma.alunos.count }} aluno(s)</span>
+          </td>
+          <td>
+            {% if turma.professor %}
+              {{ turma.professor.get_full_name }}
+            {% else %}
+              <span class="text-muted">Sem professor</span>
+            {% endif %}
+          </td>
+          <td>
+            {% if turma.ativa %}
+              <span class="badge badge-ativo">Ativa</span>
+            {% else %}
+              <span class="badge badge-inativo">Inativa</span>
+            {% endif %}
+          </td>
+          <td>
+            <div class="btn-group btn-group-sm">
+              <a href="/admin/paginas/turma/{{ turma.id }}/change/" class="btn btn-outline-primary">
+                <i class="bi bi-pencil"></i>
+              </a>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+      </div>
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  
+  <script src="{% static 'paginas/js/script.js' %}"></script>
+  
+  <script>
+  // FECHA submenus ao navegar APENAS entre páginas com submenus
+  document.addEventListener('DOMContentLoaded', function() {
+    // Não faz nada - deixa o Bootstrap accordion controlar naturalmente
+  });
+  </script>
+</body>
+</html>

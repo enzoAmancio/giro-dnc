@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    {% load static %}
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>GIRO DNC - Minhas Aulas</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'paginas/css/style.css' %}">
+  <style>
+    .aula-item {
+      padding: 15px;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    .aula-item:last-child {
+      border-bottom: none;
+    }
+    .aula-futura {
+      background-color: #f8f9fa;
+      border-left: 4px solid #0d6efd;
+    }
+    .aula-horario {
+      font-weight: bold;
+      color: #6c757d;
+      min-width: 100px;
+    }
+    .aula-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .aula-nome {
+      font-weight: 600;
+      color: #333;
+    }
+    .aula-prof {
+      font-size: 0.9em;
+      color: #666;
+    }
+    .badge {
+      padding: 5px 10px;
+      border-radius: 12px;
+      font-size: 0.75em;
+      font-weight: 600;
+    }
+    .bg-presente {
+      background-color: #28a745;
+      color: white;
+    }
+    .mb-4 {
+      margin-bottom: 2rem;
+    }
+    .bg-falta {
+      background-color: #dc3545;
+      color: white;
+    }
+    .bg-falta_justificada {
+      background-color: #ffc107;
+      color: #333;
+    }
+    .bg-atestado {
+      background-color: #17a2b8;
+      color: white;
+    }
+    .alert {
+      padding: 20px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+  </style>
+</head>
+<body>
+  <header class="gd-topbar">
+    <div class="gd-logo-container">
+      <a href="{% url 'paginas:home' %}">
+        <img src="{% static 'paginas/img/Girologo.jpg' %}" alt="Logo Giro" class="gd-logo">
+      </a>
+    </div>
+    <div class="gd-topbar-content">
+      <span class="gd-pill">GIRO DNC</span>
+    </div>
+  </header>
+  <!-- Menu Sanduíche - FORA do header -->
+  <div class="sidebar-item">
+    <button id="sidebar-toggle" class="menu-sanduiche">
+      <i class="bi bi-list"></i>
+    </button>
+  </div>
+
+
+  <div class="gd-layout d-flex">
+    <!-- Sidebar Padronizado -->
+    {% with sidebar_section='aulas' sidebar_active='painel_minhas_aulas' %}
+      {% include 'includes/sidebar.html' %}
+    {% endwith %}
+
+    <main class="gd-main">
+      <div class="conteudo">
+        <h1 class="gd-breadcrumb">Minhas aulas</h1>
+        <h2 class="gd-page-title">Próximas Aulas</h2>
+        
+        <!-- Aulas Futuras como Cards -->
+        {% if aulas_futuras %}
+          <div class="row g-3 mb-5">
+            {% for aula in aulas_futuras %}
+            <div class="col-md-6 col-lg-4">
+              <div class="card h-100 border-primary shadow-sm">
+                <div class="card-header bg-primary text-white">
+                  <i class="bi bi-calendar-event"></i> {{ aula.data|date:"d/m/Y (l)" }}
+                </div>
+                <div class="card-body">
+                  <h5 class="card-title">{{ aula.tema|default:"Aula de dança" }}</h5>
+                  <p class="mb-1"><strong>Turma:</strong> {{ aula.turma.nome }}</p>
+                  <p class="mb-1"><strong>Modalidade:</strong> {{ aula.turma.modalidade|upper }}</p>
+                  <p class="mb-1"><strong>Horário:</strong> {{ aula.hora_inicio|time:"H:i" }} - {{ aula.hora_fim|time:"H:i" }}</p>
+                  {% if aula.conteudo %}
+                    <p class="mb-0 mt-2"><small class="text-muted">{{ aula.conteudo|truncatewords:15 }}</small></p>
+                  {% endif %}
+                </div>
+                <div class="card-footer text-muted">
+                  <small><i class="bi bi-clock"></i> Em {{ aula.dias_ate_aula }} dia{{ aula.dias_ate_aula|pluralize }}</small>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        {% else %}
+          <div class="alert alert-info">
+            <i class="bi bi-info-circle"></i>
+            Nenhuma aula agendada para os próximos 30 dias.
+          </div>
+        {% endif %}
+
+        <!-- Vídeos de Aulas -->
+        <h2 class="gd-page-title mt-5">Vídeos das Aulas</h2>
+        {% if aulas_com_video %}
+          <div class="row g-3">
+            {% for aula in aulas_com_video %}
+            <div class="col-md-6 col-lg-4">
+              <div class="card h-100 border-success shadow-sm">
+                <div class="card-header bg-success text-white">
+                  <i class="bi bi-play-circle"></i> {{ aula.data|date:"d/m/Y" }}
+                </div>
+                <div class="card-body">
+                  <h5 class="card-title">{{ aula.tema|default:"Aula de dança" }}</h5>
+                  <p class="mb-1"><strong>Turma:</strong> {{ aula.turma.nome }}</p>
+                  <p class="mb-1"><strong>Modalidade:</strong> {{ aula.turma.modalidade|upper }}</p>
+                  
+                  {% if aula.video %}
+                    <div class="mt-3">
+                      <video controls class="w-100 rounded">
+                        <source src="{{ aula.video.url }}" type="video/mp4">
+                        Seu navegador não suporta vídeos.
+                      </video>
+                      <small class="text-muted d-block mt-1">
+                        <i class="bi bi-file-earmark-play"></i> {{ aula.get_video_size_mb }} MB
+                      </small>
+                    </div>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        {% else %}
+          <div class="alert alert-info">
+            <i class="bi bi-info-circle"></i>
+            Nenhum vídeo de aula disponível no momento.
+          </div>
+        {% endif %}
+      </div>
+    </main>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="{% static 'paginas/js/script.js' %}"></script>
+</body>
+</html>

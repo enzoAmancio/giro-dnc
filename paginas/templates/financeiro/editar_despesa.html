@@ -1,0 +1,264 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Despesa - Giro Dance</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'paginas/css/style.css' %}">
+</head>
+<body>
+    <header class="gd-topbar">
+        <div class="gd-logo-container">
+            <a href="{% url 'paginas:home' %}">
+                <img src="{% static 'paginas/img/Girologo.jpg' %}" alt="Logo Giro" class="gd-logo">
+            </a>
+        </div>
+        <div class="gd-topbar-content">
+            <span class="gd-pill">GIRO DNC</span>
+        </div>
+    </header>
+
+    <!-- Menu Sanduíche - FORA do header -->
+    <div class="sidebar-item">
+        <button id="sidebar-toggle" class="menu-sanduiche">
+            <i class="bi bi-list"></i>
+        </button>
+    </div>
+    
+    <div class="container-fluid">
+        <div class="row">
+            {% with sidebar_section='financeiro' sidebar_active='financeiro_despesas' %}
+              {% include 'painel/sidebar.html' %}
+            {% endwith %}
+            
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2"><i class="fas fa-edit me-2"></i>Editar Despesa</h1>
+                    <a href="{% url 'paginas:minhas_despesas' %}" class="btn btn-outline-secondary">
+                        <i class="fas fa-arrow-left me-2"></i>Voltar
+                    </a>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-8 mx-auto">
+                        <div class="card border-0 shadow-sm">
+                            <div class="card-body p-4">
+                                <form method="POST">
+                                    {% csrf_token %}
+
+                                    <!-- Informações Principais -->
+                                    <div class="row mb-3">
+                                        <div class="col-md-12">
+                                            <label for="nome" class="form-label">Nome da Despesa *</label>
+                                            <input type="text" class="form-control" id="nome" name="nome" required
+                                                   value="{{ despesa.nome }}">
+                                        </div>
+                                    </div>
+
+                                    <div class="row mb-3">
+                                        <div class="col-md-12">
+                                            <label for="descricao" class="form-label">Descrição *</label>
+                                            <textarea class="form-control" id="descricao" name="descricao" rows="2" required>{{ despesa.descricao }}</textarea>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mb-3">
+                                        <div class="col-md-6">
+                                            <label for="categoria" class="form-label">Categoria *</label>
+                                            <select class="form-select" id="categoria" name="categoria" required>
+                                                {% for value, label in categorias %}
+                                                <option value="{{ value }}" {% if value == despesa.categoria %}selected{% endif %}>
+                                                    {{ label }}
+                                                </option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="turma" class="form-label">Turma/Evento (Opcional)</label>
+                                            <select class="form-select" id="turma" name="turma">
+                                                <option value="">Não relacionado a nenhuma turma</option>
+                                                {% for turma in turmas %}
+                                                <option value="{{ turma.id }}" {% if despesa.turma and turma.id == despesa.turma.id %}selected{% endif %}>
+                                                    {{ turma.nome }}
+                                                </option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <!-- Valores -->
+                                    <h5 class="mb-3 mt-4">
+                                        <i class="fas fa-dollar-sign me-2"></i>Valores
+                                    </h5>
+
+                                    <div class="row mb-3">
+                                        <div class="col-md-6">
+                                            <label for="valor_previsto" class="form-label">Valor Previsto *</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text">R$</span>
+                                                <input type="number" class="form-control" id="valor_previsto" 
+                                                       name="valor_previsto" step="0.01" min="0" required
+                                                       value="{{ despesa.valor_previsto }}">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="valor_gasto" class="form-label">Valor Já Gasto</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text">R$</span>
+                                                <input type="number" class="form-control" id="valor_gasto" 
+                                                       name="valor_gasto" step="0.01" min="0"
+                                                       value="{{ despesa.valor_gasto }}">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Status Atual -->
+                                    <div class="alert alert-info">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <strong>Valor Restante:</strong><br>
+                                                <span class="{% if despesa.valor_restante >= 0 %}text-success{% else %}text-danger{% endif %}">
+                                                    R$ {{ despesa.valor_restante|floatformat:2 }}
+                                                </span>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <strong>Percentual Gasto:</strong><br>
+                                                <span class="{% if despesa.percentual_gasto <= 100 %}text-success{% else %}text-danger{% endif %}">
+                                                    {{ despesa.percentual_gasto|floatformat:1 }}%
+                                                </span>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <strong>Situação:</strong><br>
+                                                {% if despesa.esta_dentro_orcamento %}
+                                                    <span class="text-success">✓ Dentro do Orçamento</span>
+                                                {% else %}
+                                                    <span class="text-danger">⚠ Estouro de Orçamento</span>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Datas e Status -->
+                                    <h5 class="mb-3 mt-4">
+                                        <i class="fas fa-calendar me-2"></i>Datas e Status
+                                    </h5>
+
+                                    <div class="row mb-3">
+                                        <div class="col-md-4">
+                                            <label for="data_prevista" class="form-label">Data Prevista *</label>
+                                            <input type="date" class="form-control" id="data_prevista" 
+                                                   name="data_prevista" required
+                                                   value="{{ despesa.data_prevista|date:'Y-m-d' }}">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="data_pagamento" class="form-label">Data de Pagamento</label>
+                                            <input type="date" class="form-control" id="data_pagamento" 
+                                                   name="data_pagamento"
+                                                   {% if despesa.data_pagamento %}value="{{ despesa.data_pagamento|date:'Y-m-d' }}"{% endif %}>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="status" class="form-label">Status *</label>
+                                            <select class="form-select" id="status" name="status" required>
+                                                {% for value, label in status %}
+                                                <option value="{{ value }}" {% if value == despesa.status %}selected{% endif %}>
+                                                    {{ label }}
+                                                </option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <!-- Detalhes Adicionais -->
+                                    <h5 class="mb-3 mt-4">
+                                        <i class="fas fa-info-circle me-2"></i>Detalhes Adicionais
+                                    </h5>
+
+                                    <div class="row mb-3">
+                                        <div class="col-md-12">
+                                            <label for="itens" class="form-label">Itens</label>
+                                            <textarea class="form-control" id="itens" name="itens" rows="3">{{ despesa.itens }}</textarea>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mb-3">
+                                        <div class="col-md-12">
+                                            <label for="observacoes" class="form-label">Observações</label>
+                                            <textarea class="form-control" id="observacoes" name="observacoes" rows="3">{{ despesa.observacoes }}</textarea>
+                                        </div>
+                                    </div>
+
+                                    <!-- Botões -->
+                                    <div class="d-grid gap-2 d-md-flex justify-content-md-between mt-4">
+                                        <form method="POST" action="{% url 'paginas:deletar_despesa' despesa.id %}" 
+                                              onsubmit="return confirm('Tem certeza que deseja excluir esta despesa?');">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-danger">
+                                                <i class="fas fa-trash me-2"></i>Excluir Despesa
+                                            </button>
+                                        </form>
+                                        <div>
+                                            <a href="{% url 'paginas:minhas_despesas' %}" class="btn btn-outline-secondary me-2">
+                                                <i class="fas fa-times me-2"></i>Cancelar
+                                            </a>
+                                            <button type="submit" class="btn btn-primary">
+                                                <i class="fas fa-save me-2"></i>Salvar Alterações
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- Info -->
+                        <div class="card mt-3 border-0 bg-light">
+                            <div class="card-body">
+                                <small class="text-muted">
+                                    <i class="fas fa-clock me-1"></i>
+                                    Criado em: {{ despesa.data_criacao|date:"d/m/Y H:i" }}<br>
+                                    <i class="fas fa-edit me-1"></i>
+                                    Última atualização: {{ despesa.data_atualizacao|date:"d/m/Y H:i" }}
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'paginas/js/sidebar.js' %}"></script>
+    <script src="{% static 'paginas/js/script.js' %}"></script>
+    
+    <script>
+        // Auto-calcular valores ao modificar
+        const inputPrevisto = document.getElementById('valor_previsto');
+        const inputGasto = document.getElementById('valor_gasto');
+        
+        function atualizarValores() {
+            const previsto = parseFloat(inputPrevisto.value) || 0;
+            const gasto = parseFloat(inputGasto.value) || 0;
+            const restante = previsto - gasto;
+            const percentual = previsto > 0 ? (gasto / previsto) * 100 : 0;
+            
+            // Atualizar cores
+            inputGasto.classList.remove('border-success', 'border-danger');
+            if (gasto <= previsto) {
+                inputGasto.classList.add('border-success');
+            } else {
+                inputGasto.classList.add('border-danger');
+            }
+        }
+        
+        inputPrevisto.addEventListener('input', atualizarValores);
+        inputGasto.addEventListener('input', atualizarValores);
+        
+        // Inicializar
+        atualizarValores();
+    </script>
+</body>
+</html>

@@ -1,0 +1,729 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
+
+/* ---------- VARIÁVEIS GERAIS ---------- */
+:root {
+  --gd-orange: #f97316;
+  --gd-orange-light: #fed7aa;
+  --gd-bg: #000;
+  --gd-border: #242426;
+  --gd-text-dim: #a1a1aa;
+  --gd-surface: #f9f9fb;
+  --gd-white: #fff;
+  --gd-gray-light: #f8fafc;
+  --gd-gray-medium: #64748b;
+  --gd-red: #ef4444;
+  --gd-green: #22c55e;
+}
+
+/* ---------- BASE DO SITE ---------- */
+body {
+  background: #f1f5f9;
+  font-family: 'Montserrat', Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* ---------- TOPO (NAV BAR) ---------- */
+.gd-topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 76px;
+  background: var(--gd-bg);
+  color: #fff;
+  z-index: 1030;
+  display: flex;
+  align-items: center;
+}
+
+.gd-pill {
+  background: var(--gd-orange);
+  color: #000;
+  font-weight: 700;
+  font-size: .75rem;
+  letter-spacing: .06em;
+  border-radius: 999px;
+  padding: .35rem .6rem;
+}
+
+.gd-logo-container {
+  position: fixed;
+  top: 0;
+  left: 20px;
+  z-index: 2000;
+  width: 80px;
+  height: 76px;
+  display: flex;
+  align-items: center;
+}
+
+.gd-logo {
+  width: 80px;
+  height: 76px;
+  object-fit: contain;
+}
+
+.gd-topbar-content {
+  margin-left: 150px;
+}
+
+/* ---------- MENU LATERAL ---------- */
+.gd-sidebar {
+  position: fixed;
+  top: 76px;
+  bottom: 0;
+  left: 0;
+  width: 260px; 
+  background: var(--gd-bg);
+  color: #fff;
+  border-right: 1px solid var(--gd-border);
+  transition: width 0.3s ease;
+  overflow-x: hidden;
+  padding-top: 10px;
+}
+
+/* Estilos para desktop apenas */
+@media (min-width: 769px) {
+  .gd-sidebar.collapsed {
+    width: 60px;
+  }
+
+  .gd-sidebar.collapsed .gd-submenu span {
+    display: none;
+  }
+
+  .gd-sidebar.collapsed .btn-toggle.sidebar-option {
+    justify-content: center;
+    padding: 8px;
+  }
+
+  .gd-sidebar.collapsed .btn-toggle.sidebar-option i:last-child {
+    display: none;
+  }
+
+  .gd-sidebar.collapsed .nav-link.sidebar-option {
+    justify-content: center;
+    padding: 8px;
+  }
+
+  .gd-sidebar.collapsed .nav-link.sidebar-option span {
+    display: none;
+  }
+
+  .gd-sidebar.collapsed .collapse {
+    display: none !important;
+  }
+
+  /* NUNCA esconder o menu hambúrguer, mesmo collapsed */
+  .gd-sidebar.collapsed .menu-sanduiche,
+  .gd-sidebar.collapsed .sidebar-item {
+    display: block !important;
+    visibility: visible !important;
+  }
+}
+
+.menu-sanduiche {
+  background: transparent;
+  border: none;
+  color: var(--gd-orange);
+  font-size: 1.8rem;
+  cursor: pointer;
+  margin: 0 0 15px 10px;
+  display: block !important;
+  width: auto;
+  height: auto;
+  position: relative;
+  z-index: 1000;
+}
+
+.gd-submenu {
+  margin: 0 10px;
+}
+
+.btn-toggle.sidebar-option {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  padding: 8px 12px;
+  background: transparent;
+  color: #fff;
+  border: none;
+  border-radius: 0;
+  font-weight: 500;
+  font-size: 0.95rem;
+  text-align: left;
+  transition: background 0.2s, color 0.2s;
+}
+
+.btn-toggle.sidebar-option:hover,
+.btn-toggle.sidebar-option.active {
+  background: rgba(249, 115, 22, 0.15);
+  color: var(--gd-orange);
+}
+
+.nav-link.sidebar-option {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 20px 8px 45px;
+  color: var(--gd-white);
+  font-size: 0.92rem;
+  text-decoration: none;
+  border-radius: 0;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.nav-link.sidebar-option:hover {
+  background: rgba(249, 115, 22, 0.15);
+  color: var(--gd-orange);
+}
+
+.nav-link.sidebar-option:hover i {
+  color: var(--gd-orange);
+}
+
+.nav-link.active {
+  background: #F56E1D !important;
+  font-weight: 700;
+  color: white !important;
+}
+
+.nav-link.active i {
+  color: white !important;
+}
+
+.nav-link.sidebar-option i {
+  width: 18px;
+  height: 18px;
+  margin-right: 4px;
+  color: var(--gd-white);
+  transition: color 0.2s ease;
+}
+
+.sidebar-icon {
+  width: 18px;
+  height: 18px;
+  margin-right: 4px;
+  filter: brightness(0) invert(1);
+}
+
+.gd-sidebar ul {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 0;
+}
+
+.sidebar-item {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* ---------- LAYOUT GERAL ---------- */
+.gd-main {
+  margin-left: 260px;
+  padding: 100px 40px 40px 40px;
+  min-height: 100vh;
+  background: #f1f5f9;
+  transition: margin-left 0.3s ease;
+  width: calc(100% - 260px);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Quando sidebar está colapsado */
+.gd-main.sidebar-collapsed {
+  margin-left: 60px;
+  width: calc(100% - 60px);
+}
+
+.conteudo {
+  flex: 1;
+  width: 100%;
+  max-width: none;
+}
+
+.gd-breadcrumb {
+  font-size: 1rem;
+  color: #212529BF;
+  margin-top: 2rem;
+  margin-bottom: 0.5rem;
+  padding: 0;
+}
+
+.gd-page-title {
+  color: #F56E1D;
+  font-weight: 700;
+  margin-bottom: 2rem;
+}
+
+/* ---------- DASHBOARD CARDS ---------- */
+.dashboard-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.dashboard-card {
+  background: var(--gd-white);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  border: 1px solid #e2e8f0;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.card-header i {
+  font-size: 1.5rem;
+  color: var(--gd-orange);
+}
+
+.card-header h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0;
+}
+
+.card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+/* Próximas Aulas */
+.aula-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.aula-item:last-child {
+  border-bottom: none;
+}
+
+.aula-horario {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--gd-orange);
+  min-width: 50px;
+}
+
+.aula-info {
+  flex: 1;
+}
+
+.aula-nome {
+  display: block;
+  font-weight: 600;
+  color: #1e293b;
+  font-size: 0.95rem;
+}
+
+.aula-prof {
+  display: block;
+  color: var(--gd-gray-medium);
+  font-size: 0.85rem;
+}
+
+/* Avisos */
+.aviso-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.aviso-item:last-child {
+  border-bottom: none;
+}
+
+.aviso-data {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--gd-orange);
+  min-width: 40px;
+}
+
+.aviso-texto {
+  flex: 1;
+  font-size: 0.9rem;
+  color: #1e293b;
+}
+
+/* Financeiro */
+.financeiro-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.financeiro-item:last-child {
+  border-bottom: none;
+}
+
+.financeiro-status {
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  text-transform: uppercase;
+  min-width: 70px;
+  text-align: center;
+}
+
+.financeiro-status.pendente {
+  background: #fef3c7;
+  color: #d97706;
+}
+
+.financeiro-status.pago {
+  background: #dcfce7;
+  color: #16a34a;
+}
+
+.financeiro-status.atrasado {
+  background: #fee2e2;
+  color: #dc2626;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.financeiro-info {
+  flex: 1;
+}
+
+.financeiro-mes {
+  display: block;
+  font-weight: 500;
+  color: #1e293b;
+  font-size: 0.9rem;
+}
+
+.financeiro-valor {
+  display: block;
+  color: var(--gd-gray-medium);
+  font-size: 0.85rem;
+}
+
+/* Frequência */
+.frequencia-stats {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-numero {
+  display: block;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--gd-orange);
+}
+
+.stat-label {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--gd-gray-medium);
+}
+
+/* ---------- CALENDÁRIO ---------- */
+.calendario-section {
+  background: var(--gd-white);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  border: 1px solid #e2e8f0;
+}
+
+.calendario-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.calendario-header h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0;
+}
+
+.calendario-nav {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.btn-nav {
+  background: transparent;
+  border: none;
+  color: var(--gd-gray-medium);
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 4px;
+  transition: color 0.2s;
+}
+
+.btn-nav:hover {
+  color: var(--gd-orange);
+}
+
+#current-month {
+  font-weight: 600;
+  color: #1e293b;
+  min-width: 120px;
+  text-align: center;
+}
+
+.calendario-grid {
+  width: 100%;
+}
+
+.calendario-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.calendario-weekdays span {
+  text-align: center;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--gd-gray-medium);
+  padding: 0.5rem 0;
+}
+
+.calendario-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.25rem;
+}
+
+.calendario-day {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 2.5rem;
+  font-size: 0.9rem;
+  color: #1e293b;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.calendario-day:hover {
+  background-color: #f1f5f9;
+}
+
+.calendario-day.highlight {
+  background-color: var(--gd-orange);
+  color: white;
+  font-weight: 600;
+}
+
+.calendario-day.other-month {
+  color: #cbd5e1;
+}
+
+/* ---------- HORÁRIOS DE AULA ---------- */
+.horarios-container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.horario-card {
+  background: white;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.horario-topo {
+  background: #f8f9fa;
+  border-bottom: 1px solid #e9ecef;
+  padding: 12px 20px;
+  font-weight: 600;
+  color: #495057;
+  font-size: 0.95rem;
+}
+
+.horario-info {
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.horario-info > span {
+  font-weight: 600;
+  color: #495057;
+  font-size: 0.95rem;
+}
+
+.horario-aula {
+  text-align: right;
+}
+
+.horario-nome {
+  display: block;
+  font-weight: 700;
+  color: #212529;
+  font-size: 1rem;
+}
+
+.horario-prof {
+  display: block;
+  color: #6c757d;
+  font-size: 0.9rem;
+  margin-top: 2px;
+}
+
+/* ---------- RESPONSIVIDADE ---------- */
+@media (max-width: 1024px) {
+  .dashboard-cards {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .gd-sidebar {
+    transform: translateX(-100%);
+    width: 260px;
+    transition: transform 0.3s ease;
+    z-index: 1040;
+  }
+  
+  .gd-sidebar.show {
+    transform: translateX(0);
+  }
+  
+  .gd-sidebar.collapsed {
+    width: 260px;
+    transform: translateX(-100%);
+  }
+  
+  .gd-sidebar.collapsed.show {
+    transform: translateX(0);
+  }
+  
+  .gd-main,
+  .gd-main.sidebar-collapsed {
+    margin-left: 0;
+    padding: 100px 20px 40px 20px;
+    width: 100%;
+  }
+  
+  .dashboard-cards {
+    gap: 1rem;
+  }
+  
+  .dashboard-card {
+    padding: 1rem;
+  }
+
+  /* Reset collapsed styles on mobile */
+  .gd-sidebar.collapsed .gd-submenu span,
+  .gd-sidebar.collapsed .nav-link.sidebar-option span {
+    display: block;
+  }
+
+  .gd-sidebar.collapsed .btn-toggle.sidebar-option {
+    justify-content: flex-start;
+    padding: 8px 12px;
+  }
+
+  .gd-sidebar.collapsed .nav-link.sidebar-option {
+    justify-content: flex-start;
+    padding: 8px 20px 8px 45px;
+  }
+
+  .gd-sidebar.collapsed .btn-toggle.sidebar-option i:last-child {
+    display: block;
+  }
+
+  .gd-sidebar.collapsed .collapse {
+    display: block !important;
+  }
+
+  .menu-sanduiche {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    position: relative !important;
+    z-index: 1050 !important;
+  }
+
+  .sidebar-item {
+    display: block !important;
+    visibility: visible !important;
+  }
+}
+
+/* ---------- BOTÃO HAMBÚRGUER SEMPRE VISÍVEL ---------- */
+#sidebar-toggle {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  position: relative !important;
+  z-index: 1050 !important;
+}
+
+button#sidebar-toggle.menu-sanduiche {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* ---------- ESTADOS ATIVOS ---------- */
+.sidebar-option.active {
+  background: rgba(249, 115, 22,) !important;
+  color: var(--gd-white) !important;
+}
+
+/* ---------- ESTADOS VAZIOS ---------- */
+.card-content .text-center.text-muted {
+  padding: 1.5rem;
+  color: #94a3b8 !important;
+}
+
+.card-content .text-muted i {
+  color: #cbd5e1;
+  margin-bottom: 0.5rem;
+}
+
+.card-content .text-muted p {
+  font-size: 0.875rem;
+  color: #94a3b8;
+}

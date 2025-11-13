@@ -1,0 +1,830 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
+
+/* ---------- VARIÁVEIS GERAIS ---------- */
+:root {
+  --gd-orange: #f97316;
+  --gd-orange-light: #fed7aa;
+  --gd-bg: #000;
+  --gd-border: #242426;
+  --gd-text-dim: #a1a1aa;
+  --gd-surface: #f9f9fb;
+  --gd-white: #fff;
+  --gd-gray-light: #f8fafc;
+  --gd-gray-medium: #64748b;
+  --gd-red: #ef4444;
+  --gd-green: #22c55e;
+}
+
+/* ---------- BASE DO SITE ---------- */
+body {
+  background: #f1f5f9;
+  font-family: 'Montserrat', Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* ---------- TOPO (NAV BAR) ---------- */
+.gd-topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 76px;
+  background: var(--gd-bg);
+  color: #fff;
+  z-index: 1030;
+  display: flex;
+  align-items: center;
+}
+
+.gd-pill {
+  background: var(--gd-orange);
+  color: #000;
+  font-weight: 700;
+  font-size: .75rem;
+  letter-spacing: .06em;
+  border-radius: 999px;
+  padding: .35rem .6rem;
+}
+
+.gd-logo-container {
+  position: fixed;
+  top: 0;
+  left: 20px;
+  z-index: 2000;
+  width: 80px;
+  height: 76px;
+  display: flex;
+  align-items: center;
+}
+
+.gd-logo {
+  width: 80px;
+  height: 76px;
+  object-fit: contain;
+}
+
+.gd-topbar-content {
+  margin-left: 150px;
+}
+
+/* ---------- MENU LATERAL ---------- */
+/**
+ * COMPORTAMENTO:
+ * MOBILE/TABLET (≤1024px): Menu hambúrguer - escondido por padrão
+ * DESKTOP (>1024px): Menu lateral sempre visível, pode ser colapsado para APENAS ícones
+ */
+
+.gd-sidebar {
+  position: fixed;
+  top: 76px;
+  bottom: 0;
+  left: 0;
+  width: 260px; 
+  background: var(--gd-bg);
+  color: #fff;
+  border-right: 1px solid var(--gd-border);
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding-top: 10px;
+  z-index: 1040;
+  transition: transform 0.3s ease, width 0.3s ease;
+}
+
+/* DESKTOP: Menu sempre visível acima de 1024px */
+@media (min-width: 1025px) {
+  .gd-sidebar {
+    transform: translateX(0);
+    margin-top: 60px; /* Espaço para o menu sanduíche */
+  }
+  
+  /* DESKTOP: Quando colapsado, reduz para APENAS ícones */
+  .gd-sidebar.collapsed {
+    width: 60px;
+  }
+
+  /* DESKTOP COLLAPSED: Quando colapsado, reduz a barra do menu sanduíche */
+  body.sidebar-collapsed .sidebar-item {
+    width: 60px !important;
+    padding: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-bottom: 1px solid var(--gd-border);
+  }
+
+  /* DESKTOP COLLAPSED: Remove margem do sidebar quando colapsado */
+  body.sidebar-collapsed .gd-sidebar {
+    margin-top: 60px !important;
+  }
+
+  /* DESKTOP COLLAPSED: Esconde TODOS os textos (inclusive Sair, Voltar, etc) */
+  .gd-sidebar.collapsed .gd-submenu span,
+  .gd-sidebar.collapsed .btn-toggle.sidebar-option span,
+  .gd-sidebar.collapsed .nav-link.sidebar-option span {
+    display: none !important;
+  }
+
+  .gd-sidebar.collapsed .btn-toggle.sidebar-option {
+    justify-content: center;
+    padding: 8px;
+  }
+
+  .gd-sidebar.collapsed .btn-toggle.sidebar-option i:last-child {
+    display: none;
+  }
+
+  .gd-sidebar.collapsed .nav-link.sidebar-option {
+    justify-content: center;
+    padding: 8px;
+  }
+
+  /* DESKTOP COLLAPSED: Acordeões ocultos */
+  .gd-sidebar.collapsed .collapse {
+    display: none !important;
+  }
+}
+
+/* MOBILE E TABLET: Menu hambúrguer até 1024px */
+@media (max-width: 1024px) {
+  .gd-sidebar {
+    transform: translateX(-100%);
+    margin-top: 0 !important; /* Remove margem do desktop */
+  }
+  
+  /* Classe .show torna menu visível */
+  .gd-sidebar.show {
+    transform: translateX(0);
+    box-shadow: 2px 0 10px rgba(0,0,0,0.3);
+  }
+  
+  /* MOBILE: Remove qualquer estado collapsed */
+  .gd-sidebar.collapsed {
+    width: 260px !important;
+  }
+  
+  /* Overlay escuro quando menu aberto */
+  body.menu-open::before {
+    content: '';
+    position: fixed;
+    top: 76px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 1039;
+    animation: fadeIn 0.3s ease;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+}
+
+/* ---------- BOTÃO MENU SANDUÍCHE ---------- */
+.sidebar-item {
+  display: block !important;
+  position: relative;
+  visibility: visible !important;
+  opacity: 1 !important;
+  padding-bottom: 15px;
+  border-bottom: 1px solid var(--gd-border);
+  transition: width 0.3s ease, padding 0.3s ease;
+}
+
+.menu-sanduiche {
+  background: transparent;
+  border: none;
+  color: var(--gd-orange);
+  font-size: 1.8rem;
+  cursor: pointer;
+  display: block !important;
+  width: auto;
+  height: auto;
+  padding: 8px 12px;
+  transition: all 0.3s ease;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.menu-sanduiche:hover {
+  color: var(--gd-orange-light);
+  transform: scale(1.1);
+}
+
+/* DESKTOP (>1024px): Menu sanduíche embaixo da logo, na lateral */
+@media (min-width: 1025px) {
+  .sidebar-item {
+    position: fixed !important;
+    top: 76px !important;
+    left: 0 !important;
+    z-index: 2050 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    visibility: visible !important;
+    width: 260px;
+    height: 60px;
+    background: var(--gd-bg);
+    padding: 0 0 0 10px;
+    border-bottom: 1px solid var(--gd-border);
+  }
+  
+  .menu-sanduiche {
+    position: relative !important;
+    margin: 0 !important;
+    display: block !important;
+    visibility: visible !important;
+  }
+}
+
+/* MOBILE E TABLET (≤1024px): Menu sanduíche no canto direito superior */
+@media (max-width: 1024px) {
+  .sidebar-item {
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 2200;
+    padding: 0;
+    border-bottom: none;
+  }
+  
+  .menu-sanduiche {
+    position: relative;
+    margin: 15px 20px 0 0;
+    display: block !important;
+  }
+}
+
+.gd-submenu {
+  margin: 0 10px;
+}
+
+.btn-toggle.sidebar-option {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  padding: 8px 12px;
+  background: transparent;
+  color: #fff;
+  border: none;
+  border-radius: 0;
+  font-weight: 500;
+  font-size: 0.95rem;
+  text-align: left;
+  transition: background 0.2s cubic-bezier(0.4, 0, 0.2, 1), 
+              color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+              padding 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  pointer-events: auto !important;
+}
+
+.btn-toggle.sidebar-option:hover,
+.btn-toggle.sidebar-option.active {
+  background: rgba(249, 115, 22, 0.15);
+  color: var(--gd-orange);
+}
+
+/* Estilo especial para botão Sair (logout) */
+.btn-toggle.sidebar-option.logout-btn {
+  pointer-events: auto !important;
+  cursor: pointer !important;
+}
+
+.btn-toggle.sidebar-option.logout-btn span {
+  pointer-events: auto !important;
+}
+
+.nav-link.sidebar-option {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 20px 8px 45px;
+  color: var(--gd-white);
+  font-size: 0.92rem;
+  text-decoration: none;
+  border-radius: 0;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.nav-link.sidebar-option:hover {
+  background: rgba(249, 115, 22, 0.15);
+  color: var(--gd-orange);
+}
+
+.nav-link.sidebar-option:hover i {
+  color: var(--gd-orange);
+}
+
+.nav-link.active {
+  background: #F56E1D !important;
+  font-weight: 700;
+  color: white !important;
+}
+
+.nav-link.active i {
+  color: white !important;
+}
+
+.nav-link.sidebar-option i {
+  width: 18px;
+  height: 18px;
+  margin-right: 4px;
+  color: var(--gd-white);
+  transition: color 0.2s ease;
+}
+
+.sidebar-icon {
+  width: 18px;
+  height: 18px;
+  margin-right: 4px;
+  filter: brightness(0) invert(1);
+}
+
+.gd-sidebar ul {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 0;
+}
+
+/* ---------- LAYOUT GERAL ---------- */
+.gd-main {
+  min-height: 100vh;
+  background: #f1f5f9;
+  display: flex;
+  flex-direction: column;
+  transition: margin-left 0.3s ease, width 0.3s ease;
+}
+
+/* MOBILE E TABLET: Main ocupa tela toda até 1024px */
+@media (max-width: 1024px) {
+  .gd-main {
+    margin-left: 0 !important;
+    padding: 100px 20px 40px 20px;
+    width: 100% !important;
+  }
+  
+  /* MOBILE: Remove classe sidebar-collapsed se existir */
+  .gd-main.sidebar-collapsed {
+    margin-left: 0 !important;
+    width: 100% !important;
+  }
+}
+
+/* DESKTOP: Main ajusta com sidebar acima de 1024px */
+@media (min-width: 1025px) {
+  .gd-main {
+    margin-left: 260px;
+    padding: 100px 40px 40px 40px;
+    width: calc(100% - 260px);
+  }
+  
+  /* DESKTOP: Quando sidebar está colapsado */
+  .gd-main.sidebar-collapsed {
+    margin-left: 60px;
+    width: calc(100% - 60px);
+  }
+}
+
+.conteudo {
+  flex: 1;
+  width: 100%;
+  max-width: none;
+}
+
+.gd-breadcrumb {
+  font-size: 1rem;
+  color: #212529BF;
+  margin-top: 2rem;
+  margin-bottom: 0.5rem;
+  padding: 0;
+}
+
+.gd-page-title {
+  color: #F56E1D;
+  font-weight: 700;
+  margin-bottom: 2rem;
+}
+
+/* ---------- DASHBOARD CARDS ---------- */
+.dashboard-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.dashboard-card {
+  background: var(--gd-white);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  border: 1px solid #e2e8f0;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.card-header i {
+  font-size: 1.5rem;
+  color: var(--gd-orange);
+}
+
+.card-header h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0;
+}
+
+.card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+/* Próximas Aulas */
+.aula-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.aula-item:last-child {
+  border-bottom: none;
+}
+
+.aula-horario {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--gd-orange);
+  min-width: 50px;
+}
+
+.aula-info {
+  flex: 1;
+}
+
+.aula-nome {
+  display: block;
+  font-weight: 600;
+  color: #1e293b;
+  font-size: 0.95rem;
+}
+
+.aula-prof {
+  display: block;
+  color: var(--gd-gray-medium);
+  font-size: 0.85rem;
+}
+
+/* Avisos */
+.aviso-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.aviso-item:last-child {
+  border-bottom: none;
+}
+
+.aviso-data {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--gd-orange);
+  min-width: 40px;
+}
+
+.aviso-texto {
+  flex: 1;
+  font-size: 0.9rem;
+  color: #1e293b;
+}
+
+/* Financeiro */
+.financeiro-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.financeiro-item:last-child {
+  border-bottom: none;
+}
+
+.financeiro-status {
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  text-transform: uppercase;
+  min-width: 70px;
+  text-align: center;
+}
+
+.financeiro-status.pendente {
+  background: #fef3c7;
+  color: #d97706;
+}
+
+.financeiro-status.pago {
+  background: #dcfce7;
+  color: #16a34a;
+}
+
+.financeiro-status.atrasado {
+  background: #fee2e2;
+  color: #dc2626;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.financeiro-info {
+  flex: 1;
+}
+
+.financeiro-mes {
+  display: block;
+  font-weight: 500;
+  color: #1e293b;
+  font-size: 0.9rem;
+}
+
+.financeiro-valor {
+  display: block;
+  color: var(--gd-gray-medium);
+  font-size: 0.85rem;
+}
+
+/* Frequência */
+.frequencia-stats {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-numero {
+  display: block;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--gd-orange);
+}
+
+.stat-label {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--gd-gray-medium);
+}
+
+/* ---------- CALENDÁRIO ---------- */
+.calendario-section {
+  background: var(--gd-white);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  border: 1px solid #e2e8f0;
+}
+
+.calendario-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.calendario-header h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0;
+}
+
+.calendario-nav {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.btn-nav {
+  background: transparent;
+  border: none;
+  color: var(--gd-gray-medium);
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 4px;
+  transition: color 0.2s;
+}
+
+.btn-nav:hover {
+  color: var(--gd-orange);
+}
+
+#current-month {
+  font-weight: 600;
+  color: #1e293b;
+  min-width: 120px;
+  text-align: center;
+}
+
+.calendario-grid {
+  width: 100%;
+}
+
+.calendario-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.calendario-weekdays span {
+  text-align: center;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--gd-gray-medium);
+  padding: 0.5rem 0;
+}
+
+.calendario-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.25rem;
+}
+
+.calendario-day {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 2.5rem;
+  font-size: 0.9rem;
+  color: #1e293b;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.calendario-day:hover {
+  background-color: #f1f5f9;
+}
+
+.calendario-day.highlight {
+  background-color: var(--gd-orange);
+  color: white;
+  font-weight: 600;
+}
+
+.calendario-day.other-month {
+  color: #cbd5e1;
+}
+
+/* ---------- HORÁRIOS DE AULA ---------- */
+.horarios-container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.horario-card {
+  background: white;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.horario-topo {
+  background: #f8f9fa;
+  border-bottom: 1px solid #e9ecef;
+  padding: 12px 20px;
+  font-weight: 600;
+  color: #495057;
+  font-size: 0.95rem;
+}
+
+.horario-info {
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.horario-info > span {
+  font-weight: 600;
+  color: #495057;
+  font-size: 0.95rem;
+}
+
+.horario-aula {
+  text-align: right;
+}
+
+.horario-nome {
+  display: block;
+  font-weight: 700;
+  color: #212529;
+  font-size: 1rem;
+}
+
+.horario-prof {
+  display: block;
+  color: #6c757d;
+  font-size: 0.9rem;
+  margin-top: 2px;
+}
+
+/* ---------- RESPONSIVIDADE ---------- */
+@media (max-width: 1024px) {
+  .dashboard-cards {
+    grid-template-columns: 1fr;
+  }
+  
+  .dashboard-card {
+    padding: 1rem;
+  }
+}
+
+/* ---------- BOTÃO HAMBÚRGUER SEMPRE VISÍVEL ---------- */
+#sidebar-toggle {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  position: relative !important;
+  z-index: 1050 !important;
+}
+
+button#sidebar-toggle.menu-sanduiche {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* ---------- ESTADOS ATIVOS ---------- */
+.sidebar-option.active {
+  background: rgba(249, 115, 22,) !important;
+  color: var(--gd-white) !important;
+}
+
+/* ---------- ESTADOS VAZIOS ---------- */
+.card-content .text-center.text-muted {
+  padding: 1.5rem;
+  color: #94a3b8 !important;
+}
+
+.card-content .text-muted i {
+  color: #cbd5e1;
+  margin-bottom: 0.5rem;
+}
+
+.card-content .text-muted p {
+  font-size: 0.875rem;
+  color: #94a3b8;
+}
+ia {
+    list-style: none;
+}
+
+.mrc {
+    margin-bottom: 3rem;
+}
+
+.locmore {
+    list-style: none;
+    display: flex;
+    align-items: center;
+}
+
+.tswift {
+    margin-left: 2rem;
+    font-size: clamp(1rem, 2.2vw, 1.3rem);
+}
+
+#toknow {
+    margin-bottom: 5.25rem;
+}

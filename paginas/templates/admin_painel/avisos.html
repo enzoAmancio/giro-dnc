@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    {% load static %}
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Gerenciar Avisos - GIRO DNC</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="{% static 'paginas/css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'paginas/css/admin.css' %}">
+</head>
+
+<body>
+  <header class="gd-topbar">
+    <div class="gd-logo-container">
+      <a href="{% url 'paginas:home' %}">
+        <img src="{% static 'paginas/img/Girologo.jpg' %}" alt="Logo Giro" class="gd-logo">
+      </a>
+    </div>
+    <div class="gd-topbar-content">
+      <span class="gd-pill" style="background: #f97316; color: white;">
+        <i class="bi bi-shield-lock-fill me-2"></i>ADMIN - GIRO DNC
+      </span>
+    </div>
+  </header>
+  <!-- Menu Sanduíche - FORA do header -->
+  <div class="sidebar-item">
+    <button id="sidebar-toggle" class="menu-sanduiche">
+      <i class="bi bi-list"></i>
+    </button>
+  </div>
+
+
+  <div class="gd-layout d-flex">
+    <!-- Sidebar Padronizado -->
+    {% with sidebar_section='admin' sidebar_active='admin_avisos' %}
+      {% include 'includes/sidebar.html' %}
+    {% endwith %}
+
+    <main class="gd-main">
+      <div>
+        <span>Olá, {{ user.get_full_name|default:user.username }} <span class="badge bg-warning text-dark ms-2">Admin</span></span>
+      </div>
+      
+      <div class="conteudo">
+        <h1 class="gd-breadcrumb">Administração / Comunicação / Avisos</h1>
+
+<div class="admin-header">
+  <div class="d-flex justify-content-between align-items-center">
+    <div>
+      <h1><i class="bi bi-megaphone-fill me-2"></i>Gerenciar Avisos</h1>
+      <p class="mb-0">Total: {{ avisos.count }} aviso(s)</p>
+    </div>
+    <a href="/admin/paginas/aviso/add/" class="btn btn-admin btn-lg">
+      <i class="bi bi-plus-circle-fill me-2"></i>Novo Aviso
+    </a>
+  </div>
+</div>
+
+<div class="admin-card">
+  <div class="table-responsive">
+    <table class="table table-admin table-hover">
+      <thead>
+        <tr>
+          <th>Título</th>
+          <th>Tipo</th>
+          <th>Autor</th>
+          <th>Data</th>
+          <th>Importante</th>
+          <th>Ativo</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for aviso in avisos|slice:":50" %}
+        <tr>
+          <td><strong>{{ aviso.titulo }}</strong></td>
+          <td>{{ aviso.get_tipo_display }}</td>
+          <td>{{ aviso.autor.get_full_name }}</td>
+          <td>{{ aviso.data_criacao|date:"d/m/Y H:i" }}</td>
+          <td>
+            {% if aviso.importante %}
+              <i class="bi bi-star-fill text-warning"></i>
+            {% else %}
+              -
+            {% endif %}
+          </td>
+          <td>
+            {% if aviso.ativo %}
+              <span class="badge badge-ativo">Ativo</span>
+            {% else %}
+              <span class="badge badge-inativo">Inativo</span>
+            {% endif %}
+          </td>
+          <td>
+            <a href="/admin/paginas/aviso/{{ aviso.id }}/change/" class="btn btn-sm btn-outline-primary">
+              <i class="bi bi-pencil"></i>
+            </a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+      </div>
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  
+  <script src="{% static 'paginas/js/script.js' %}"></script>
+  
+  <script>
+  // FECHA submenus ao navegar APENAS entre páginas com submenus
+  document.addEventListener('DOMContentLoaded', function() {
+    // Não faz nada - deixa o Bootstrap accordion controlar naturalmente
+  });
+  </script>
+</body>
+</html>

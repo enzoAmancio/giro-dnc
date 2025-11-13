@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    {% load static %}
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Gerenciar Professores - GIRO DNC</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="{% static 'paginas/css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'paginas/css/admin.css' %}">
+</head>
+
+<body>
+  <header class="gd-topbar">
+    <div class="gd-logo-container">
+      <a href="{% url 'paginas:home' %}">
+        <img src="{% static 'paginas/img/Girologo.jpg' %}" alt="Logo Giro" class="gd-logo">
+      </a>
+    </div>
+    <div class="gd-topbar-content">
+      <span class="gd-pill" style="background: #f97316; color: white;">
+        <i class="bi bi-shield-lock-fill me-2"></i>ADMIN - GIRO DNC
+      </span>
+    </div>
+  </header>
+  <!-- Menu Sanduíche - FORA do header -->
+  <div class="sidebar-item">
+    <button id="sidebar-toggle" class="menu-sanduiche">
+      <i class="bi bi-list"></i>
+    </button>
+  </div>
+
+
+  <div class="gd-layout d-flex">
+    <aside class="gd-sidebar d-flex flex-column">
+      <nav class="gd-nav flex-grow-1">
+        
+        <div class="accordion" id="sidebarAccordion">
+          <ul>
+            <li>
+              <a href="{% url 'paginas:painel_index' %}" class="btn-toggle sidebar-option">
+                <i class="bi bi-arrow-left-circle"></i>
+                <span>Voltar ao Painel</span>
+              </a>
+            </li>
+            <li>
+              <div class="gd-submenu mb-1">
+                <button class="btn-toggle sidebar-option " data-bs-toggle="collapse" data-bs-target="#collapseAdmin" aria-expanded="false">
+                  <i class="bi bi-speedometer"></i>
+                  <span>Dashboard Admin</span>
+                  <i class="bi bi-chevron-down ms-auto"></i>
+                </button>
+                <div class="collapse " id="collapseAdmin" data-bs-parent="#sidebarAccordion">
+                  <div class="sidebar-option-container">
+                    <a href="{% url 'paginas:admin_dashboard' %}" class="nav-link sidebar-option ">
+                      <i class="bi bi-speedometer2"></i>
+                      <span>Visão Geral</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="gd-submenu mb-2">
+                <button class="btn-toggle sidebar-option active" data-bs-toggle="collapse" data-bs-target="#collapsePessoas" aria-expanded="true">
+                  <i class="bi bi-people-fill"></i>
+                  <span>Pessoas</span>
+                  <i class="bi bi-chevron-down ms-auto"></i>
+                </button>
+                <div class="collapse show" id="collapsePessoas" data-bs-parent="#sidebarAccordion">
+                  <div class="sidebar-option-container">
+                    <a href="{% url 'paginas:admin_alunos' %}" class="nav-link sidebar-option ">
+                      <i class="bi bi-person-badge"></i>
+                      <span>Alunos</span>
+                    </a>
+                    <a href="{% url 'paginas:admin_professores' %}" class="nav-link sidebar-option active">
+                      <i class="bi bi-person-video3"></i>
+                      <span>Professores</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="gd-submenu mb-2">
+                <button class="btn-toggle sidebar-option " data-bs-toggle="collapse" data-bs-target="#collapseAcademico" aria-expanded="false">
+                  <i class="bi bi-journal-bookmark-fill"></i>
+                  <span>Acadêmico</span>
+                  <i class="bi bi-chevron-down ms-auto"></i>
+                </button>
+                <div class="collapse " id="collapseAcademico" data-bs-parent="#sidebarAccordion">
+                  <div class="sidebar-option-container">
+                    <a href="{% url 'paginas:admin_turmas' %}" class="nav-link sidebar-option ">
+                      <i class="bi bi-collection"></i>
+                      <span>Turmas</span>
+                    </a>
+                    <a href="{% url 'paginas:admin_aulas' %}" class="nav-link sidebar-option ">
+                      <i class="bi bi-calendar-week"></i>
+                      <span>Aulas</span>
+                    </a>
+                    <a href="{% url 'paginas:admin_frequencia' %}" class="nav-link sidebar-option ">
+                      <i class="bi bi-clipboard-check"></i>
+                      <span>Frequência</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="gd-submenu mb-2">
+                <button class="btn-toggle sidebar-option " data-bs-toggle="collapse" data-bs-target="#collapseFinanceiroAdmin" aria-expanded="false">
+                  <i class="bi bi-cash-stack"></i>
+                  <span>Financeiro</span>
+                  <i class="bi bi-chevron-down ms-auto"></i>
+                </button>
+                <div class="collapse " id="collapseFinanceiroAdmin" data-bs-parent="#sidebarAccordion">
+                  <div class="sidebar-option-container">
+                    <a href="{% url 'paginas:admin_mensalidades' %}" class="nav-link sidebar-option ">
+                      <i class="bi bi-currency-dollar"></i>
+                      <span>Mensalidades</span>
+                    </a>
+                    <a href="{% url 'paginas:admin_relatorio_financeiro' %}" class="nav-link sidebar-option ">
+                      <i class="bi bi-graph-up"></i>
+                      <span>Relatórios</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="gd-submenu mb-2">
+                <button class="btn-toggle sidebar-option " data-bs-toggle="collapse" data-bs-target="#collapseEventos" aria-expanded="false">
+                  <i class="bi bi-calendar-event"></i>
+                  <span>Eventos</span>
+                  <i class="bi bi-chevron-down ms-auto"></i>
+                </button>
+                <div class="collapse " id="collapseEventos" data-bs-parent="#sidebarAccordion">
+                  <div class="sidebar-option-container">
+                    <a href="{% url 'paginas:admin_eventos' %}" class="nav-link sidebar-option ">
+                      <i class="bi bi-ticket-perforated"></i>
+                      <span>Gerenciar Eventos</span>
+                    </a>
+                    <a href="{% url 'paginas:vendas_ingressos' %}" class="nav-link sidebar-option ">
+                      <i class="bi bi-graph-up-arrow"></i>
+                      <span>Ingressos Vendidos</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="gd-submenu mb-3">
+                <button class="btn-toggle sidebar-option " data-bs-toggle="collapse" data-bs-target="#collapseComunicacaoAdmin" aria-expanded="false">
+                  <i class="bi bi-megaphone-fill"></i>
+                  <span>Comunicação</span>
+                  <i class="bi bi-chevron-down ms-auto"></i>
+                </button>
+                <div class="collapse " id="collapseComunicacaoAdmin" data-bs-parent="#sidebarAccordion">
+                  <div class="sidebar-option-container">
+                    <a href="{% url 'paginas:admin_avisos' %}" class="nav-link sidebar-option ">
+                      <i class="bi bi-bell-fill"></i>
+                      <span>Avisos</span>
+                    </a>
+                    <a href="{% url 'paginas:admin_mensagens' %}" class="nav-link sidebar-option ">
+                      <i class="bi bi-chat-left-text"></i>
+                      <span>Mensagens</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <a href="/admin/" class="btn-toggle sidebar-option" target="_blank">
+                <i class="bi bi-gear-fill"></i>
+                <span>Django Admin</span>
+                <i class="bi bi-box-arrow-up-right ms-auto"></i>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'paginas:logout' %}" class="btn-toggle sidebar-option">
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Sair</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </aside>
+
+    <main class="gd-main">
+      <div>
+        <span>Olá, {{ user.get_full_name|default:user.username }} <span class="badge bg-warning text-dark ms-2">Admin</span></span>
+      </div>
+      
+      <div class="conteudo">
+        <h1 class="gd-breadcrumb">Administração / Pessoas / Professores</h1>
+
+<div class="admin-header">
+  <div class="d-flex justify-content-between align-items-center">
+    <div>
+      <h1><i class="bi bi-person-video3 me-2"></i>Gerenciar Professores</h1>
+      <p class="mb-0">Total: {{ professores.count }} professor(es)</p>
+    </div>
+    <a href="/admin/paginas/turma/" class="btn btn-admin btn-lg">
+      <i class="bi bi-plus-circle-fill me-2"></i>Gerenciar Turmas
+    </a>
+  </div>
+</div>
+
+<div class="admin-card">
+  <div class="table-responsive">
+    <table class="table table-admin table-hover">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nome</th>
+          <th>Email</th>
+          <th>Username</th>
+          <th>Turmas</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for professor in professores %}
+        <tr>
+          <td>#{{ professor.id }}</td>
+          <td><strong>{{ professor.get_full_name }}</strong></td>
+          <td>{{ professor.email }}</td>
+          <td>{{ professor.username }}</td>
+          <td>
+            {% for turma in professor.turmas_professor.all|slice:":3" %}
+              <span class="badge bg-primary">{{ turma.nome }}</span>
+            {% empty %}
+              <span class="text-muted">Nenhuma turma</span>
+            {% endfor %}
+            {% if professor.turmas_professor.count > 3 %}
+              <span class="badge bg-secondary">+{{ professor.turmas_professor.count|add:"-3" }}</span>
+            {% endif %}
+          </td>
+          <td>
+            <a href="/admin/auth/user/{{ professor.id }}/change/" class="btn btn-sm btn-outline-primary">
+              <i class="bi bi-pencil"></i>
+            </a>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="6" class="text-center text-muted py-5">
+            <i class="bi bi-inbox empty-icon"></i>
+            <p class="mt-3">Nenhum professor cadastrado</p>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+      </div>
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  
+  <script src="{% static 'paginas/js/script.js' %}"></script>
+  
+  <script>
+  // FECHA submenus ao navegar APENAS entre páginas com submenus
+  document.addEventListener('DOMContentLoaded', function() {
+    // Não faz nada - deixa o Bootstrap accordion controlar naturalmente
+  });
+  </script>
+</body>
+</html>

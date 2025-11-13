@@ -1,0 +1,88 @@
+{% extends 'admin_painel/base_admin.html' %}
+{% load static %}
+
+{% block title %}Gerenciar Alunos - GIRO DNC{% endblock %}
+{% block page_title %}Gerenciar Alunos{% endblock %}
+
+{% block content %}
+<div class="admin-header">
+  <div class="d-flex justify-content-between align-items-center">
+    <div>
+      <h1><i class="bi bi-people-fill me-2"></i>Gerenciar Alunos</h1>
+      <p class="mb-0">Total: {{ alunos.count }} aluno(s)</p>
+    </div>
+    <a href="/admin/paginas/aluno/add/" class="btn btn-admin btn-lg">
+      <i class="bi bi-person-plus-fill me-2"></i>Novo Aluno
+    </a>
+  </div>
+</div>
+
+<div class="admin-card">
+  <div class="table-responsive">
+    <table class="table table-admin table-hover">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nome Completo</th>
+          <th>Email</th>
+          <th>Telefone</th>
+          <th>Turmas</th>
+          <th>Status</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for aluno in alunos %}
+        <tr>
+          <td>#{{ aluno.id }}</td>
+          <td>
+            <strong>{{ aluno.usuario.get_full_name }}</strong>
+            <br>
+            <small class="text-muted">{{ aluno.usuario.username }}</small>
+          </td>
+          <td>{{ aluno.usuario.email }}</td>
+          <td>{{ aluno.telefone|default:"-" }}</td>
+          <td>
+            {% for turma in aluno.turmas.all|slice:":3" %}
+              <span class="badge bg-primary">{{ turma.nome }}</span>
+            {% empty %}
+              <span class="text-muted">Nenhuma turma</span>
+            {% endfor %}
+            {% if aluno.turmas.count > 3 %}
+              <span class="badge bg-secondary">+{{ aluno.turmas.count|add:"-3" }}</span>
+            {% endif %}
+          </td>
+          <td>
+            {% if aluno.ativo %}
+              <span class="badge badge-ativo">Ativo</span>
+            {% else %}
+              <span class="badge badge-inativo">Inativo</span>
+            {% endif %}
+          </td>
+          <td>
+            <div class="btn-group btn-group-sm">
+              <a href="/admin/paginas/aluno/{{ aluno.id }}/change/" class="btn btn-outline-primary" title="Editar">
+                <i class="bi bi-pencil"></i>
+              </a>
+              <a href="{% url 'paginas:admin_mensalidades' %}?aluno={{ aluno.id }}" class="btn btn-outline-success" title="Mensalidades">
+                <i class="bi bi-currency-dollar"></i>
+              </a>
+              <a href="/admin/paginas/frequencia/?aluno__id__exact={{ aluno.id }}" class="btn btn-outline-info" title="Frequência">
+                <i class="bi bi-clipboard-check"></i>
+              </a>
+            </div>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="7" class="text-center text-muted py-5">
+            <i class="bi bi-inbox empty-icon"></i>
+            <p class="mt-3">Nenhum aluno cadastrado</p>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

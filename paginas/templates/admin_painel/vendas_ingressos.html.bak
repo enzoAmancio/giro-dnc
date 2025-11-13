@@ -1,0 +1,113 @@
+{% extends 'admin_painel/base_admin.html' %}
+{% load static %}
+
+{% block title %}Vendas de Ingressos - GIRO DNC{% endblock %}
+{% block page_title %}Vendas de Ingressos{% endblock %}
+
+{% block content %}
+<div class="admin-header">
+  <h1><i class="bi bi-graph-up-arrow me-2"></i>Vendas de Ingressos</h1>
+  <p class="mb-0">Controle de todas as vendas realizadas</p>
+</div>
+
+<!-- Estatísticas -->
+<div class="row g-4 mb-4">
+  <div class="col-md-6">
+    <div class="stat-box">
+      <i class="bi bi-ticket-perforated"></i>
+      <h3>{{ total_ingressos_vendidos }}</h3>
+      <p>Ingressos Vendidos</p>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="stat-box stat-success">
+      <i class="bi bi-cash-stack"></i>
+      <h3>R$ {{ total_arrecadado|floatformat:2 }}</h3>
+      <p>Total Arrecadado</p>
+    </div>
+  </div>
+</div>
+
+<!-- Vendas por Evento -->
+{% if vendas_por_evento %}
+<div class="admin-card mb-4">
+  <h3><i class="bi bi-bar-chart me-2"></i>Vendas por Evento</h3>
+  <div class="table-responsive">
+    <table class="table table-admin table-hover">
+      <thead>
+        <tr>
+          <th>Evento</th>
+          <th>Data</th>
+          <th>Ingressos Vendidos</th>
+          <th>Total Arrecadado</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for evento in vendas_por_evento %}
+        <tr>
+          <td><strong>{{ evento.nome }}</strong></td>
+          <td>{{ evento.data_evento|date:"d/m/Y" }}</td>
+          <td><span class="badge bg-primary">{{ evento.total_vendas }}</span></td>
+          <td><strong class="text-success">R$ {{ evento.total_arrecadado|floatformat:2 }}</strong></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endif %}
+
+<!-- Lista de Todas as Vendas -->
+<div class="admin-card">
+  <h3><i class="bi bi-list-ul me-2"></i>Histórico de Vendas</h3>
+  {% if vendas %}
+  <div class="table-responsive">
+    <table class="table table-admin table-hover">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Evento</th>
+          <th>Aluno</th>
+          <th>Data da Venda</th>
+          <th>Qtd</th>
+          <th>Valor Pago</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for venda in vendas %}
+        <tr>
+          <td>#{{ venda.id }}</td>
+          <td>
+            <strong>{{ venda.evento.nome }}</strong><br>
+            <small class="text-muted">{{ venda.evento.data_evento|date:"d/m/Y" }}</small>
+          </td>
+          <td>
+            {{ venda.aluno.usuario.get_full_name }}<br>
+            <small class="text-muted">{{ venda.aluno.usuario.email }}</small>
+          </td>
+          <td>{{ venda.data_venda|date:"d/m/Y H:i" }}</td>
+          <td><span class="badge bg-info">{{ venda.quantidade }}</span></td>
+          <td><strong class="text-success">R$ {{ venda.valor_pago|floatformat:2 }}</strong></td>
+          <td>
+            {% if venda.status == 'CONFIRMADO' %}
+              <span class="badge badge-pago">Confirmado</span>
+            {% elif venda.status == 'PENDENTE' %}
+              <span class="badge badge-pendente">Pendente</span>
+            {% else %}
+              <span class="badge badge-atrasado">Cancelado</span>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <div class="text-center text-muted py-5">
+    <i class="bi bi-inbox" style="font-size: 3rem;"></i>
+    <p class="mt-3">Nenhuma venda de ingresso registrada</p>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

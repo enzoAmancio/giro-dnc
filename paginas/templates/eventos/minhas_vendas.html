@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    {% load static %}
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>GIRO DNC - Minhas Vendas</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'paginas/css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'paginas/css/eventos.css' %}">
+</head>
+<body>
+  <header class="gd-topbar">
+    <div class="gd-logo-container">
+      <a href="{% url 'paginas:home' %}">
+        <img src="{% static 'paginas/img/Girologo.jpg' %}" alt="Logo Giro" class="gd-logo">
+      </a>
+    </div>
+    <div class="gd-topbar-content">
+      <span class="gd-pill">GIRO DNC</span>
+    </div>
+  </header>
+  <!-- Menu Sanduíche - FORA do header -->
+  <div class="sidebar-item">
+    <button id="sidebar-toggle" class="menu-sanduiche">
+      <i class="bi bi-list"></i>
+    </button>
+  </div>
+
+
+  <div class="gd-layout d-flex">
+    <!-- Sidebar Padronizado -->
+    {% with sidebar_section='eventos' sidebar_active='minhas_vendas' %}
+      {% include 'includes/sidebar.html' %}
+    {% endwith %}
+
+    <main class="gd-main">
+      <div class="conteudo">
+        <h1 class="gd-breadcrumb">Eventos / Minhas Vendas</h1>
+        <h2 class="gd-page-title">Minhas Vendas de Ingressos</h2>
+
+        <!-- Estatísticas -->
+        <div class="row mb-4">
+          <div class="col-md-3">
+            <div class="card border-primary stats-card">
+              <div class="card-body text-center">
+                <i class="bi bi-ticket-perforated stats-icon text-primary"></i>
+                <h3 class="stats-value">{{ stats.total_ingressos|default:0 }}</h3>
+                <p class="stats-label">Total de Ingressos</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="card border-success stats-card">
+              <div class="card-body text-center">
+                <i class="bi bi-cash-stack stats-icon text-success"></i>
+                <h3 class="stats-value">R$ {{ stats.total_comissao|default:0|floatformat:2 }}</h3>
+                <p class="stats-label">Total em Comissões</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="card border-info stats-card">
+              <div class="card-body text-center">
+                <i class="bi bi-check-circle stats-icon text-info"></i>
+                <h3 class="stats-value">{{ stats.vendas_confirmadas|default:0 }}</h3>
+                <p class="stats-label">Vendas Confirmadas</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="card border-warning stats-card">
+              <div class="card-body text-center">
+                <i class="bi bi-clock stats-icon text-warning"></i>
+                <h3 class="stats-value">{{ stats.vendas_pendentes|default:0 }}</h3>
+                <p class="stats-label">Vendas Pendentes</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Por Evento -->
+        {% if por_evento %}
+        <h3 class="mb-3"><i class="bi bi-bar-chart"></i> Vendas por Evento</h3>
+        <div class="row mb-4">
+          {% for item in por_evento %}
+          <div class="col-md-4 mb-3">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">{{ item.evento__nome }}</h5>
+                <p class="mb-1"><strong>Ingressos:</strong> {{ item.total_ingressos }}</p>
+                <p class="mb-0"><strong>Comissão:</strong> <span class="text-success">R$ {{ item.total_comissao|floatformat:2 }}</span></p>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- Histórico Completo -->
+        <h3 class="mb-3"><i class="bi bi-clock-history"></i> Histórico Completo</h3>
+        
+        {% if vendas %}
+        <div class="table-responsive">
+          <table class="table table-striped vendas-table vendas-table-hover">
+            <thead>
+              <tr>
+                <th>Data Registro</th>
+                <th>Data Venda</th>
+                <th>Evento</th>
+                <th>Quantidade</th>
+                <th>Valor Total</th>
+                <th>Comissão</th>
+                <th>Status</th>
+                <th>Observações</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for venda in vendas %}
+              <tr>
+                <td>{{ venda.data_registro|date:"d/m/Y H:i" }}</td>
+                <td>{{ venda.data_venda|date:"d/m/Y" }}</td>
+                <td><strong>{{ venda.evento.nome }}</strong></td>
+                <td>{{ venda.quantidade }}</td>
+                <td>R$ {{ venda.valor_total|floatformat:2 }}</td>
+                <td><strong class="text-comissao">R$ {{ venda.valor_comissao|floatformat:2 }}</strong></td>
+                <td>
+                  {% if venda.confirmado %}
+                    <span class="badge status-confirmado"><i class="bi bi-check-circle"></i> Confirmado</span>
+                  {% else %}
+                    <span class="badge status-pendente"><i class="bi bi-clock"></i> Pendente</span>
+                  {% endif %}
+                </td>
+                <td>{{ venda.observacoes|default:"-"|truncatewords:10 }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        {% else %}
+        <div class="alert alert-info">
+          <i class="bi bi-info-circle"></i> Você ainda não registrou nenhuma venda.
+          <a href="{% url 'paginas:eventos_lista' %}" class="alert-link">Ver eventos disponíveis</a>
+        </div>
+        {% endif %}
+
+      </div>
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="{% static 'paginas/js/script.js' %}"></script>
+</body>
+</html>

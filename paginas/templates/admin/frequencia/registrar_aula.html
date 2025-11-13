@@ -1,0 +1,266 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block title %}Registrar Frequência - {{ aula }}{% endblock %}
+
+{% block extrastyle %}
+{{ block.super }}
+<style>
+    .frequencia-container {
+        background: white;
+        border-radius: 8px;
+        padding: 30px;
+        max-width: 900px;
+        margin: 0 auto;
+    }
+    
+    .aula-info {
+        background: #f8f9fa;
+        border-left: 4px solid #417690;
+        padding: 20px;
+        margin-bottom: 30px;
+        border-radius: 4px;
+    }
+    
+    .aula-info h2 {
+        margin: 0 0 10px 0;
+        color: #417690;
+    }
+    
+    .aula-info p {
+        margin: 5px 0;
+        color: #666;
+    }
+    
+    .alunos-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+    
+    .alunos-table thead {
+        background: #417690;
+        color: white;
+    }
+    
+    .alunos-table th,
+    .alunos-table td {
+        padding: 15px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+    
+    .alunos-table tbody tr:hover {
+        background: #f8f9fa;
+    }
+    
+    .checkbox-container {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .checkbox-container input[type="checkbox"] {
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+    }
+    
+    .checkbox-container label {
+        cursor: pointer;
+        color: #d32f2f;
+        font-weight: 500;
+        user-select: none;
+    }
+    
+    .status-presente {
+        color: #2e7d32;
+        font-weight: bold;
+    }
+    
+    .status-faltou {
+        color: #d32f2f;
+        font-weight: bold;
+    }
+    
+    .actions-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 30px;
+        padding-top: 20px;
+        border-top: 2px solid #ddd;
+    }
+    
+    .btn-salvar {
+        background: #417690;
+        color: white;
+        padding: 12px 30px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: bold;
+        transition: background 0.3s;
+    }
+    
+    .btn-salvar:hover {
+        background: #2c5872;
+    }
+    
+    .contador {
+        font-size: 14px;
+        color: #666;
+    }
+    
+    .legenda {
+        background: #fff3cd;
+        border: 1px solid #ffc107;
+        border-radius: 4px;
+        padding: 15px;
+        margin-bottom: 20px;
+    }
+    
+    .legenda strong {
+        color: #856404;
+    }
+</style>
+{% endblock %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+    <a href="{% url 'admin:index' %}">Home</a>
+    &rsaquo; <a href="{% url 'admin:paginas_frequencia_changelist' %}">Frequências</a>
+    &rsaquo; <a href="{% url 'admin:registrar_frequencia' %}">Registrar Frequência</a>
+    &rsaquo; {{ aula }}
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="frequencia-container">
+    <div class="aula-info">
+        <h2>📚 {{ aula.tema }}</h2>
+        <p><strong>Turma:</strong> {{ aula.turma.nome }}</p>
+        <p><strong>Data:</strong> {{ aula.data|date:"d/m/Y (l)" }}</p>
+        <p><strong>Horário:</strong> {{ aula.horario_inicio|time:"H:i" }} - {{ aula.horario_fim|time:"H:i" }}</p>
+        <p><strong>Total de Alunos:</strong> {{ alunos|length }}</p>
+    </div>
+    
+    <div class="legenda">
+        <strong>⚠️ Instruções:</strong>
+        <ul style="margin: 10px 0 0 20px;">
+            <li><strong>Deixe em branco</strong> = Aluno PRESENTE</li>
+            <li><strong>Marque a caixa</strong> = Aluno FALTOU</li>
+        </ul>
+    </div>
+    
+    <form method="post">
+        {% csrf_token %}
+        
+        <table class="alunos-table">
+            <thead>
+                <tr>
+                    <th style="width: 60px;">#</th>
+                    <th>Nome do Aluno</th>
+                    <th style="width: 200px; text-align: center;">Marcar Falta</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for aluno in alunos %}
+                <tr id="row-{{ aluno.id }}">
+                    <td>{{ forloop.counter }}</td>
+                    <td>
+                        <strong>{{ aluno.usuario.get_full_name }}</strong>
+                        <br>
+                        <small style="color: #999;">{{ aluno.usuario.email }}</small>
+                    </td>
+                    <td style="text-align: center;">
+                        <div class="checkbox-container" style="justify-content: center;">
+                            <input 
+                                type="checkbox" 
+                                name="faltou_{{ aluno.id }}" 
+                                id="faltou_{{ aluno.id }}"
+                                {% if aluno.faltou %}checked{% endif %}
+                                onchange="updateStatus({{ aluno.id }})"
+                            >
+                            <label for="faltou_{{ aluno.id }}" id="label-{{ aluno.id }}">
+                                {% if aluno.faltou %}❌ FALTOU{% else %}✅ PRESENTE{% endif %}
+                            </label>
+                        </div>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="3" style="text-align: center; color: #999; padding: 40px;">
+                        Nenhum aluno matriculado nesta turma.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+        {% if alunos %}
+        <div class="actions-bar">
+            <div class="contador">
+                <span id="total-alunos">{{ alunos|length }}</span> aluno(s) | 
+                <span id="presentes" class="status-presente">0</span> presente(s) | 
+                <span id="faltaram" class="status-faltou">0</span> falta(s)
+            </div>
+            <div>
+                <a href="{% url 'admin:registrar_frequencia' %}" class="button" style="margin-right: 10px;">« Voltar</a>
+                <button type="submit" class="btn-salvar">💾 Salvar Frequência</button>
+            </div>
+        </div>
+        {% endif %}
+    </form>
+</div>
+
+<script>
+function updateStatus(alunoId) {
+    const checkbox = document.getElementById('faltou_' + alunoId);
+    const label = document.getElementById('label-' + alunoId);
+    const row = document.getElementById('row-' + alunoId);
+    
+    if (checkbox.checked) {
+        label.textContent = '❌ FALTOU';
+        label.style.color = '#d32f2f';
+        row.style.background = '#ffebee';
+    } else {
+        label.textContent = '✅ PRESENTE';
+        label.style.color = '#2e7d32';
+        row.style.background = '';
+    }
+    
+    atualizarContadores();
+}
+
+function atualizarContadores() {
+    const totalAlunos = {{ alunos|length }};
+    const checkboxes = document.querySelectorAll('input[type="checkbox"][name^="faltou_"]');
+    let faltaram = 0;
+    
+    checkboxes.forEach(checkbox => {
+        if (checkbox.checked) {
+            faltaram++;
+        }
+    });
+    
+    const presentes = totalAlunos - faltaram;
+    
+    document.getElementById('presentes').textContent = presentes;
+    document.getElementById('faltaram').textContent = faltaram;
+}
+
+// Inicializa os contadores ao carregar a página
+document.addEventListener('DOMContentLoaded', function() {
+    // Aplica estilo inicial para alunos que já faltaram
+    {% for aluno in alunos %}
+        {% if aluno.faltou %}
+            document.getElementById('row-{{ aluno.id }}').style.background = '#ffebee';
+        {% endif %}
+    {% endfor %}
+    
+    atualizarContadores();
+});
+</script>
+{% endblock %}

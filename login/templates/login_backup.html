@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GIRO DNC - Login</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'login/login.css' %}">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Container Principal -->
+    <div class="login-container">
+        <!-- Header com Logo -->
+        <div class="login-header">
+            <img src="{% static 'login/foto/imagemFuno.jpg' %}" alt="Logo Giro" class="login-logo">
+            <h1 class="login-title">GIRO DNC</h1>
+            <p class="login-subtitle">Escola de Dança</p>
+        </div>
+
+        <!-- Card de Login -->
+        <div class="login-card">
+            <div class="card-header">
+                <h2><i class="bi bi-person-circle"></i> Acesso ao Sistema</h2>
+                <p>Entre com suas credenciais para continuar</p>
+            </div>
+
+            <!-- Alertas de Mensagem -->
+            {% if mensagem %}
+            <div class="alert alert-info" role="alert">
+                <i class="bi bi-info-circle"></i>
+                {{ mensagem }}
+            </div>
+            {% endif %}
+
+            <!-- Formulário de Login -->
+            <form class="login-form" action="" method="POST">
+                {% csrf_token %}
+                
+                <!-- Campo Email/Username -->
+                <div class="form-group">
+                    <label for="username" class="form-label">
+                        <i class="bi bi-person"></i>
+                        Email/Usuário
+                    </label>
+                    <input 
+                        type="email" 
+                        id="username" 
+                        name="username" 
+                        class="form-control" 
+                        placeholder="Digite seu email"
+                        required
+                    >
+                </div>
+
+                <!-- Campo Senha -->
+                <div class="form-group">
+                    <label for="password" class="form-label">
+                        <i class="bi bi-key"></i>
+                        Senha
+                    </label>
+                    <div class="password-input">
+                        <input 
+                            type="password" 
+                            id="password" 
+                            name="password" 
+                            class="form-control" 
+                            placeholder="Digite sua senha"
+                            required
+                        >
+                        <button type="button" class="password-toggle" onclick="togglePassword()">
+                            <i class="bi bi-eye" id="toggleIcon"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Botões de Ação -->
+                <div class="form-actions">
+                    <button type="submit" name="acao" value="login" class="btn btn-primary">
+                        <i class="bi bi-box-arrow-in-right"></i>
+                        Entrar
+                    </button>
+                    <button type="submit" name="acao" value="cadastro" class="btn btn-outline-primary">
+                        <i class="bi bi-person-plus"></i>
+                        Cadastrar
+                    </button>
+                </div>
+            </form>
+
+            <!-- Footer do Login -->
+            <div class="login-footer">
+                <a href="#" class="forgot-password">
+                    <i class="bi bi-question-circle"></i>
+                    Esqueceu a senha?
+                </a>
+            </div>
+        </div>
+
+        <!-- Elementos de Fundo Animados -->
+        <div class="background-elements">
+            <div class="dancing-figure figure-1">
+                <i class="bi bi-music-note"></i>
+            </div>
+            <div class="dancing-figure figure-2">
+                <i class="bi bi-heart"></i>
+            </div>
+            <div class="dancing-figure figure-3">
+                <i class="bi bi-star"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Script para Toggle de Senha -->
+    <script>
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const toggleIcon = document.getElementById('toggleIcon');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.className = 'bi bi-eye-slash';
+            } else {
+                passwordInput.type = 'password';
+                toggleIcon.className = 'bi bi-eye';
+            }
+        }
+
+        // Animação de entrada
+        document.addEventListener('DOMContentLoaded', function() {
+            const loginCard = document.querySelector('.login-card');
+            loginCard.style.opacity = '0';
+            loginCard.style.transform = 'translateY(30px)';
+            
+            setTimeout(() => {
+                loginCard.style.transition = 'all 0.8s ease-out';
+                loginCard.style.opacity = '1';
+                loginCard.style.transform = 'translateY(0)';
+            }, 300);
+        });
+    </script>
+</body>
+</html>

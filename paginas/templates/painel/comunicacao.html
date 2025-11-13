@@ -1,0 +1,553 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    {% load static %}
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>GIRO DNC - Comunicação</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'paginas/css/style.css' %}">
+  
+  <style>
+    /* Cards de Contato Rápido */
+    .contact-quick-card {
+      background: linear-gradient(135deg, #F56E1D 0%, #ff8c42 100%);
+      color: white;
+      padding: 2rem;
+      border-radius: 15px;
+      text-align: center;
+      transition: all 0.3s ease;
+      height: 100%;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    
+    .contact-quick-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+    }
+    
+    .contact-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      opacity: 0.9;
+    }
+    
+    .contact-quick-card h4 {
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+    
+    .contact-quick-card .text-muted {
+      color: rgba(255,255,255,0.8) !important;
+      font-size: 0.9rem;
+    }
+    
+    .contact-quick-card .btn {
+      margin-top: 1rem;
+      background: white;
+      border: none;
+      font-weight: 600;
+    }
+    
+    .contact-quick-card .btn:hover {
+      transform: scale(1.05);
+    }
+    
+    /* Formulário de Contato */
+    .contact-form-card {
+      background: white;
+      padding: 2rem;
+      border-radius: 15px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+    
+    .form-header {
+      text-align: center;
+      margin-bottom: 2rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 2px solid #f0f0f0;
+    }
+    
+    .form-header i {
+      font-size: 3rem;
+      color: #F56E1D;
+      margin-bottom: 1rem;
+    }
+    
+    .form-header h3 {
+      color: #000000;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+    
+    .contact-form .form-label {
+      font-weight: 600;
+      color: #000000;
+      margin-bottom: 0.5rem;
+    }
+    
+    .contact-form .form-label i {
+      color: #F56E1D;
+      margin-right: 0.3rem;
+    }
+    
+    .contact-form .form-control,
+    .contact-form .form-select {
+      border: 2px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 0.75rem 1rem;
+      transition: all 0.3s ease;
+    }
+    
+    .contact-form .form-control:focus,
+    .contact-form .form-select:focus {
+      border-color: #F56E1D;
+      box-shadow: 0 0 0 0.2rem rgba(245, 110, 29, 0.15);
+    }
+    
+    .contact-form textarea {
+      resize: vertical;
+      min-height: 150px;
+    }
+    
+    #charCount {
+      font-weight: 600;
+      color: #F56E1D;
+    }
+    
+    .contact-form .btn-primary {
+      background: linear-gradient(135deg, #F56E1D 0%, #ff8c42 100%);
+      border: none;
+      border-radius: 10px;
+      padding: 0.75rem 2rem;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .contact-form .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(245, 110, 29, 0.4);
+    }
+    
+    .contact-form .btn-outline-secondary {
+      border: 2px solid #000000;
+      border-radius: 10px;
+      padding: 0.75rem 2rem;
+      font-weight: 600;
+      color: #000000;
+    }
+    
+    .contact-form .btn-outline-secondary:hover {
+      background-color: #000000;
+      color: white;
+    }
+    
+    #successMessage {
+      border-radius: 10px;
+      border: none;
+      animation: slideDown 0.5s ease;
+    }
+    
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    /* FAQ Card */
+    .faq-card {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 15px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      position: sticky;
+      top: 20px;
+    }
+    
+    .faq-card h4 {
+      color: #000000;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+    }
+    
+    .faq-card h4 i {
+      color: #F56E1D;
+      margin-right: 0.5rem;
+    }
+    
+    .accordion-button {
+      background-color: #f7fafc;
+      color: #000000;
+      font-weight: 600;
+      border-radius: 8px !important;
+      margin-bottom: 0.5rem;
+    }
+    
+    .accordion-button:not(.collapsed) {
+      background-color: #F56E1D;
+      color: white;
+    }
+    
+    .accordion-button:focus {
+      box-shadow: none;
+      border-color: #F56E1D;
+    }
+    
+    .accordion-body {
+      padding: 1rem;
+      background-color: #f7fafc;
+      border-radius: 0 0 8px 8px;
+      margin-bottom: 0.5rem;
+    }
+    
+    /* Responsividade */
+    @media (max-width: 768px) {
+      .contact-quick-card {
+        margin-bottom: 1rem;
+      }
+      
+      .faq-card {
+        position: static;
+        margin-top: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="gd-topbar">
+    <div class="gd-logo-container">
+      <a href="{% url 'paginas:home' %}">
+        <img src="{% static 'paginas/img/Girologo.jpg' %}" alt="Logo Giro" class="gd-logo">
+      </a>
+    </div>
+    <div class="gd-topbar-content">
+      <span class="gd-pill">GIRO DNC</span>
+    </div>
+  </header>
+  <!-- Menu Sanduíche - FORA do header -->
+  <div class="sidebar-item">
+    <button id="sidebar-toggle" class="menu-sanduiche">
+      <i class="bi bi-list"></i>
+    </button>
+  </div>
+
+
+  <div class="gd-layout d-flex">
+    <!-- Sidebar Padronizado -->
+    {% with sidebar_section='comunicacao' sidebar_active='painel_comunicacao' %}
+      {% include 'includes/sidebar.html' %}
+    {% endwith %}
+
+    <main class="gd-main">
+      <div class="conteudo">
+        <h1 class="gd-breadcrumb">Comunicação / Converse conosco</h1>
+        <h2 class="gd-page-title">Converse conosco</h2>
+        
+        <!-- Cards de Contato Rápido -->
+        <div class="row mb-4">
+          <div class="col-md-4 mb-3">
+            <div class="contact-quick-card">
+              <div class="contact-icon">
+                <i class="bi bi-whatsapp"></i>
+              </div>
+              <h4>WhatsApp</h4>
+              <p class="text-muted">Resposta rápida</p>
+              <a href="https://wa.me/5511999999999" target="_blank" class="btn btn-sm btn-outline-success">
+                <i class="bi bi-chat-left-text"></i> Enviar mensagem
+              </a>
+            </div>
+          </div>
+          
+          <div class="col-md-4 mb-3">
+            <div class="contact-quick-card">
+              <div class="contact-icon">
+                <i class="bi bi-envelope-at"></i>
+              </div>
+              <h4>E-mail</h4>
+              <p class="text-muted">contato@girodance.com</p>
+              <a href="mailto:contato@girodance.com" class="btn btn-sm btn-outline-primary">
+                <i class="bi bi-envelope"></i> Enviar e-mail
+              </a>
+            </div>
+          </div>
+          
+          <div class="col-md-4 mb-3">
+            <div class="contact-quick-card">
+              <div class="contact-icon">
+                <i class="bi bi-telephone"></i>
+              </div>
+              <h4>Telefone</h4>
+              <p class="text-muted">(11) 9999-9999</p>
+              <a href="tel:+5511999999999" class="btn btn-sm btn-outline-info">
+                <i class="bi bi-phone"></i> Ligar agora
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Formulário de Contato -->
+        <div class="row">
+          <div class="col-lg-8">
+            <div class="contact-form-card">
+              <div class="form-header">
+                <i class="bi bi-send"></i>
+                <h3>Envie sua mensagem</h3>
+                <p class="text-muted">Preencha o formulário abaixo e entraremos em contato em breve</p>
+              </div>
+              
+              <form id="contactForm" class="contact-form">
+                <div class="mb-3">
+                  <label for="assunto" class="form-label">
+                    <i class="bi bi-bookmark"></i> Assunto
+                  </label>
+                  <select class="form-select" id="assunto" required>
+                    <option value="">Selecione um assunto</option>
+                    <option value="duvida">Dúvida sobre aulas</option>
+                    <option value="financeiro">Questão financeira</option>
+                    <option value="horario">Horários e disponibilidade</option>
+                    <option value="sugestao">Sugestão</option>
+                    <option value="elogio">Elogio</option>
+                    <option value="reclamacao">Reclamação</option>
+                    <option value="outro">Outro</option>
+                  </select>
+                </div>
+
+                <div class="mb-3">
+                  <label for="mensagem" class="form-label">
+                    <i class="bi bi-chat-left-text"></i> Mensagem
+                  </label>
+                  <textarea 
+                    class="form-control" 
+                    id="mensagem" 
+                    rows="6" 
+                    placeholder="Escreva sua mensagem aqui..." 
+                    required
+                    maxlength="500"></textarea>
+                  <div class="form-text">
+                    <span id="charCount">0</span>/500 caracteres
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="urgente">
+                    <label class="form-check-label" for="urgente">
+                      <i class="bi bi-exclamation-circle text-warning"></i> Marcar como urgente
+                    </label>
+                  </div>
+                </div>
+
+                <div class="d-grid gap-2 d-md-flex">
+                  <button type="submit" class="btn btn-primary btn-lg">
+                    <i class="bi bi-send"></i> Enviar mensagem
+                  </button>
+                  <button type="reset" class="btn btn-outline-secondary btn-lg">
+                    <i class="bi bi-arrow-counterclockwise"></i> Limpar
+                  </button>
+                </div>
+              </form>
+
+              <!-- Mensagem de Sucesso -->
+              <div id="successMessage" class="alert alert-success mt-3" style="display: none;">
+                <i class="bi bi-check-circle"></i>
+                <strong>Mensagem enviada com sucesso!</strong>
+                <p class="mb-0">Nossa equipe entrará em contato em breve.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- FAQ Rápido -->
+          <div class="col-lg-4">
+            <div class="faq-card">
+              <h4><i class="bi bi-question-circle"></i> Perguntas Frequentes</h4>
+              
+              <div class="accordion accordion-flush" id="faqAccordion">
+                <div class="accordion-item">
+                  <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                      Como alterar meu horário?
+                    </button>
+                  </h2>
+                  <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                      Você pode solicitar alteração de horário através deste formulário ou entrando em contato diretamente conosco.
+                    </div>
+                  </div>
+                </div>
+
+                <div class="accordion-item">
+                  <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                      Qual o prazo de resposta?
+                    </button>
+                  </h2>
+                  <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                      Geralmente respondemos em até 24 horas úteis. Mensagens urgentes são priorizadas.
+                    </div>
+                  </div>
+                </div>
+
+                <div class="accordion-item">
+                  <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                      Como cancelar uma aula?
+                    </button>
+                  </h2>
+                  <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                      Cancelamentos devem ser feitos com pelo menos 24h de antecedência. Entre em contato conosco o quanto antes.
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="mt-3 p-3 bg-light rounded">
+                <h6><i class="bi bi-clock-history"></i> Horário de atendimento</h6>
+                <p class="small mb-1"><strong>Segunda a Sexta:</strong> 8h às 20h</p>
+                <p class="small mb-0"><strong>Sábado:</strong> 9h às 14h</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="{% static 'paginas/js/script.js' %}"></script>
+  
+  <script>
+    // Contador de caracteres
+    const mensagemTextarea = document.getElementById('mensagem');
+    const charCount = document.getElementById('charCount');
+    
+    mensagemTextarea.addEventListener('input', function() {
+      const count = this.value.length;
+      charCount.textContent = count;
+      
+      // Mudar cor quando próximo do limite
+      if (count > 450) {
+        charCount.style.color = '#e53e3e';
+      } else if (count > 400) {
+        charCount.style.color = '#ed8936';
+      } else {
+        charCount.style.color = '#F56E1D';
+      }
+    });
+    
+    // Manipulação do formulário
+    const contactForm = document.getElementById('contactForm');
+    const successMessage = document.getElementById('successMessage');
+    
+    contactForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      // Validação
+      const assunto = document.getElementById('assunto').value;
+      const mensagem = document.getElementById('mensagem').value;
+      const urgente = document.getElementById('urgente').checked;
+      
+      if (!assunto || !mensagem) {
+        alert('Por favor, preencha todos os campos obrigatórios!');
+        return;
+      }
+      
+      // Desabilitar botão durante envio
+      const submitBtn = this.querySelector('button[type="submit"]');
+      const originalText = submitBtn.innerHTML;
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<i class="bi bi-hourglass-split"></i> Enviando...';
+      
+      // Enviar via AJAX
+      fetch('{% url "paginas:enviar_mensagem" %}', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': '{{ csrf_token }}'
+        },
+        body: JSON.stringify({
+          assunto: assunto,
+          mensagem: mensagem,
+          urgente: urgente
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          // Esconder formulário e mostrar mensagem de sucesso
+          contactForm.style.display = 'none';
+          successMessage.style.display = 'block';
+          
+          // Scroll suave até a mensagem
+          successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          
+          // Resetar formulário após alguns segundos
+          setTimeout(() => {
+            contactForm.reset();
+            contactForm.style.display = 'block';
+            successMessage.style.display = 'none';
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalText;
+            charCount.textContent = '0';
+          }, 5000);
+        } else {
+          alert('Erro ao enviar mensagem: ' + data.error);
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = originalText;
+        }
+      })
+      .catch(error => {
+        console.error('Erro:', error);
+        alert('Erro ao enviar mensagem. Tente novamente.');
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalText;
+      });
+    });
+    
+    // Animação de entrada para os cards
+    window.addEventListener('load', function() {
+      const cards = document.querySelectorAll('.contact-quick-card, .contact-form-card, .faq-card');
+      cards.forEach((card, index) => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px)';
+        
+        setTimeout(() => {
+          card.style.transition = 'all 0.5s ease';
+          card.style.opacity = '1';
+          card.style.transform = 'translateY(0)';
+        }, index * 100);
+      });
+    });
+    
+    // Efeito de hover nos botões de contato rápido
+    document.querySelectorAll('.contact-quick-card .btn').forEach(btn => {
+      btn.addEventListener('mouseenter', function() {
+        this.style.transform = 'scale(1.05)';
+      });
+      
+      btn.addEventListener('mouseleave', function() {
+        this.style.transform = 'scale(1)';
+      });
+    });
+    
+    // Feedback visual ao clicar nos links de contato
+    document.querySelectorAll('.contact-quick-card a').forEach(link => {
+      link.addEventListener('click', function(e) {
+        const card = this.closest('.contact-quick-card');
+        card.style.transform = 'scale(0.95)';
+        
+        setTimeout(() => {
+          card.style.transform = 'scale(1)';
+        }, 200);
+      });
+    });
+  </script>
+</body>
+</html>

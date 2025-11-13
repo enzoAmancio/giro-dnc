@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    {% load static %}
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>GIRO DNC - Painel do Aluno</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="{% static 'paginas/css/style.css' %}">
+</head>
+
+<body>
+  <header class="gd-topbar">
+    <div class="gd-logo-container">
+      <a href="{% url 'paginas:home' %}">
+        <img src="{% static 'paginas/img/Girologo.jpg' %}" alt="Logo Giro" class="gd-logo">
+      </a>
+    </div>
+    <div class="gd-topbar-content">
+      <span class="gd-pill">GIRO DNC</span>
+    </div>
+  </header>
+
+  <!-- Menu Sanduíche - FORA do header -->
+  <div class="sidebar-item">
+    <button id="sidebar-toggle" class="menu-sanduiche">
+      <i class="bi bi-list"></i>
+    </button>
+  </div>
+
+  <div class="gd-layout d-flex">
+    <!-- Sidebar Padronizado -->
+    {% with sidebar_section='painel' sidebar_active='painel_index' %}
+      {% include 'includes/sidebar.html' %}
+    {% endwith %}
+
+    <main class="gd-main">
+      <div>
+        <span>Olá,  {{ user.get_full_name|default:user.username }}</span>
+      </div>
+      <div class="conteudo">
+        <h1 class="gd-breadcrumb">Painel do aluno / Visão geral</h1>
+
+        <div class="dashboard-cards">
+          <!-- Próximas Aulas - Dinâmico -->
+          <div class="dashboard-card">
+            <div class="card-header">
+              <i class="bi bi-calendar3"></i>
+              <h3>Próximas Aulas</h3>
+            </div>
+            <div class="card-content">
+              {% if proximas_aulas %}
+                {% for aula in proximas_aulas %}
+                <div class="aula-item">
+                  <span class="aula-horario">{{ aula.hora_inicio|date:"H:i" }}</span>
+                  <div class="aula-info">
+                    <span class="aula-nome">{{ aula.turma.nome }}</span>
+                    <span class="aula-prof">{{ aula.data|date:"d/m/Y" }} - {{ aula.turma.modalidade }}</span>
+                  </div>
+                </div>
+                {% endfor %}
+              {% else %}
+                <div class="text-center text-muted py-3">
+                  <i class="bi bi-calendar-x" style="font-size: 2rem;"></i>
+                  <p class="mb-0 mt-2">Nenhuma aula programada</p>
+                </div>
+              {% endif %}
+            </div>
+          </div>
+
+          <!-- Avisos Importantes - Dinâmico -->
+          <div class="dashboard-card">
+            <div class="card-header">
+              <i class="bi bi-exclamation-triangle"></i>
+              <h3>Avisos Importantes</h3>
+            </div>
+            <div class="card-content">
+              {% if avisos_recentes %}
+                {% for aviso in avisos_recentes %}
+                <div class="aviso-item">
+                  <span class="aviso-data">{{ aviso.data_criacao|date:"d/m" }}</span>
+                  <span class="aviso-texto">
+                    {% if aviso.importante %}<strong>{% endif %}
+                    {{ aviso.titulo|truncatechars:50 }}
+                    {% if aviso.importante %}</strong>{% endif %}
+                  </span>
+                </div>
+                {% endfor %}
+              {% else %}
+                <div class="text-center text-muted py-3">
+                  <i class="bi bi-bell-slash" style="font-size: 2rem;"></i>
+                  <p class="mb-0 mt-2">Nenhum aviso recente</p>
+                </div>
+              {% endif %}
+            </div>
+          </div>
+
+          <!-- Financeiro - Dinâmico -->
+          <div class="dashboard-card">
+            <div class="card-header">
+              <i class="bi bi-credit-card"></i>
+              <h3>Financeiro</h3>
+            </div>
+            <div class="card-content">
+              {% if mensalidades_pendentes %}
+                {% for mensalidade in mensalidades_pendentes %}
+                <div class="financeiro-item">
+                  <span class="financeiro-status {% if mensalidade.status == 'PAGO' %}pago{% elif mensalidade.status == 'ATRASADO' %}atrasado{% else %}pendente{% endif %}">
+                    {{ mensalidade.get_status_display }}
+                  </span>
+                  <div class="financeiro-info">
+                    <span class="financeiro-mes">{{ mensalidade.mes_referencia|date:"F/Y" }}</span>
+                    <span class="financeiro-valor">R$ {{ mensalidade.valor_final|floatformat:2 }}</span>
+                  </div>
+                </div>
+                {% endfor %}
+              {% else %}
+                <div class="text-center text-muted py-3">
+                  <i class="bi bi-check-circle" style="font-size: 2rem; color: #10b981;"></i>
+                  <p class="mb-0 mt-2">Nenhuma pendência financeira</p>
+                </div>
+              {% endif %}
+            </div>
+          </div>
+
+          <!-- Frequência - Já está dinâmico -->
+          <div class="dashboard-card">
+            <div class="card-header">
+              <i class="bi bi-bar-chart"></i>
+              <h3>Frequência</h3>
+            </div>
+            <div class="card-content">
+              <div class="frequencia-stats">
+                <div class="stat-item">
+                  <span class="stat-numero">{{ total_aulas|default:0 }}</span>
+                  <span class="stat-label">Total de Aulas</span>
+                </div>
+                <div class="stat-item">
+                  <span class="stat-numero">{{ percentual_presenca|default:0 }}%</span>
+                  <span class="stat-label">Frequência</span>
+                </div>
+              </div>
+              <!-- Gráfico de Frequência -->
+              <div class="mt-3">
+                <canvas id="chartFrequencia" height="150"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Estatísticas Rápidas -->
+        {% if aluno %}
+        <div class="row mb-4">
+          <div class="col-md-3">
+            <div class="dashboard-card text-center">
+              <div class="card-content">
+                <i class="bi bi-calendar-check text-success" style="font-size: 2rem;"></i>
+                <h4 class="mt-2">{{ presencas|default:0 }}</h4>
+                <p class="text-muted mb-0">Presenças</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="dashboard-card text-center">
+              <div class="card-content">
+                <i class="bi bi-x-circle text-danger" style="font-size: 2rem;"></i>
+                <h4 class="mt-2">{{ faltas|default:0 }}</h4>
+                <p class="text-muted mb-0">Faltas</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="dashboard-card text-center">
+              <div class="card-content">
+                <i class="bi bi-currency-dollar text-warning" style="font-size: 2rem;"></i>
+                <h4 class="mt-2">{{ mensalidades_pendentes.count|default:0 }}</h4>
+                <p class="text-muted mb-0">Pendências</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="dashboard-card text-center">
+              <div class="card-content">
+                <i class="bi bi-envelope text-info" style="font-size: 2rem;"></i>
+                <h4 class="mt-2">{{ mensagens_nao_lidas|default:0 }}</h4>
+                <p class="text-muted mb-0">Mensagens</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+
+        <div class="calendario-section">
+          <div class="calendario-header">
+            <h3>Calendário de Aulas</h3>
+            <div class="calendario-nav">
+              <button id="prev-month" class="btn-nav">
+                <i class="bi bi-chevron-left"></i>
+              </button>
+              <span id="current-month"></span>
+              <button id="next-month" class="btn-nav">
+                <i class="bi bi-chevron-right"></i>
+              </button>
+            </div>
+          </div>
+          <div class="calendario-grid" id="calendario">
+            <!-- Calendário será gerado pelo JavaScript -->
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="{% static 'paginas/js/script.js' %}"></script>
+  
+  {% if aluno %}
+  <script>
+    // Gráfico de Frequência
+    fetch('{% url "paginas:grafico_frequencia" %}')
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          const ctx = document.getElementById('chartFrequencia');
+          if (ctx) {
+            new Chart(ctx, {
+              type: 'line',
+              data: {
+                labels: data.labels,
+                datasets: [
+                  {
+                    label: 'Presença (%)',
+                    data: data.presencas,
+                    borderColor: '#10b981',
+                    backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                  },
+                  {
+                    label: 'Faltas (%)',
+                    data: data.faltas,
+                    borderColor: '#ef4444',
+                    backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                  }
+                ]
+              },
+              options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                  legend: {
+                    display: true,
+                    position: 'top'
+                  },
+                  tooltip: {
+                    callbacks: {
+                      label: function(context) {
+                        return context.dataset.label + ': ' + context.parsed.y + '%';
+                      }
+                    }
+                  }
+                },
+                scales: {
+                  y: {
+                    beginAtZero: true,
+                    max: 100,
+                    ticks: {
+                      callback: function(value) {
+                        return value + '%';
+                      }
+                    }
+                  }
+                }
+              }
+            });
+          }
+        }
+      })
+      .catch(error => console.error('Erro ao carregar gráfico:', error));
+  </script>
+  {% endif %}
+</body>
+</html>

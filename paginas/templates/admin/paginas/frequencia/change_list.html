@@ -1,0 +1,13 @@
+{% extends "admin/change_list.html" %}
+{% load static %}
+
+{% block object-tools %}
+    {% if show_registrar_frequencia %}
+    <div style="margin-bottom: 15px;">
+        <a href="{% url 'admin:registrar_frequencia' %}" class="button" style="background: #417690; color: white; padding: 10px 20px; font-weight: bold; text-decoration: none; border-radius: 4px;">
+            ➕ Registrar Frequência por Aula
+        </a>
+    </div>
+    {% endif %}
+    {{ block.super }}
+{% endblock %}

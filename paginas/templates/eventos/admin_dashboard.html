@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    {% load static %}
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>GIRO DNC - Dashboard de Eventos (Admin)</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'paginas/css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'paginas/css/eventos.css' %}">
+</head>
+<body>
+  <header class="gd-topbar">
+    <div class="gd-logo-container">
+      <a href="{% url 'paginas:home' %}">
+        <img src="{% static 'paginas/img/Girologo.jpg' %}" alt="Logo Giro" class="gd-logo">
+      </a>
+    </div>
+    <div class="gd-topbar-content">
+      <span class="gd-pill">GIRO DNC - ADMIN</span>
+    </div>
+  </header>
+
+  <div class="container-fluid py-4">
+    <div class="row mb-4">
+      <div class="col-12">
+        <h1 class="display-5"><i class="bi bi-graph-up-arrow"></i> Dashboard de Eventos e Vendas</h1>
+        <p class="text-muted">Visão administrativa completa de todos os eventos e vendedores</p>
+        <hr>
+      </div>
+    </div>
+
+    <!-- Ranking Geral de Vendedores -->
+    <div class="row mb-5">
+      <div class="col-12">
+        <div class="card border-warning">
+          <div class="card-header bg-warning text-dark">
+            <h3 class="mb-0"><i class="bi bi-trophy"></i> Ranking Geral de Vendedores</h3>
+          </div>
+          <div class="card-body">
+            {% if ranking_geral %}
+              <div class="list-group">
+                {% for vendedor in ranking_geral %}
+                <div class="list-group-item ranking-item">
+                  <div class="row align-items-center">
+                    <div class="col-auto">
+                      {% if forloop.counter == 1 %}
+                        <span class="medal">🥇</span>
+                      {% elif forloop.counter == 2 %}
+                        <span class="medal">🥈</span>
+                      {% elif forloop.counter == 3 %}
+                        <span class="medal">🥉</span>
+                      {% else %}
+                        <span class="badge bg-secondary fs-5">{{ forloop.counter }}º</span>
+                      {% endif %}
+                    </div>
+                    <div class="col">
+                      <h5 class="mb-0">
+                        {{ vendedor.vendedor__first_name }} {{ vendedor.vendedor__last_name }}
+                        {% if not vendedor.vendedor__first_name %}{{ vendedor.vendedor__username }}{% endif %}
+                      </h5>
+                      <small class="text-muted">{{ vendedor.total_eventos }} evento(s)</small>
+                    </div>
+                    <div class="col-auto text-end">
+                      <div><strong class="fs-4 text-primary">{{ vendedor.total_ingressos }}</strong> <small>ingressos</small></div>
+                      <div><strong class="text-success">R$ {{ vendedor.total_comissao|floatformat:2 }}</strong> <small>em comissões</small></div>
+                    </div>
+                  </div>
+                </div>
+                {% endfor %}
+              </div>
+            {% else %}
+              <div class="alert alert-info mb-0">
+                <i class="bi bi-info-circle"></i> Nenhuma venda registrada ainda.
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Eventos e Vendedores -->
+    {% for item in eventos_stats %}
+    <div class="row mb-5">
+      <div class="col-12">
+        <div class="card evento-card-admin {% if item.percentual_meta >= 100 %}meta-atingida{% endif %}">
+          <div class="card-header evento-header {% if item.percentual_meta >= 100 %}evento-header-success{% else %}evento-header-primary{% endif %} text-white">
+            <div class="row align-items-center">
+              <div class="col">
+                <h3 class="mb-0"><i class="bi bi-calendar-event"></i> {{ item.evento.nome }}</h3>
+                <p class="mb-0">
+                  {{ item.evento.data_evento|date:"d/m/Y" }}
+                  {% if item.evento.hora_evento %} às {{ item.evento.hora_evento|time:"H:i" }}{% endif %}
+                  {% if item.evento.local %} | {{ item.evento.local }}{% endif %}
+                </p>
+              </div>
+              <div class="col-auto text-end">
+                <div><small>Valor do Ingresso:</small> <strong>R$ {{ item.evento.valor_ingresso|floatformat:2 }}</strong></div>
+                <div><small>Meta:</small> <strong>{{ item.evento.meta_vendas }} ingressos</strong></div>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <!-- Estatísticas do Evento -->
+            <div class="row mb-4">
+              <div class="col-md-4">
+                <div class="card border-primary">
+                  <div class="card-body text-center">
+                    <i class="bi bi-ticket-perforated display-4 text-primary"></i>
+                    <h3 class="mt-2">{{ item.total_vendido }} / {{ item.evento.meta_vendas }}</h3>
+                    <p class="text-muted mb-0">Ingressos Vendidos</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="card border-success">
+                  <div class="card-body text-center">
+                    <i class="bi bi-cash-stack display-4 text-success"></i>
+                    <h3 class="mt-2">R$ {{ item.total_arrecadado|floatformat:2 }}</h3>
+                    <p class="text-muted mb-0">Total Arrecadado</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="card border-info">
+                  <div class="card-body text-center">
+                    <i class="bi bi-percent display-4 text-info"></i>
+                    <h3 class="mt-2">{{ item.percentual_meta|floatformat:1 }}%</h3>
+                    <p class="text-muted mb-0">da Meta Atingida</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Barra de Progresso -->
+            <div class="evento-progress-container">
+              <div class="d-flex justify-content-between mb-1">
+                <strong>Progresso de Vendas</strong>
+                <span>{{ item.total_vendido }} / {{ item.evento.meta_vendas }} ({{ item.percentual_meta|floatformat:1 }}%)</span>
+              </div>
+              <div class="progress progress-eventos evento-progress-bar-30">
+                <div class="progress-bar {% if item.percentual_meta >= 100 %}bg-success{% elif item.percentual_meta >= 50 %}bg-warning{% else %}bg-danger{% endif %}" 
+                     role="progressbar" 
+                     style="width: {{ item.percentual_meta|default:0 }}%;">
+                  {{ item.percentual_meta|floatformat:0 }}%
+                </div>
+              </div>
+            </div>
+
+            <!-- Vendedores deste Evento -->
+            <h4 class="mb-3"><i class="bi bi-people"></i> Vendedores - {{ item.evento.nome }}</h4>
+            {% if item.vendedores %}
+              <div class="table-responsive">
+                <table class="table table-striped vendas-table vendas-table-hover">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Vendedor</th>
+                      <th>Qtd. Ingressos</th>
+                      <th>Valor Total</th>
+                      <th>Comissão</th>
+                      <th>Nº Vendas</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for vendedor in item.vendedores %}
+                    <tr class="vendedor-row">
+                      <td>{{ forloop.counter }}º</td>
+                      <td>
+                        <strong>
+                          {{ vendedor.vendedor__first_name }} {{ vendedor.vendedor__last_name }}
+                          {% if not vendedor.vendedor__first_name %}{{ vendedor.vendedor__username }}{% endif %}
+                        </strong>
+                      </td>
+                      <td><span class="badge bg-primary badge-vendas">{{ vendedor.total_ingressos }}</span></td>
+                      <td>R$ {% widthratio vendedor.total_ingressos 1 item.evento.valor_ingresso %}</td>
+                      <td><strong class="text-comissao">R$ {{ vendedor.total_comissao|floatformat:2 }}</strong></td>
+                      <td>{{ vendedor.total_vendas }}</td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            {% else %}
+              <div class="alert alert-info">
+                <i class="bi bi-info-circle"></i> Nenhuma venda registrada para este evento ainda.
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+
+    {% if not eventos_stats %}
+    <div class="row">
+      <div class="col-12">
+        <div class="alert alert-info">
+          <i class="bi bi-info-circle"></i> Nenhum evento cadastrado ainda.
+        </div>
+      </div>
+    </div>
+    {% endif %}
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

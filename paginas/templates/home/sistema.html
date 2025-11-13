@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Conheça o sistema de gestão completo da Giro - Gerencie sua empresa com eficiência, controle financeiro, alunos, turmas e muito mais.">
+    <title>Conheça nosso Sistema - Giro</title>
+    <link rel="stylesheet" href="{% static 'paginas/css/sistema.css' %}">
+    <link rel="stylesheet" href="{% static 'paginas/css/home.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <!-- Navegação -->
+    <nav class="navbar navbar-expand-lg navbar-dark navback">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'paginas:home' %}">
+                <img src="{% static 'paginas/img/Girologo.jpg' %}" alt="Giro Dance Logo" class="logo">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav flex-grow-1 align-items-center justify-content-center mb-2 mb-lg-0">
+                    <li class="nav-item mx-5">
+                        <a class="nav-link" href="{% url 'paginas:home' %}">Home</a>
+                    </li>
+                    <li class="nav-item mx-5">
+                        <a class="nav-link active" href="{% url 'paginas:sistema' %}">Conheça nosso sistema</a>
+                    </li>
+                    <li class="nav-item mx-5">
+                        <a class="nav-link" href="{% url 'paginas:home' %}#a">Sobre nós</a>
+                    </li>
+                    <li class="nav-item mx-5">
+                        <a class="nav-link" href="{% url 'paginas:home' %}#b">Contato</a>
+                    </li>
+
+                </ul>
+                <button class="btn btn-success btn-lg"><a href="{% url 'login:login' %}">Login</a></button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- CTA Flutuante -->
+    <div class="floating-cta" id="floatingCta">
+        <a href="#planos" class="cta-link">
+            <i class="fas fa-rocket"></i>
+            <span>Teste grátis 7 dias</span>
+        </a>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero-sistema">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <div class="hero-text" data-aos="fade-up">
+                <h1>Sistema de Gestão Completo para Sua Empresa</h1>
+                <p class="hero-subtitle">Controle total do seu negócio em uma única plataforma moderna, intuitiva e poderosa</p>
+                <div class="hero-badges">
+                    <div class="badge-item">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>Seguro e Confiável</span>
+                    </div>
+                    <div class="badge-item">
+                        <i class="fas fa-headset"></i>
+                        <span>Suporte Rápido</span>
+                    </div>
+                    <div class="badge-item">
+                        <i class="fas fa-mobile-alt"></i>
+                        <span>100% Responsivo</span>
+                    </div>
+                </div>
+                <div class="hero-cta-buttons">
+                    <a href="#planos" class="btn-primary-custom">Começar agora</a>
+                    <a href="#contato" class="btn-secondary-custom">Falar com consultor</a>
+                </div>
+            </div>
+        </div>
+        <a href="#funcionalidades" class="scroll-indicator">
+            <i class="fas fa-chevron-down"></i>
+        </a>
+    </section>
+
+    <!-- Funcionalidades do Sistema -->
+    <section class="funcionalidades" id="funcionalidades">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2>Tudo que você precisa em um só lugar</h2>
+                <p>Um sistema completo desenvolvido para otimizar a gestão do seu negócio</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Gestão de Alunos</h3>
+                    <p>Controle completo de cadastros, documentos, histórico e comunicação com alunos</p>
+                </div>
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="150">
+                    <div class="feature-icon">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                    </div>
+                    <h3>Gerenciamento de Turmas</h3>
+                    <p>Organize turmas, horários, aulas e professores de forma eficiente</p>
+                </div>
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Controle Financeiro</h3>
+                    <p>Mensalidades, extratos, relatórios financeiros e gestão de despesas</p>
+                </div>
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="250">
+                    <div class="feature-icon">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <h3>Controle de Frequência</h3>
+                    <p>Registre e monitore a presença dos alunos em tempo real</p>
+                </div>
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="feature-icon">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                    <h3>Comunicação Integrada</h3>
+                    <p>Avisos, mensagens, notificações e chat interno</p>
+                </div>
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="350">
+                    <div class="feature-icon">
+                        <i class="fas fa-ticket-alt"></i>
+                    </div>
+                    <h3>Gestão de Eventos</h3>
+                    <p>Crie eventos, venda ingressos e gerencie participantes</p>
+                </div>
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="400">
+                    <div class="feature-icon">
+                        <i class="fas fa-video"></i>
+                    </div>
+                    <h3>Sistema de Vídeos</h3>
+                    <p>Plataforma completa para upload e compartilhamento de aulas gravadas</p>
+                </div>
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="450">
+                    <div class="feature-icon">
+                        <i class="fas fa-user-shield"></i>
+                    </div>
+                    <h3>Painel Administrativo</h3>
+                    <p>Dashboard completo com métricas, relatórios e controle total</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção de Planos -->
+    <section class="planos" id="planos">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2>Escolha o plano ideal para seu negócio</h2>
+                <p>Todos os planos incluem 7 dias de teste gratuito • Sem taxa de instalação • Cancele quando quiser</p>
+            </div>
+            <div class="planos-grid">
+                <!-- Plano Básico -->
+                <div class="plano-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="plano-header">
+                        <h3>Básico</h3>
+                        <div class="plano-price">
+                            <span class="currency">R$</span>
+                            <span class="value">97</span>
+                            <span class="period">/mês</span>
+                        </div>
+                        <p class="plano-subtitle">Ideal para quem está começando</p>
+                    </div>
+                    <div class="plano-features">
+                        <ul>
+                            <li><i class="fas fa-check"></i> Até 50 alunos cadastrados</li>
+                            <li><i class="fas fa-check"></i> Gestão de turmas e aulas</li>
+                            <li><i class="fas fa-check"></i> Controle de frequência</li>
+                            <li><i class="fas fa-check"></i> Painel do aluno</li>
+                            <li><i class="fas fa-check"></i> Avisos e comunicados</li>
+                            <li><i class="fas fa-check"></i> Controle financeiro básico</li>
+                            <li><i class="fas fa-check"></i> Suporte por email</li>
+                            <li class="unavailable"><i class="fas fa-times"></i> Sistema de vídeos</li>
+                            <li class="unavailable"><i class="fas fa-times"></i> Gestão de eventos</li>
+                        </ul>
+                    </div>
+                    <div class="plano-actions">
+                        <button class="btn-plano btn-outline" onclick="iniciarTeste('basico')">Testar 7 dias grátis</button>
+                        <button class="btn-plano btn-solid" onclick="assinarPlano('basico')">Assinar agora</button>
+                    </div>
+                </div>
+
+                <!-- Plano Intermediário -->
+                <div class="plano-card featured" data-aos="fade-up" data-aos-delay="150">
+                    <div class="popular-badge">Mais popular</div>
+                    <div class="plano-header">
+                        <h3>Intermediário</h3>
+                        <div class="plano-price">
+                            <span class="currency">R$</span>
+                            <span class="value">197</span>
+                            <span class="period">/mês</span>
+                        </div>
+                        <p class="plano-subtitle">Perfeito para empresas em crescimento</p>
+                    </div>
+                    <div class="plano-features">
+                        <ul>
+                            <li><i class="fas fa-check"></i> Até 200 alunos cadastrados</li>
+                            <li><i class="fas fa-check"></i> Gestão completa de turmas</li>
+                            <li><i class="fas fa-check"></i> Controle de frequência avançado</li>
+                            <li><i class="fas fa-check"></i> Painel do aluno personalizado</li>
+                            <li><i class="fas fa-check"></i> Sistema de comunicação completo</li>
+                            <li><i class="fas fa-check"></i> Controle financeiro completo</li>
+                            <li><i class="fas fa-check"></i> Sistema de vídeos (até 50GB)</li>
+                            <li><i class="fas fa-check"></i> Gestão de eventos e ingressos</li>
+                            <li><i class="fas fa-check"></i> Suporte prioritário</li>
+                            <li><i class="fas fa-check"></i> Relatórios avançados</li>
+                        </ul>
+                    </div>
+                    <div class="plano-actions">
+                        <button class="btn-plano btn-outline" onclick="iniciarTeste('intermediario')">Testar 7 dias grátis</button>
+                        <button class="btn-plano btn-solid featured-btn" onclick="assinarPlano('intermediario')">Assinar agora</button>
+                    </div>
+                </div>
+
+                <!-- Plano Pro -->
+                <div class="plano-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="plano-header">
+                        <h3>Pro</h3>
+                        <div class="plano-price">
+                            <span class="currency">R$</span>
+                            <span class="value">397</span>
+                            <span class="period">/mês</span>
+                        </div>
+                        <p class="plano-subtitle">Solução completa e ilimitada</p>
+                    </div>
+                    <div class="plano-features">
+                        <ul>
+                            <li><i class="fas fa-check"></i> Alunos ilimitados</li>
+                            <li><i class="fas fa-check"></i> Turmas e aulas ilimitadas</li>
+                            <li><i class="fas fa-check"></i> Todos os recursos Intermediário</li>
+                            <li><i class="fas fa-check"></i> Sistema de vídeos ilimitado</li>
+                            <li><i class="fas fa-check"></i> API para integrações</li>
+                            <li><i class="fas fa-check"></i> Personalização de marca</li>
+                            <li><i class="fas fa-check"></i> Relatórios personalizados</li>
+                            <li><i class="fas fa-check"></i> Suporte VIP 24/7</li>
+                            <li><i class="fas fa-check"></i> Treinamento da equipe</li>
+                            <li><i class="fas fa-check"></i> Backup automático diário</li>
+                        </ul>
+                    </div>
+                    <div class="plano-actions">
+                        <button class="btn-plano btn-outline" onclick="iniciarTeste('pro')">Testar 7 dias grátis</button>
+                        <button class="btn-plano btn-solid" onclick="assinarPlano('pro')">Assinar agora</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Informações adicionais -->
+            <div class="planos-info" data-aos="fade-up">
+                <div class="info-item">
+                    <i class="fas fa-lock"></i>
+                    <span>Sem taxas ocultas</span>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-sync"></i>
+                    <span>Cancelamento fácil</span>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>Dados seguros</span>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-headset"></i>
+                    <span>Suporte dedicado</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Depoimentos -->
+    <section class="depoimentos" id="depoimentos">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2>O que nossos clientes dizem</h2>
+                <p>Empresas que transformaram sua gestão com nosso sistema</p>
+            </div>
+            <div class="depoimentos-grid">
+                <div class="depoimento-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="depoimento-stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="depoimento-text">"O sistema revolucionou a forma como gerenciamos nossa escola de dança. A organização financeira e o controle de alunos ficaram muito mais eficientes. Recomendo!"</p>
+                    <div class="depoimento-autor">
+                        <div class="autor-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="autor-info">
+                            <h4>Maria Silva</h4>
+                            <p>Diretora - Escola de Dança Movimento</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="depoimento-card" data-aos="fade-up" data-aos-delay="150">
+                    <div class="depoimento-stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="depoimento-text">"Implementamos o sistema há 6 meses e a economia de tempo foi impressionante. O painel do aluno foi muito bem recebido pelos nossos clientes. Excelente investimento!"</p>
+                    <div class="depoimento-autor">
+                        <div class="autor-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="autor-info">
+                            <h4>João Santos</h4>
+                            <p>Proprietário - Academia FitPro</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="depoimento-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="depoimento-stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="depoimento-text">"A personalização do sistema atendeu perfeitamente nossas necessidades. O suporte é rápido e eficiente. Melhor decisão que tomamos para nossa empresa!"</p>
+                    <div class="depoimento-autor">
+                        <div class="autor-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="autor-info">
+                            <h4>Ana Oliveira</h4>
+                            <p>Gestora - Studio de Artes Criativa</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção Sob Medida / Contato com Consultor -->
+    <section class="sob-medida" id="contato">
+        <div class="container">
+            <div class="sob-medida-content">
+                <div class="sob-medida-text" data-aos="fade-right">
+                    <h2>Quer algo sob medida?</h2>
+                    <p class="subtitle">Nossos consultores estão prontos para criar uma solução personalizada para o seu negócio</p>
+                    <div class="sob-medida-benefits">
+                        <div class="benefit-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Análise gratuita das suas necessidades</span>
+                        </div>
+                        <div class="benefit-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Desenvolvimento personalizado</span>
+                        </div>
+                        <div class="benefit-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Integração com sistemas existentes</span>
+                        </div>
+                        <div class="benefit-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Suporte dedicado durante todo o processo</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sob-medida-form" data-aos="fade-left">
+                    <form id="contatoForm" class="contato-form">
+                        <h3>Fale com um consultor</h3>
+                        <p>Preencha o formulário e retornaremos em até 24 horas</p>
+                        
+                        <div class="form-group">
+                            <label for="nome">Nome completo *</label>
+                            <input type="text" id="nome" name="nome" required placeholder="Seu nome">
+                            <span class="error-message"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">E-mail *</label>
+                            <input type="email" id="email" name="email" required placeholder="seu@email.com">
+                            <span class="error-message"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="telefone">Telefone *</label>
+                            <input type="tel" id="telefone" name="telefone" required placeholder="(00) 00000-0000">
+                            <span class="error-message"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="empresa">Nome da empresa</label>
+                            <input type="text" id="empresa" name="empresa" placeholder="Sua empresa (opcional)">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="mensagem">Descreva seu projeto *</label>
+                            <textarea id="mensagem" name="mensagem" required rows="5" placeholder="Conte-nos sobre suas necessidades e expectativas..."></textarea>
+                            <span class="error-message"></span>
+                        </div>
+
+                        <button type="submit" class="btn-submit">
+                            <i class="fas fa-paper-plane"></i>
+                            <span>Enviar mensagem</span>
+                        </button>
+
+                        <div class="form-feedback success" id="successMessage">
+                            <i class="fas fa-check-circle"></i>
+                            <p>Mensagem enviada com sucesso! Entraremos em contato em breve.</p>
+                        </div>
+
+                        <div class="form-feedback error" id="errorMessage">
+                            <i class="fas fa-exclamation-circle"></i>
+                            <p>Erro ao enviar mensagem. Tente novamente ou entre em contato por email.</p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Final -->
+    <section class="cta-final">
+        <div class="container">
+            <div class="cta-final-content" data-aos="zoom-in">
+                <h2>Pronto para transformar sua gestão?</h2>
+                <p>Comece agora mesmo com 7 dias de teste gratuito. Sem cartão de crédito necessário.</p>
+                <div class="cta-buttons">
+                    <a href="#planos" class="btn-primary-custom">Iniciar teste gratuito</a>
+                    <a href="#contato" class="btn-secondary-custom">Falar com consultor</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <nav class="navbar navbar-expand-lg navbar-dark navback">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'paginas:home' %}">
+                <img src="{% static 'paginas/img/Girologo.jpg' %}" alt="Giro Dance Logo" class="logo">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavFooter"
+                aria-controls="navbarNavFooter" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavFooter">
+                <ul class="navbar-nav flex-grow-1 justify-content-center mb-2 mb-lg-0">
+                    <li class="nav-item mx-5">
+                        <a class="nav-link" href="{% url 'paginas:home' %}">Home</a>
+                    </li>
+                    <li class="nav-item mx-5">
+                        <a class="nav-link" href="{% url 'paginas:sistema' %}">Conheça nosso sistema</a>
+                    </li>
+                    <li class="nav-item mx-5">
+                        <a class="nav-link" href="{% url 'paginas:home' %}#a">Sobre nós</a>
+                    </li>
+                    <li class="nav-item mx-5">
+                        <a class="nav-link" href="{% url 'paginas:home' %}#b">Contato</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="{% static 'paginas/js/sistema.js' %}"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+</body>
+</html>

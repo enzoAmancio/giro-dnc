@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Erro CSRF - GIRO DNC</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .error-container {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            max-width: 600px;
+            text-align: center;
+        }
+        h1 {
+            color: #e74c3c;
+            margin-bottom: 20px;
+        }
+        p {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        .btn {
+            display: inline-block;
+            background-color: #3498db;
+            color: white;
+            padding: 12px 30px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+        }
+        .btn:hover {
+            background-color: #2980b9;
+        }
+        .debug-info {
+            background-color: #ecf0f1;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+            text-align: left;
+            font-size: 12px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        <h1>⚠️ Erro de Verificação CSRF</h1>
+        <p><strong>Sua solicitação não pôde ser processada por motivos de segurança.</strong></p>
+        <p>Isso geralmente acontece quando:</p>
+        <ul style="text-align: left; color: #555;">
+            <li>Você ficou muito tempo na página de login sem usar</li>
+            <li>Os cookies do navegador foram bloqueados</li>
+            <li>Há um problema com a configuração de segurança</li>
+        </ul>
+        
+        <div class="debug-info">
+            <strong>Informações de Debug:</strong><br>
+            Referer: {{ request.META.HTTP_REFERER|default:"Não disponível" }}<br>
+            Origin: {{ request.META.HTTP_ORIGIN|default:"Não disponível" }}<br>
+            Host: {{ request.get_host }}<br>
+            Path: {{ request.path }}<br>
+        </div>
+
+        <a href="{% url 'login:login' %}" class="btn">🔄 Tentar Novamente</a>
+        
+        <p style="margin-top: 30px; font-size: 12px; color: #999;">
+            Se o problema persistir, tente:<br>
+            • Limpar os cookies do navegador<br>
+            • Usar o navegador em modo anônimo/privado<br>
+            • Verificar se cookies estão habilitados
+        </p>
+    </div>
+</body>
+</html>

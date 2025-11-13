@@ -1,0 +1,165 @@
+{% load static %}
+<aside class="gd-sidebar d-flex flex-column">
+  <nav class="gd-nav flex-grow-1">
+    <div class="sidebar-item">
+      <button id="sidebar-toggle" class="menu-sanduiche">
+        <i class="bi bi-list"></i>
+      </button>
+    </div>
+    <div class="accordion" id="sidebarAccordion">
+      <ul>
+        <!-- Voltar ao Painel -->
+        <li>
+          <a href="{% url 'paginas:painel_index' %}" class="btn-toggle sidebar-option">
+            <i class="bi bi-arrow-left-circle"></i>
+            <span>Voltar ao Painel</span>
+          </a>
+        </li>
+
+        <!-- Dashboard Admin -->
+        <li>
+          <a href="{% url 'paginas:admin_dashboard' %}" class="btn-toggle sidebar-option">
+            <i class="bi bi-speedometer"></i>
+            <span>Dashboard</span>
+          </a>
+        </li>
+
+        <!-- Gestão de Pessoas -->
+        <li>
+          <div class="gd-submenu mb-2">
+            <button class="btn-toggle sidebar-option" data-bs-toggle="collapse" data-bs-target="#collapsePessoas">
+              <i class="bi bi-people-fill"></i>
+              <span>Pessoas</span>
+              <i class="bi bi-chevron-down ms-auto"></i>
+            </button>
+            <div class="collapse" id="collapsePessoas" data-bs-parent="#sidebarAccordion">
+              <div class="sidebar-option-container">
+                <a href="{% url 'paginas:admin_alunos' %}" class="nav-link sidebar-option">
+                  <i class="bi bi-person-badge"></i>
+                  <span>Alunos</span>
+                </a>
+                <a href="{% url 'paginas:admin_professores' %}" class="nav-link sidebar-option">
+                  <i class="bi bi-person-video3"></i>
+                  <span>Professores</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </li>
+
+        <!-- Acadêmico -->
+        <li>
+          <div class="gd-submenu mb-2">
+            <button class="btn-toggle sidebar-option" data-bs-toggle="collapse" data-bs-target="#collapseAcademico">
+              <i class="bi bi-journal-bookmark-fill"></i>
+              <span>Acadêmico</span>
+              <i class="bi bi-chevron-down ms-auto"></i>
+            </button>
+            <div class="collapse" id="collapseAcademico" data-bs-parent="#sidebarAccordion">
+              <div class="sidebar-option-container">
+                <a href="{% url 'paginas:admin_turmas' %}" class="nav-link sidebar-option">
+                  <i class="bi bi-collection"></i>
+                  <span>Turmas</span>
+                </a>
+                <a href="{% url 'paginas:admin_aulas' %}" class="nav-link sidebar-option">
+                  <i class="bi bi-calendar-week"></i>
+                  <span>Aulas</span>
+                </a>
+                <a href="{% url 'paginas:admin_frequencia' %}" class="nav-link sidebar-option">
+                  <i class="bi bi-clipboard-check"></i>
+                  <span>Frequência</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </li>
+
+        <!-- Financeiro -->
+        <li>
+          <div class="gd-submenu mb-2">
+            <button class="btn-toggle sidebar-option" data-bs-toggle="collapse" data-bs-target="#collapseFinanceiroAdmin">
+              <i class="bi bi-cash-stack"></i>
+              <span>Financeiro</span>
+              <i class="bi bi-chevron-down ms-auto"></i>
+            </button>
+            <div class="collapse" id="collapseFinanceiroAdmin" data-bs-parent="#sidebarAccordion">
+              <div class="sidebar-option-container">
+                <a href="{% url 'paginas:admin_mensalidades' %}" class="nav-link sidebar-option">
+                  <i class="bi bi-currency-dollar"></i>
+                  <span>Mensalidades</span>
+                </a>
+                <a href="{% url 'paginas:admin_relatorio_financeiro' %}" class="nav-link sidebar-option">
+                  <i class="bi bi-graph-up"></i>
+                  <span>Relatórios</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </li>
+
+        <!-- Eventos -->
+        <li>
+          <div class="gd-submenu mb-2">
+            <button class="btn-toggle sidebar-option" data-bs-toggle="collapse" data-bs-target="#collapseEventos">
+              <i class="bi bi-calendar-event"></i>
+              <span>Eventos</span>
+              <i class="bi bi-chevron-down ms-auto"></i>
+            </button>
+            <div class="collapse" id="collapseEventos" data-bs-parent="#sidebarAccordion">
+              <div class="sidebar-option-container">
+                <a href="{% url 'paginas:admin_eventos' %}" class="nav-link sidebar-option">
+                  <i class="bi bi-ticket-perforated"></i>
+                  <span>Gerenciar Eventos</span>
+                </a>
+                <a href="{% url 'paginas:vendas_ingressos' %}" class="nav-link sidebar-option">
+                  <i class="bi bi-graph-up-arrow"></i>
+                  <span>Ingressos Vendidos</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </li>
+
+        <!-- Comunicação -->
+        <li>
+          <div class="gd-submenu mb-2">
+            <button class="btn-toggle sidebar-option" data-bs-toggle="collapse" data-bs-target="#collapseComunicacaoAdmin">
+              <i class="bi bi-megaphone-fill"></i>
+              <span>Comunicação</span>
+              <i class="bi bi-chevron-down ms-auto"></i>
+            </button>
+            <div class="collapse" id="collapseComunicacaoAdmin" data-bs-parent="#sidebarAccordion">
+              <div class="sidebar-option-container">
+                <a href="{% url 'paginas:admin_avisos' %}" class="nav-link sidebar-option">
+                  <i class="bi bi-bell-fill"></i>
+                  <span>Avisos</span>
+                </a>
+                <a href="{% url 'paginas:admin_mensagens' %}" class="nav-link sidebar-option">
+                  <i class="bi bi-chat-left-text"></i>
+                  <span>Mensagens</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </li>
+
+        <!-- Django Admin -->
+        <li>
+          <a href="/admin/" target="_blank" class="btn-toggle sidebar-option">
+            <i class="bi bi-gear-fill"></i>
+            <span>Django Admin</span>
+            <i class="bi bi-box-arrow-up-right ms-auto"></i>
+          </a>
+        </li>
+
+        <!-- Logout -->
+        <li>
+          <a href="{% url 'paginas:logout' %}" class="btn-toggle sidebar-option">
+            <i class="bi bi-box-arrow-right"></i>
+            <span>Sair</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</aside>

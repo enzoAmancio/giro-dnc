@@ -1,0 +1,114 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block title %}Registrar Frequência{% endblock %}
+
+{% block extrastyle %}
+{{ block.super }}
+<style>
+    .aula-card {
+        background: white;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 15px;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+    
+    .aula-card:hover {
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        transform: translateY(-2px);
+        border-color: #417690;
+    }
+    
+    .aula-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+    
+    .aula-data {
+        font-size: 18px;
+        font-weight: bold;
+        color: #417690;
+    }
+    
+    .aula-turma {
+        background: #417690;
+        color: white;
+        padding: 5px 15px;
+        border-radius: 20px;
+        font-size: 14px;
+    }
+    
+    .aula-detalhes {
+        color: #666;
+        font-size: 14px;
+        margin-top: 10px;
+    }
+    
+    .aula-tema {
+        font-weight: 500;
+        color: #333;
+        margin-bottom: 5px;
+    }
+    
+    .sem-aulas {
+        text-align: center;
+        padding: 40px;
+        color: #999;
+    }
+</style>
+{% endblock %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+    <a href="{% url 'admin:index' %}">Home</a>
+    &rsaquo; <a href="{% url 'admin:paginas_frequencia_changelist' %}">Frequências</a>
+    &rsaquo; Registrar Frequência
+</div>
+{% endblock %}
+
+{% block content %}
+<h1>Selecione a Aula para Registrar Frequência</h1>
+
+{% if aulas %}
+    <div class="aulas-container">
+        {% for aula in aulas %}
+        <a href="{% url 'admin:registrar_frequencia_aula' aula.id %}" style="text-decoration: none; color: inherit;">
+            <div class="aula-card">
+                <div class="aula-header">
+                    <div class="aula-data">
+                        📅 {{ aula.data|date:"d/m/Y (l)" }} - {{ aula.horario_inicio|time:"H:i" }}
+                    </div>
+                    <div class="aula-turma">
+                        {{ aula.turma.nome }}
+                    </div>
+                </div>
+                <div class="aula-tema">
+                    {{ aula.tema }}
+                </div>
+                <div class="aula-detalhes">
+                    👥 {{ aula.turma.alunos.count }} aluno(s) matriculado(s)
+                    {% if aula.frequencias.count > 0 %}
+                        | ✅ Frequência já registrada ({{ aula.frequencias.count }} registro(s))
+                    {% else %}
+                        | ⚠️ Frequência não registrada
+                    {% endif %}
+                </div>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="sem-aulas">
+        <p>Nenhuma aula encontrada nos últimos 30 dias.</p>
+    </div>
+{% endif %}
+
+<div style="margin-top: 20px;">
+    <a href="{% url 'admin:paginas_frequencia_changelist' %}" class="button">« Voltar para lista de frequências</a>
+</div>
+{% endblock %}

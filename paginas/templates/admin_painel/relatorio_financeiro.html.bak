@@ -1,0 +1,60 @@
+{% extends 'admin_painel/base_admin.html' %}
+
+{% block title %}Relatório Financeiro - GIRO DNC{% endblock %}
+{% block page_title %}Relatório Financeiro{% endblock %}
+
+{% block content %}
+<div class="admin-header">
+  <h1><i class="bi bi-graph-up-arrow me-2"></i>Relatório Financeiro</h1>
+  <p class="mb-0">Visão geral das finanças</p>
+</div>
+
+<div class="row g-4 mb-4">
+  <div class="col-md-3">
+    <div class="stat-box stat-success">
+      <i class="bi bi-cash-coin"></i>
+      <h3>R$ {{ receita_total|floatformat:2 }}</h3>
+      <p>Receita Total</p>
+    </div>
+  </div>
+  
+  <div class="col-md-3">
+    <div class="stat-box stat-info">
+      <i class="bi bi-calendar-month"></i>
+      <h3>R$ {{ receita_mes|floatformat:2 }}</h3>
+      <p>Receita do Mês</p>
+    </div>
+  </div>
+  
+  <div class="col-md-3">
+    <div class="stat-box stat-danger">
+      <i class="bi bi-exclamation-triangle"></i>
+      <h3>R$ {{ inadimplencia|floatformat:2 }}</h3>
+      <p>Inadimplência</p>
+    </div>
+  </div>
+  
+  <div class="col-md-3">
+    <div class="stat-box stat-warning">
+      <i class="bi bi-hourglass-split"></i>
+      <h3>R$ {{ pendentes|floatformat:2 }}</h3>
+      <p>Pendentes</p>
+    </div>
+  </div>
+</div>
+
+<div class="admin-card">
+  <h3 class="mb-3">Ações Rápidas</h3>
+  <div class="d-flex gap-3">
+    <a href="{% url 'paginas:admin_mensalidades' %}?status=ATRASADO" class="btn btn-danger">
+      <i class="bi bi-exclamation-circle me-2"></i>Ver Mensalidades Atrasadas
+    </a>
+    <a href="{% url 'paginas:admin_mensalidades' %}?status=PENDENTE" class="btn btn-warning">
+      <i class="bi bi-clock me-2"></i>Ver Mensalidades Pendentes
+    </a>
+    <a href="/admin/paginas/mensalidade/" class="btn btn-admin">
+      <i class="bi bi-list-ul me-2"></i>Ver Todas
+    </a>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends "admin/change_list.html" %}
+{% load static %}
+
+{% block extrastyle %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'paginas/css/eventos.css' %}">
+{% endblock %}
+
+{% block content_title %}
+    <h1>{{ title }}</h1>
+    
+    {% if total_videos > 0 %}
+    <div class="module video-stats-container">
+        <h2>📹 Estatísticas de Vídeos</h2>
+        <div class="video-stats-grid">
+            <div class="video-stat-card">
+                <div class="video-stat-value">{{ total_videos }}</div>
+                <div class="video-stat-label">Total de Vídeos</div>
+            </div>
+            <div class="video-stat-card">
+                <div class="video-stat-value success">{{ tamanho_total_mb|floatformat:0 }} MB</div>
+                <div class="video-stat-label">Espaço Utilizado ({{ tamanho_total_gb|floatformat:2 }} GB)</div>
+            </div>
+            <div class="video-stat-card">
+                <div class="video-stat-value {% if videos_antigos > 0 %}warning{% else %}success{% endif %}">{{ videos_antigos }}</div>
+                <div class="video-stat-label">Vídeos Antigos (>30 dias)</div>
+            </div>
+        </div>
+        {% if videos_antigos > 0 %}
+        <div class="video-stats-tip">
+            <strong>💡 Dica:</strong> Execute <code>python manage.py limpar_videos_antigos</code> para liberar espaço no servidor.
+        </div>
+        {% endif %}
+    </div>
+    {% endif %}
+{% endblock %}
