@@ -24,6 +24,7 @@ from openpyxl import Workbook
 from openpyxl.styles import Font, Alignment, PatternFill, Border, Side
 from openpyxl.utils import get_column_letter
 import mercadopago
+from chat.models import Room
 
 # Home Page
 def home_view(request):
@@ -1269,8 +1270,6 @@ def admin_eventos_dashboard(request):
     
     return render(request, 'eventos/admin_dashboard.html', context)
 
-
-# API - Envio de email do formulário "Fale com Consultor"
 @require_http_methods(["POST"])
 def contato_consultor(request):
     """Envia email do formulário de contato da página do sistema"""
@@ -2104,3 +2103,8 @@ def exportar_despesas_admin_excel(request):
     return response
 
 
+=======
+@login_required
+def chat_view(request, slug="geral"):
+    room, _ = Room.objects.get_or_create(name=slug)
+    return render(request, "painel/chat.html", {"room": room})
