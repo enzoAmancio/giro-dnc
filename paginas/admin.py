@@ -57,7 +57,7 @@ class AlunoAdmin(admin.ModelAdmin):
     )
     
     def get_nome_completo(self, obj):
-        return obj.usuario.get_full_name()
+        return obj.usuario.get_full_name() or obj.usuario.username
     get_nome_completo.short_description = 'Nome Completo'
 
 

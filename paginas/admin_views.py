@@ -27,6 +27,9 @@ def admin_dashboard(request):
     mes_atual = hoje.month
     ano_atual = hoje.year
     
+    # Pegar filtro de receita (padrão: data_pagamento)
+    filtro_receita = request.GET.get('filtro_receita', 'data_pagamento')
+    
     # Estatísticas principais
     total_alunos = Aluno.objects.filter(ativo=True).count()
     total_turmas = Turma.objects.filter(ativa=True).count()
@@ -37,12 +40,19 @@ def admin_dashboard(request):
         data__lte=hoje + timedelta(days=7)
     ).count()
     
-    # Receita do mês
-    receita_mes = Mensalidade.objects.filter(
-        mes_referencia__month=mes_atual,
-        mes_referencia__year=ano_atual,
-        status='PAGO'
-    ).aggregate(total=Sum('valor_final'))['total'] or 0
+    # Receita do mês (baseado no filtro selecionado)
+    if filtro_receita == 'mes_referencia':
+        receita_mes = Mensalidade.objects.filter(
+            mes_referencia__month=mes_atual,
+            mes_referencia__year=ano_atual,
+            status='PAGO'
+        ).aggregate(total=Sum('valor_final'))['total'] or 0
+    else:  # data_pagamento
+        receita_mes = Mensalidade.objects.filter(
+            data_pagamento__month=mes_atual,
+            data_pagamento__year=ano_atual,
+            status='PAGO'
+        ).aggregate(total=Sum('valor_final'))['total'] or 0
     
     # Mensalidades atrasadas
     mensalidades_atrasadas = Mensalidade.objects.filter(
@@ -68,11 +78,20 @@ def admin_dashboard(request):
             ano -= 1
         
         receita_labels.append(f"{meses_pt[mes-1]}/{str(ano)[2:]}")
-        valor = Mensalidade.objects.filter(
-            mes_referencia__month=mes,
-            mes_referencia__year=ano,
-            status='PAGO'
-        ).aggregate(total=Sum('valor_final'))['total'] or 0
+        
+        if filtro_receita == 'mes_referencia':
+            valor = Mensalidade.objects.filter(
+                mes_referencia__month=mes,
+                mes_referencia__year=ano,
+                status='PAGO'
+            ).aggregate(total=Sum('valor_final'))['total'] or 0
+        else:  # data_pagamento
+            valor = Mensalidade.objects.filter(
+                data_pagamento__month=mes,
+                data_pagamento__year=ano,
+                status='PAGO'
+            ).aggregate(total=Sum('valor_final'))['total'] or 0
+        
         receita_valores.append(float(valor))
     
     # Status de mensalidades
@@ -106,6 +125,7 @@ def admin_dashboard(request):
         'mens_pagas': mens_pagas,
         'mens_pendentes': mens_pendentes,
         'mens_atrasadas': mens_atrasadas,
+        'filtro_receita': filtro_receita,
     }
     
     return render(request, 'admin_painel/dashboard.html', context)

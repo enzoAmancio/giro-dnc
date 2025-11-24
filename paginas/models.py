@@ -100,7 +100,8 @@ class Aluno(models.Model):
         ordering = ['usuario__first_name', 'usuario__last_name']
     
     def __str__(self):
-        return f"{self.usuario.get_full_name()} - {self.cpf}"
+        nome = self.usuario.get_full_name() or self.usuario.username
+        return f"{nome} - {self.cpf}"
 
 
 class HorarioAula(models.Model):

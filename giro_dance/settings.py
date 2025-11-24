@@ -12,9 +12,20 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 import os
+import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+env = environ.Env()
+
+# Caminho para o arquivo .env
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+
+# MERCADO PAGO
+MP_PUBLIC_KEY = env("MP_PUBLIC_KEY")
+MP_ACCESS_TOKEN = env("MP_ACCESS_TOKEN")
+MP_WEBHOOK_URL = env("MP_WEBHOOK_URL")
 
 
 # Quick-start development settings - unsuitable for production
@@ -30,10 +41,14 @@ SECRET_KEY = "django-insecure-p6y9^dgkmyasld_c9=3i%()%x#f#k@++odxqap3@-dj)m0jui6
 # Use: DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 DEBUG = True
 
-ALLOWED_HOSTS = ['129.146.67.23','localhost', 'girodnc.qzz.io','127.0.0.1']
+ALLOWED_HOSTS = ['129.146.67.23','localhost', 'girodnc.qzz.io','127.0.0.1', 'catherin-postoptic-noncontemporaneously.ngrok-free.dev']
 
 STATIC_URL = '/static/'
 # Application definition
+
+API_EXPORT_TOKEN = os.environ.get("API_EXPORT_TOKEN")
+
+
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -105,6 +120,7 @@ CSRF_TRUSTED_ORIGINS = [
     "http://girodnc.qzz.io",
     "http://129.146.67.23",
     "https://129.146.67.23",
+    "https://catherin-postoptic-noncontemporaneously.ngrok-free.dev",
 ]
 
 # Configurações adicionais de CSRF

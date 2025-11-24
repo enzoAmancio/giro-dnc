@@ -2,10 +2,19 @@ from django.urls import path
 from django.views.generic import RedirectView
 from . import views
 from . import admin_views
+from . import api_views
 
 app_name = 'paginas'
 
 urlpatterns = [
+
+    # API Endpoints
+    path('api/exportar-alunos/', api_views.export_alunos, name='export_alunos'),
+    path('api/exportar-mensalidades/', api_views.export_mensalidades),
+    path('api/webhook-mercadopago/', views.webhook_mercadopago, name='webhook_mercadopago'),
+    path('financeiro/mensalidade/<int:mensalidade_id>/pagar/',views.pagar_mensalidade,name='pagar_mensalidade'),
+    path('financeiro/processar-pagamento/', views.processar_pagamento, name='processar_pagamento'),
+         
     # Redireciona raiz para home
     path('', RedirectView.as_view(url='/home/', permanent=False), name='root'),
     

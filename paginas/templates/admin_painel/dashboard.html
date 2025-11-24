@@ -85,6 +85,40 @@
           </div>
         </div>
 
+        <!-- Filtro de Receita -->
+        <div class="row mb-4">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-body">
+                <form method="get" class="row g-3 align-items-center">
+                  <div class="col-auto">
+                    <label class="col-form-label"><i class="bi bi-funnel me-2"></i>Filtrar receitas por:</label>
+                  </div>
+                  <div class="col-auto">
+                    <select name="filtro_receita" class="form-select" onchange="this.form.submit()">
+                      <option value="data_pagamento" {% if filtro_receita == 'data_pagamento' %}selected{% endif %}>
+                        Data de Pagamento (quando entrou o dinheiro)
+                      </option>
+                      <option value="mes_referencia" {% if filtro_receita == 'mes_referencia' %}selected{% endif %}>
+                        Mês de Referência (competência da mensalidade)
+                      </option>
+                    </select>
+                  </div>
+                  <div class="col-auto">
+                    <small class="text-muted">
+                      {% if filtro_receita == 'data_pagamento' %}
+                        <i class="bi bi-info-circle me-1"></i>Mostrando quando o dinheiro foi recebido
+                      {% else %}
+                        <i class="bi bi-info-circle me-1"></i>Mostrando por competência (mês que se refere)
+                      {% endif %}
+                    </small>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div class="row g-4 mb-4">
           <div class="col-md-12">
             <div class="admin-card">

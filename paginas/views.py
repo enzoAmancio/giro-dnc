@@ -1,3 +1,4 @@
+import os
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import TemplateView
 from django.contrib.auth.decorators import login_required
@@ -22,6 +23,7 @@ from .models import (
 from openpyxl import Workbook
 from openpyxl.styles import Font, Alignment, PatternFill, Border, Side
 from openpyxl.utils import get_column_letter
+import mercadopago
 
 # Home Page
 def home_view(request):
@@ -330,6 +332,297 @@ def financeiro_mensalidades(request):
         context['erro'] = f'Erro ao carregar mensalidades: {str(e)}'
     
     return render(request, 'financeiro/mensalidades.html', context)
+
+def pagar_mensalidade(request, mensalidade_id):
+    print(f"=== PAGAR MENSALIDADE CHAMADO === ID: {mensalidade_id}")
+    print(f"Request method: {request.method}")
+    print(f"Is AJAX: {request.headers.get('X-Requested-With')}")
+    
+    try:
+        aluno = get_object_or_404(Aluno, usuario=request.user)
+        mensalidade = get_object_or_404(Mensalidade, id=mensalidade_id, aluno=aluno)
+        
+        print(f"Mensalidade encontrada: {mensalidade}")
+        
+        MP_ACCESS_TOKEN = settings.MP_ACCESS_TOKEN
+        MP_PUBLIC_KEY = settings.MP_PUBLIC_KEY
+        
+        print(f"MP_ACCESS_TOKEN: {MP_ACCESS_TOKEN[:20]}...")
+        print(f"MP_PUBLIC_KEY: {MP_PUBLIC_KEY[:20]}...")
+        
+        sdk = mercadopago.SDK(MP_ACCESS_TOKEN)
+
+        preference_data = {
+            "items": [
+                {
+                    "title": f"Mensalidade {mensalidade.mes_referencia.strftime('%m/%Y')}",
+                    "quantity": 1,
+                    "currency_id": "BRL",
+                    "unit_price": float(mensalidade.valor_final),
+                }
+            ],
+            "metadata": {
+                "mensalidade_id": str(mensalidade.id)
+            },
+            "statement_descriptor": "GIRO DNC",
+            "external_reference": f"MENS-{mensalidade.id}"
+        }
+
+        print(f"Criando preferência com dados: {preference_data}")
+        preference = sdk.preference().create(preference_data)
+        print(f"Resposta do MP: Status={preference.get('status')}")
+        
+        # Verificar se houve erro na criação
+        if preference["status"] != 201:
+            error_msg = preference.get("response", {}).get("message", "Erro desconhecido")
+            print(f"ERRO ao criar preferência: {error_msg}")
+            
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                return JsonResponse({
+                    "error": f"Erro ao criar preferência: {error_msg}"
+                }, status=500)
+            else:
+                messages.error(request, "Erro ao processar pagamento. Tente novamente.")
+                return redirect('paginas:financeiro_mensalidades')
+        
+        preference_id = preference["response"]["id"]
+        print(f"Preferência criada com sucesso! ID: {preference_id}")
+
+        # Se for requisição AJAX, retornar JSON
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return JsonResponse({
+                "public_key": MP_PUBLIC_KEY,
+                "preference_id": preference_id,
+                "mensalidade_id": mensalidade.id,
+                "amount": float(mensalidade.valor_final)
+            })
+
+        # Se não for AJAX, retornar o template completo (fallback)
+        mensalidades = Mensalidade.objects.filter(aluno=aluno).order_by("-mes_referencia")
+        total_pago = sum(m.valor_final for m in mensalidades if m.status == 'PAGO')
+        total_pendente = sum(m.valor_final for m in mensalidades if m.status in ['PENDENTE', 'ATRASADO'])
+
+        context = {
+            "usuario": request.user,
+            "aluno": aluno,
+            "mensalidades": mensalidades,
+            "total_pago": total_pago,
+            "total_pendente": total_pendente,
+            "abrir_pagamento": mensalidade.id,
+            "public_key": MP_PUBLIC_KEY,
+            "preference_id": preference_id,
+            "mensalidade_selecionada": mensalidade.id,
+        }
+
+        return render(request, 'financeiro/mensalidades.html', context)
+        
+    except Exception as e:
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return JsonResponse({
+                "error": f"Erro ao processar pagamento: {str(e)}"
+            }, status=500)
+        else:
+            messages.error(request, f"Erro ao processar pagamento: {str(e)}")
+            return redirect('paginas:financeiro_mensalidades')
+
+@csrf_exempt
+def webhook_mercadopago(request):
+    """Webhook para receber notificações do Mercado Pago"""
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            
+            # Log para debug
+            print(f"Webhook recebido: {data}")
+            
+            # Verificar se é notificação de pagamento
+            if data.get('type') == 'payment':
+                payment_id = data.get('data', {}).get('id')
+                
+                if payment_id:
+                    # Buscar informações do pagamento
+                    sdk = mercadopago.SDK(settings.MP_ACCESS_TOKEN)
+                    payment_info = sdk.payment().get(payment_id)
+                    
+                    if payment_info['status'] == 200:
+                        payment_data = payment_info['response']
+                        
+                        # Obter ID da mensalidade do metadata
+                        mensalidade_id = payment_data.get('metadata', {}).get('mensalidade_id')
+                        
+                        if mensalidade_id:
+                            mensalidade = Mensalidade.objects.get(id=mensalidade_id)
+                            
+                            # Atualizar status conforme o status do pagamento
+                            if payment_data['status'] == 'approved':
+                                mensalidade.status = 'PAGO'
+                                mensalidade.data_pagamento = timezone.now()
+                                mensalidade.save()
+                                
+                                # Criar notificação para o aluno
+                                Notificacao.objects.create(
+                                    usuario=mensalidade.aluno.usuario,
+                                    tipo='PAGAMENTO',
+                                    titulo='Pagamento Aprovado',
+                                    mensagem=f'Sua mensalidade de {mensalidade.mes_referencia.strftime("%m/%Y")} foi aprovada!'
+                                )
+                            elif payment_data['status'] == 'pending':
+                                mensalidade.observacoes = 'Pagamento pendente'
+                                mensalidade.save()
+            
+            return JsonResponse({'status': 'ok'})
+        except Exception as e:
+            print(f"Erro no webhook: {str(e)}")
+            return JsonResponse({'error': str(e)}, status=500)
+    
+    return JsonResponse({'error': 'Método não permitido'}, status=405)
+
+
+@csrf_exempt
+@require_http_methods(["POST"])
+def processar_pagamento(request):
+    """Processar pagamento através do Payment Brick"""
+    try:
+        data = json.loads(request.body)
+        print("=== PROCESSAR PAGAMENTO ===")
+        print(f"Dados recebidos: {data}")
+        
+        mensalidade_id = data.get('mensalidade_id')
+        if not mensalidade_id:
+            return JsonResponse({'error': 'ID da mensalidade não fornecido'}, status=400)
+            
+        mensalidade = Mensalidade.objects.get(id=mensalidade_id)
+        
+        # Inicializar SDK do Mercado Pago
+        sdk = mercadopago.SDK(settings.MP_ACCESS_TOKEN)
+        
+        # Preparar dados do pagamento
+        payment_data = {
+            "transaction_amount": float(data.get('transaction_amount')),
+            "token": data.get('token'),
+            "description": f"Mensalidade {mensalidade.mes_referencia.strftime('%m/%Y')}",
+            "installments": int(data.get('installments', 1)),
+            "payment_method_id": data.get('payment_method_id'),
+            "issuer_id": data.get('issuer_id'),
+            "payer": {
+                "email": data.get('payer', {}).get('email'),
+                "identification": {
+                    "type": data.get('payer', {}).get('identification', {}).get('type'),
+                    "number": data.get('payer', {}).get('identification', {}).get('number')
+                }
+            },
+            "metadata": {
+                "mensalidade_id": str(mensalidade.id)
+            },
+            "statement_descriptor": "GIRO DNC"
+        }
+        
+        print(f"Enviando pagamento para Mercado Pago: {payment_data}")
+        
+        # Processar pagamento
+        payment_response = sdk.payment().create(payment_data)
+        payment = payment_response["response"]
+        
+        print(f"Resposta do Mercado Pago: {payment}")
+        
+        # Atualizar mensalidade baseado no status
+        if payment.get('status') == 'approved':
+            mensalidade.status = 'PAGO'
+            mensalidade.data_pagamento = timezone.now()
+            mensalidade.save()
+            
+            # Criar notificação
+            Notificacao.objects.create(
+                usuario=mensalidade.aluno.usuario,
+                tipo='PAGAMENTO',
+                titulo='Pagamento Aprovado',
+                mensagem=f'Sua mensalidade de {mensalidade.mes_referencia.strftime("%m/%Y")} foi aprovada!'
+            )
+            
+            return JsonResponse({
+                'success': True,
+                'payment_id': payment.get('id'),
+                'status': payment.get('status'),
+                'status_detail': payment.get('status_detail')
+            })
+        elif payment.get('status') == 'pending':
+            mensalidade.observacoes = f"Pagamento pendente - {payment.get('status_detail')}"
+            mensalidade.save()
+            
+            return JsonResponse({
+                'success': True,
+                'payment_id': payment.get('id'),
+                'status': payment.get('status'),
+                'status_detail': payment.get('status_detail'),
+                'message': 'Pagamento pendente de aprovação'
+            })
+        else:
+            return JsonResponse({
+                'error': f"Pagamento {payment.get('status')}: {payment.get('status_detail')}",
+                'payment_id': payment.get('id'),
+                'status': payment.get('status')
+            }, status=400)
+            
+    except Mensalidade.DoesNotExist:
+        return JsonResponse({'error': 'Mensalidade não encontrada'}, status=404)
+    except Exception as e:
+        print(f"Erro ao processar pagamento: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        return JsonResponse({'error': str(e)}, status=500)
+
+@csrf_exempt
+def webhook_mercadopago_old(request):
+    """Webhook para receber notificações do Mercado Pago"""
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            
+            # Log para debug
+            print(f"Webhook recebido: {data}")
+            
+            # Verificar se é notificação de pagamento
+            if data.get('type') == 'payment':
+                payment_id = data.get('data', {}).get('id')
+                
+                if payment_id:
+                    # Buscar informações do pagamento
+                    sdk = mercadopago.SDK(settings.MP_ACCESS_TOKEN)
+                    payment_info = sdk.payment().get(payment_id)
+                    
+                    if payment_info['status'] == 200:
+                        payment_data = payment_info['response']
+                        
+                        # Obter ID da mensalidade do metadata
+                        mensalidade_id = payment_data.get('metadata', {}).get('mensalidade_id')
+                        
+                        if mensalidade_id:
+                            mensalidade = Mensalidade.objects.get(id=mensalidade_id)
+                            
+                            # Atualizar status conforme o status do pagamento
+                            if payment_data['status'] == 'approved':
+                                mensalidade.status = 'PAGO'
+                                mensalidade.data_pagamento = timezone.now()
+                                mensalidade.save()
+                                
+                                # Criar notificação para o aluno
+                                Notificacao.objects.create(
+                                    usuario=mensalidade.aluno.usuario,
+                                    tipo='PAGAMENTO',
+                                    titulo='Pagamento Aprovado',
+                                    mensagem=f'Sua mensalidade de {mensalidade.mes_referencia.strftime("%m/%Y")} foi aprovada!'
+                                )
+                            elif payment_data['status'] == 'pending':
+                                mensalidade.observacoes = 'Pagamento pendente'
+                                mensalidade.save()
+                                
+            return JsonResponse({'status': 'ok'})
+            
+        except Exception as e:
+            print(f"Erro no webhook: {str(e)}")
+            return JsonResponse({'error': str(e)}, status=500)
+    
+    return JsonResponse({'error': 'Method not allowed'}, status=405)
 
 @login_required
 def financeiro_extrato(request):
