@@ -2099,7 +2099,6 @@ def exportar_despesas_admin_excel(request):
     
     filename = f'despesas_administrativas_{datetime.now().strftime("%Y%m%d_%H%M%S")}.xlsx'
     response['Content-Disposition'] = f'attachment; filename="{filename}"'
-    
     return response
 
 
