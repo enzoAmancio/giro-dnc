@@ -2103,7 +2103,6 @@ def exportar_despesas_admin_excel(request):
     return response
 
 
-=======
 @login_required
 def chat_view(request, slug="geral"):
     room, _ = Room.objects.get_or_create(name=slug)
