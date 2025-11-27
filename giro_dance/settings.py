@@ -41,7 +41,8 @@ SECRET_KEY = "django-insecure-p6y9^dgkmyasld_c9=3i%()%x#f#k@++odxqap3@-dj)m0jui6
 # Use: DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 DEBUG = True
 
-ALLOWED_HOSTS = ['129.146.67.23','localhost', 'girodnc.qzz.io','127.0.0.1', 'catherin-postoptic-noncontemporaneously.ngrok-free.dev']
+#ALLOWED_HOSTS = ['129.146.67.23','localhost', 'girodnc.qzz.io','127.0.0.1', 'catherin-postoptic-noncontemporaneously.ngrok-free.dev']
+ALLOWED_HOSTS = ['*']
 
 STATIC_URL = '/static/'
 # Application definition

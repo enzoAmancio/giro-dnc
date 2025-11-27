@@ -4,13 +4,13 @@ from django.views.decorators.http import require_GET
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.dateparse import parse_date
 from .models import Aluno, Mensalidade
+from .views import grafico_frequencia
 
     
 API_TOKEN = os.environ.get("API_EXPORT_TOKEN")
 print("=== TOKEN CARREGADO ===", API_TOKEN)
-# ---------------------------------------------------------
-# EXPORTAÇÃO DE ALUNOS
-# ---------------------------------------------------------
+
+
 @csrf_exempt
 @require_GET
 def export_alunos(request):
@@ -105,3 +105,16 @@ def export_mensalidades(request):
 
     return JsonResponse(data, safe=False)
 
+@csrf_exempt
+@require_GET
+def export_frequencias(request):
+    token = request.GET.get("token")
+    data = grafico_frequencia(request) 
+    
+    if token != API_TOKEN:
+        return JsonResponse({"detail": "Unauthorized"}, status=401)
+
+    return data
+    
+
+        

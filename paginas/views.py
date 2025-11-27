@@ -24,10 +24,10 @@ from openpyxl import Workbook
 from openpyxl.styles import Font, Alignment, PatternFill, Border, Side
 from openpyxl.utils import get_column_letter
 import mercadopago
-from chat.models import Room
+# from chat.models import Room  # Comentado - módulo chat não existe
 
 # Home Page
-def home_view(request):
+def home_view(request): 
     return render(request, 'home/index.html')
 
 # Página do Sistema
@@ -966,7 +966,7 @@ def enviar_mensagem(request):
             'error': f'Erro interno: {str(e)}'
         }, status=500)
 
-@login_required
+#@login_required
 def grafico_frequencia(request):
     """Retorna dados para gráfico de frequência"""
     try:
@@ -981,7 +981,7 @@ def grafico_frequencia(request):
             aula__data__gte=data_inicio
         ).select_related('aula')
         
-        # Agrupar por mês
+        
         dados_mensais = {}
         for freq in frequencias:
             mes_ano = freq.aula.data.strftime('%Y-%m')
@@ -1022,7 +1022,8 @@ def grafico_frequencia(request):
             'success': True,
             'labels': labels,
             'presencas': presencas,
-            'faltas': faltas
+            'faltas': faltas,
+            'aluno' : aluno,
         })
         
     except Aluno.DoesNotExist:
@@ -1038,7 +1039,7 @@ def grafico_frequencia(request):
 
 @login_required
 def listar_notificacoes(request):
-    """Lista notificações não lidas do usuário"""
+    
     try:
         notificacoes = Notificacao.objects.filter(
             usuario=request.user,
@@ -1093,14 +1094,11 @@ def marcar_notificacao_lida(request, notificacao_id):
             'error': str(e)
         }, status=400)
 
-
-# ============================================
 # SISTEMA DE VENDAS DE INGRESSOS
-# ============================================
 
 @login_required
 def eventos_lista(request):
-    """Lista de eventos ativos para registro de vendas"""
+
     eventos_ativos = Evento.objects.filter(ativo=True).order_by('-data_evento')
     
     # Vendas do usuário atual
@@ -2102,7 +2100,8 @@ def exportar_despesas_admin_excel(request):
     return response
 
 
-@login_required
-def chat_view(request, slug="geral"):
-    room, _ = Room.objects.get_or_create(name=slug)
-    return render(request, "painel/chat.html", {"room": room})
+# Comentado - depende do módulo chat que não existe
+# @login_required
+# def chat_view(request, slug="geral"):
+#     room, _ = Room.objects.get_or_create(name=slug)
+#     return render(request, "painel/chat.html", {"room": room})

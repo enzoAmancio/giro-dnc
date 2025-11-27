@@ -14,6 +14,7 @@ urlpatterns = [
     path('api/webhook-mercadopago/', views.webhook_mercadopago, name='webhook_mercadopago'),
     path('financeiro/mensalidade/<int:mensalidade_id>/pagar/',views.pagar_mensalidade,name='pagar_mensalidade'),
     path('financeiro/processar-pagamento/', views.processar_pagamento, name='processar_pagamento'),
+    path('api/exportar-frequencias/', api_views.export_frequencias, name='export_frequencias'),
          
     # Redireciona raiz para home
     path('', RedirectView.as_view(url='/home/', permanent=False), name='root'),
