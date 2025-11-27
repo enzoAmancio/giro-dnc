@@ -5,62 +5,7 @@
 
 {% block extrastyle %}
 {{ block.super }}
-<style>
-    .aula-card {
-        background: white;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        padding: 20px;
-        margin-bottom: 15px;
-        transition: all 0.3s ease;
-        cursor: pointer;
-    }
-    
-    .aula-card:hover {
-        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        transform: translateY(-2px);
-        border-color: #417690;
-    }
-    
-    .aula-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 10px;
-    }
-    
-    .aula-data {
-        font-size: 18px;
-        font-weight: bold;
-        color: #417690;
-    }
-    
-    .aula-turma {
-        background: #417690;
-        color: white;
-        padding: 5px 15px;
-        border-radius: 20px;
-        font-size: 14px;
-    }
-    
-    .aula-detalhes {
-        color: #666;
-        font-size: 14px;
-        margin-top: 10px;
-    }
-    
-    .aula-tema {
-        font-weight: 500;
-        color: #333;
-        margin-bottom: 5px;
-    }
-    
-    .sem-aulas {
-        text-align: center;
-        padding: 40px;
-        color: #999;
-    }
-</style>
+
 {% endblock %}
 
 {% block breadcrumbs %}

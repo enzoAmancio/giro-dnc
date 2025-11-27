@@ -22,7 +22,7 @@
       <span class="gd-pill">GIRO DNC</span>
     </div>
   </header>
-  <!-- Menu Sanduíche - FORA do header -->
+ 
   <div class="sidebar-item">
     <button id="sidebar-toggle" class="menu-sanduiche">
       <i class="bi bi-list"></i>
@@ -31,7 +31,7 @@
 
 
   <div class="gd-layout d-flex">
-    <!-- Sidebar Padronizado -->
+    
     {% with sidebar_section='eventos' sidebar_active='minhas_vendas' %}
       {% include 'includes/sidebar.html' %}
     {% endwith %}
@@ -41,7 +41,7 @@
         <h1 class="gd-breadcrumb">Eventos / Minhas Vendas</h1>
         <h2 class="gd-page-title">Minhas Vendas de Ingressos</h2>
 
-        <!-- Estatísticas -->
+        
         <div class="row mb-4">
           <div class="col-md-3">
             <div class="card border-primary stats-card">
@@ -81,7 +81,7 @@
           </div>
         </div>
 
-        <!-- Por Evento -->
+        
         {% if por_evento %}
         <h3 class="mb-3"><i class="bi bi-bar-chart"></i> Vendas por Evento</h3>
         <div class="row mb-4">
@@ -99,7 +99,7 @@
         </div>
         {% endif %}
 
-        <!-- Histórico Completo -->
+        
         <h3 class="mb-3"><i class="bi bi-clock-history"></i> Histórico Completo</h3>
         
         {% if vendas %}
