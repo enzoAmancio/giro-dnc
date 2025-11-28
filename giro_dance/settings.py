@@ -51,7 +51,6 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 STATIC_URL = '/static/'
-# Application definition
 
 API_EXPORT_TOKEN = os.environ.get("API_EXPORT_TOKEN")
 
@@ -71,6 +70,12 @@ INSTALLED_APPS = [
     "channels",
     "chatAplicativo",
 ]
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer",
+    },
+}
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",

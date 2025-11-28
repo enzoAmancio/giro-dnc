@@ -1,7 +1,8 @@
 <!doctype html>
 <html lang="pt-br">
+
 <head>
-    {% load static %}
+  {% load static %}
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>GIRO DNC - Chat</title>
@@ -20,6 +21,7 @@
       background-color: #f8f9fa;
       font-family: monospace;
     }
+
     #chat-message-input {
       width: 80%;
       padding: 8px;
@@ -27,6 +29,7 @@
       border: 1px solid #ccc;
       border-radius: 4px;
     }
+
     #chat-message-submit {
       width: 18%;
       padding: 8px;
@@ -36,11 +39,13 @@
       border-radius: 4px;
       cursor: pointer;
     }
+
     #chat-message-submit:hover {
       background-color: #0b5ed7;
     }
   </style>
 </head>
+
 <body>
   <header class="gd-topbar">
     <div class="gd-logo-container">
@@ -63,14 +68,14 @@
   <div class="gd-layout d-flex">
     <!-- Sidebar Padronizado -->
     {% with sidebar_section='comunicacao' sidebar_active='painel_chat' %}
-      {% include 'includes/sidebar.html' %}
+    {% include 'includes/sidebar.html' %}
     {% endwith %}
 
     <main class="gd-main">
       <div class="conteudo">
         <h1 class="gd-breadcrumb">Comunicação / Chat</h1>
         <h2 class="gd-page-title">Chat</h2>
-         
+
         <div class="dashboard-cards">
           <div class="dashboard-card">
             <div class="card-header">
@@ -90,30 +95,36 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="{% static 'paginas/js/script.js' %}"></script>
   <script>
+    let wsProtocol = "ws://";
+    if (window.location.protocol === "https:") {
+      wsProtocol = "wss://";
+    }
+
     const chatSocket = new WebSocket(
-      'ws://' + window.location.host + '/ws/chat/'
+      wsProtocol + window.location.host + "/ws/chat/"
     );
 
-    chatSocket.onmessage = function(e) {
+
+    chatSocket.onmessage = function (e) {
       const data = JSON.parse(e.data);
       const chatLog = document.getElementById('chat-log');
       chatLog.textContent += data.message + '\\n';
       chatLog.scrollTop = chatLog.scrollHeight;
     };
 
-    chatSocket.onclose = function(e) {
+    chatSocket.onclose = function (e) {
       console.error('Chat socket closed unexpectedly');
     };
 
     document.getElementById('chat-message-input').focus();
 
-    document.getElementById('chat-message-input').onkeyup = function(e) {
+    document.getElementById('chat-message-input').onkeyup = function (e) {
       if (e.key === 'Enter') {
         document.getElementById('chat-message-submit').click();
       }
     };
 
-    document.getElementById('chat-message-submit').onclick = function(e) {
+    document.getElementById('chat-message-submit').onclick = function (e) {
       const inputElem = document.getElementById('chat-message-input');
       const message = inputElem.value;
       if (message.trim() !== '') {
@@ -125,4 +136,5 @@
     };
   </script>
 </body>
+
 </html>
