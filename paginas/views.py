@@ -12,7 +12,6 @@ from django.contrib import messages
 from django.core.mail import send_mail, EmailMessage
 from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
-from django.contrib.admin.views.decorators import staff_member_required
 import json
 from datetime import timedelta, datetime
 from .models import (
@@ -24,10 +23,12 @@ from openpyxl import Workbook
 from openpyxl.styles import Font, Alignment, PatternFill, Border, Side
 from openpyxl.utils import get_column_letter
 import mercadopago
-from chat.models import Room
+from django.contrib.admin.views.decorators import staff_member_required
+
+# from chat.models import Room  # Comentado - módulo chat não existe
 
 # Home Page
-def home_view(request):
+def home_view(request): 
     return render(request, 'home/index.html')
 
 # Página do Sistema
@@ -49,6 +50,7 @@ def painel_aluno_index(request):
     """Dashboard principal com resumo de informações do aluno"""
     context = {}
     
+
     try:
         # Usar select_related para otimizar queries
         aluno = Aluno.objects.select_related('usuario').prefetch_related(
@@ -648,7 +650,7 @@ def financeiro_extrato(request):
 
 @login_required
 def financeiro_extrato_csv(request):
-    """Exportar extrato financeiro em Excel (.xlsx)"""
+
     from openpyxl import Workbook
     from openpyxl.styles import Font, Alignment, PatternFill, Border, Side
     from openpyxl.utils import get_column_letter
@@ -789,31 +791,27 @@ def financeiro_extrato_csv(request):
 
 @login_required
 def financeiro_despesas(request):
-    """Exibir despesas - Admin vê gestão ou Students veem despesas pessoais"""
-    
-    # Se for staff (admin/professor), mostrar view administrativa
+
     if request.user.is_staff:
-        context = {
-            'usuario': request.user,
-            'is_admin_view': True,
-        }
-        return render(request, 'financeiro/despesas.html', context)
-    
-    # Se for aluno, mostrar sistema de despesas pessoais
+        return render(request, 'financeiro/despesas.html', {
+            'erro': 'Você não é aluno e não pode acessar esta página.'
+        })
+
     try:
         aluno = Aluno.objects.get(usuario=request.user)
     except Aluno.DoesNotExist:
-        messages.error(request, 'Você precisa estar cadastrado como aluno.')
-        return redirect('paginas:painel_aluno')
-    
+        return render(request, 'financeiro/despesas.html', {
+            'erro': 'Você precisa estar cadastrado como aluno.'
+        })
+
     # Filtros
     mes_filtro = request.GET.get('mes', '')
     categoria_filtro = request.GET.get('categoria', '')
     status_filtro = request.GET.get('status', '')
-    
+
     # Buscar despesas do aluno
     despesas = DespesaAluno.objects.filter(aluno=aluno).select_related('turma')
-    
+
     # Aplicar filtros
     if mes_filtro:
         try:
@@ -824,19 +822,19 @@ def financeiro_despesas(request):
             )
         except ValueError:
             pass
-    
+
     if categoria_filtro:
         despesas = despesas.filter(categoria=categoria_filtro)
-    
+
     if status_filtro:
         despesas = despesas.filter(status=status_filtro)
-    
+
     # Estatísticas
     total_previsto = despesas.aggregate(Sum('valor_previsto'))['valor_previsto__sum'] or 0
     total_gasto = despesas.aggregate(Sum('valor_gasto'))['valor_gasto__sum'] or 0
     total_restante = total_previsto - total_gasto
     total_restante_abs = abs(total_restante)
-    
+
     # Despesas por categoria (para gráfico)
     despesas_por_categoria = {}
     for despesa in despesas:
@@ -844,11 +842,11 @@ def financeiro_despesas(request):
         if cat not in despesas_por_categoria:
             despesas_por_categoria[cat] = 0
         despesas_por_categoria[cat] += float(despesa.valor_gasto)
-    
+
     # Preparar dados para gráfico
     categorias_labels = list(despesas_por_categoria.keys())
     categorias_valores = list(despesas_por_categoria.values())
-    
+
     context = {
         'aluno': aluno,
         'despesas': despesas.order_by('-data_prevista'),
@@ -865,7 +863,7 @@ def financeiro_despesas(request):
         'status_choices': DespesaAluno.STATUS_CHOICES,
         'is_admin_view': False,
     }
-    
+
     return render(request, 'financeiro/despesas.html', context)
 
 # Cadastros
@@ -981,7 +979,7 @@ def grafico_frequencia(request):
             aula__data__gte=data_inicio
         ).select_related('aula')
         
-        # Agrupar por mês
+        
         dados_mensais = {}
         for freq in frequencias:
             mes_ano = freq.aula.data.strftime('%Y-%m')
@@ -1022,7 +1020,8 @@ def grafico_frequencia(request):
             'success': True,
             'labels': labels,
             'presencas': presencas,
-            'faltas': faltas
+            'faltas': faltas,
+            'aluno' : aluno,
         })
         
     except Aluno.DoesNotExist:
@@ -1038,7 +1037,7 @@ def grafico_frequencia(request):
 
 @login_required
 def listar_notificacoes(request):
-    """Lista notificações não lidas do usuário"""
+    
     try:
         notificacoes = Notificacao.objects.filter(
             usuario=request.user,
@@ -1093,14 +1092,11 @@ def marcar_notificacao_lida(request, notificacao_id):
             'error': str(e)
         }, status=400)
 
-
-# ============================================
 # SISTEMA DE VENDAS DE INGRESSOS
-# ============================================
 
 @login_required
 def eventos_lista(request):
-    """Lista de eventos ativos para registro de vendas"""
+
     eventos_ativos = Evento.objects.filter(ativo=True).order_by('-data_evento')
     
     # Vendas do usuário atual
@@ -1392,179 +1388,6 @@ def resultados_financeiros(request):
     return render(request, 'financeiro/despesas.html', context)
 
 
-@staff_member_required
-def exportar_resultados_excel(request):
-    """
-    Gera e retorna um arquivo Excel (.xlsx) com os resultados financeiros.
-    Formatação profissional com cores, bordas e totais destacados.
-    """
-    # Buscar todos os resultados ou filtrar por mês
-    mes_filtro = request.GET.get('mes', None)
-    
-    if mes_filtro:
-        try:
-            ano, mes = mes_filtro.split('-')
-            data_filtro = datetime(int(ano), int(mes), 1).date()
-            resultados = ResultadoFinanceiroMensal.objects.filter(mes=data_filtro)
-            nome_arquivo = f'Resultado_Financeiro_{ano}_{mes}.xlsx'
-        except (ValueError, AttributeError):
-            resultados = ResultadoFinanceiroMensal.objects.all()
-            nome_arquivo = 'Resultados_Financeiros_Giro_DNC.xlsx'
-    else:
-        resultados = ResultadoFinanceiroMensal.objects.all()
-        nome_arquivo = 'Resultados_Financeiros_Giro_DNC.xlsx'
-    
-    # Criar workbook e worksheet
-    wb = Workbook()
-    ws = wb.active
-    ws.title = "Resultados Mensais"
-    
-    # ===== ESTILOS =====
-    # Cabeçalho
-    header_font = Font(name='Arial', size=12, bold=True, color='FFFFFF')
-    header_fill = PatternFill(start_color='F56E1D', end_color='F56E1D', fill_type='solid')
-    header_alignment = Alignment(horizontal='center', vertical='center')
-    
-    # Células de dados
-    data_font = Font(name='Arial', size=11)
-    data_alignment = Alignment(horizontal='right', vertical='center')
-    text_alignment = Alignment(horizontal='left', vertical='center')
-    center_alignment = Alignment(horizontal='center', vertical='center')
-    
-    # Valores monetários
-    currency_font = Font(name='Arial', size=11, bold=True)
-    lucro_fill = PatternFill(start_color='D4EDDA', end_color='D4EDDA', fill_type='solid')
-    gasto_fill = PatternFill(start_color='F8D7DA', end_color='F8D7DA', fill_type='solid')
-    receber_fill = PatternFill(start_color='FFF3CD', end_color='FFF3CD', fill_type='solid')
-    
-    # Totais
-    total_font = Font(name='Arial', size=12, bold=True, color='FFFFFF')
-    total_fill = PatternFill(start_color='000000', end_color='000000', fill_type='solid')
-    
-    # Bordas
-    thin_border = Border(
-        left=Side(style='thin'),
-        right=Side(style='thin'),
-        top=Side(style='thin'),
-        bottom=Side(style='thin')
-    )
-    
-    # ===== TÍTULO =====
-    ws.merge_cells('A1:E1')
-    title_cell = ws['A1']
-    title_cell.value = 'GIRO DNC - RESULTADOS FINANCEIROS MENSAIS'
-    title_cell.font = Font(name='Arial', size=14, bold=True, color='F56E1D')
-    title_cell.alignment = center_alignment
-    
-    # ===== CABEÇALHOS =====
-    headers = ['Mês/Ano', 'Lucro Total', 'Gasto Total', 'A Receber', 'Lucro Líquido']
-    ws.append([])  # Linha em branco
-    ws.append(headers)
-    
-    header_row = ws[3]
-    for cell in header_row:
-        cell.font = header_font
-        cell.fill = header_fill
-        cell.alignment = header_alignment
-        cell.border = thin_border
-    
-    # ===== DADOS =====
-    total_lucro = 0
-    total_gastos = 0
-    total_receber = 0
-    total_liquido = 0
-    
-    for resultado in resultados:
-        lucro_liquido = resultado.lucro_liquido()
-        
-        ws.append([
-            resultado.mes_formatado(),
-            float(resultado.lucro_total),
-            float(resultado.gasto_total),
-            float(resultado.a_receber_total),
-            float(lucro_liquido)
-        ])
-        
-        # Acumular totais
-        total_lucro += float(resultado.lucro_total)
-        total_gastos += float(resultado.gasto_total)
-        total_receber += float(resultado.a_receber_total)
-        total_liquido += float(lucro_liquido)
-        
-        # Aplicar estilos às células
-        current_row = ws.max_row
-        
-        # Mês/Ano
-        ws[f'A{current_row}'].alignment = center_alignment
-        ws[f'A{current_row}'].font = data_font
-        ws[f'A{current_row}'].border = thin_border
-        
-        # Lucro Total
-        ws[f'B{current_row}'].number_format = 'R$ #,##0.00'
-        ws[f'B{current_row}'].font = currency_font
-        ws[f'B{current_row}'].fill = lucro_fill
-        ws[f'B{current_row}'].alignment = data_alignment
-        ws[f'B{current_row}'].border = thin_border
-        
-        # Gasto Total
-        ws[f'C{current_row}'].number_format = 'R$ #,##0.00'
-        ws[f'C{current_row}'].font = currency_font
-        ws[f'C{current_row}'].fill = gasto_fill
-        ws[f'C{current_row}'].alignment = data_alignment
-        ws[f'C{current_row}'].border = thin_border
-        
-        # A Receber
-        ws[f'D{current_row}'].number_format = 'R$ #,##0.00'
-        ws[f'D{current_row}'].font = currency_font
-        ws[f'D{current_row}'].fill = receber_fill
-        ws[f'D{current_row}'].alignment = data_alignment
-        ws[f'D{current_row}'].border = thin_border
-        
-        # Lucro Líquido
-        ws[f'E{current_row}'].number_format = 'R$ #,##0.00'
-        ws[f'E{current_row}'].font = Font(name='Arial', size=11, bold=True, color='FFFFFF')
-        
-        if lucro_liquido >= 0:
-            ws[f'E{current_row}'].fill = PatternFill(start_color='22C55E', end_color='22C55E', fill_type='solid')
-        else:
-            ws[f'E{current_row}'].fill = PatternFill(start_color='EF4444', end_color='EF4444', fill_type='solid')
-        
-        ws[f'E{current_row}'].alignment = data_alignment
-        ws[f'E{current_row}'].border = thin_border
-    
-    # ===== LINHA DE TOTAIS =====
-    ws.append([])  # Linha em branco
-    total_row = ws.max_row + 1
-    
-    ws.append(['TOTAIS', total_lucro, total_gastos, total_receber, total_liquido])
-    
-    for col in range(1, 6):
-        cell = ws.cell(row=total_row, column=col)
-        cell.font = total_font
-        cell.fill = total_fill
-        cell.alignment = center_alignment if col == 1 else data_alignment
-        cell.border = thin_border
-        
-        if col > 1:
-            cell.number_format = 'R$ #,##0.00'
-    
-    # ===== AJUSTAR LARGURA DAS COLUNAS =====
-    ws.column_dimensions['A'].width = 18
-    ws.column_dimensions['B'].width = 16
-    ws.column_dimensions['C'].width = 16
-    ws.column_dimensions['D'].width = 16
-    ws.column_dimensions['E'].width = 18
-    
-    # ===== PREPARAR RESPOSTA HTTP =====
-    response = HttpResponse(
-        content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-    )
-    response['Content-Disposition'] = f'attachment; filename="{nome_arquivo}"'
-    
-    wb.save(response)
-    return response
-
-
 # ============================================================
 # DESPESAS PESSOAIS DOS ALUNOS
 # ============================================================
@@ -1576,7 +1399,7 @@ def minhas_despesas(request):
         aluno = Aluno.objects.get(usuario=request.user)
     except Aluno.DoesNotExist:
         messages.error(request, 'Você precisa estar cadastrado como aluno.')
-        return redirect('paginas:painel_aluno')
+        return redirect('paginas:painel_index')
     
     # Filtros
     mes_filtro = request.GET.get('mes', '')
@@ -1635,7 +1458,7 @@ def minhas_despesas(request):
         'status_choices': DespesaAluno.STATUS_CHOICES,
     }
     
-    return render(request, 'financeiro/minhas_despesas.html', context)
+    return render(request, 'financeiro/despesas.html', context)
 
 
 @login_required
@@ -1645,7 +1468,7 @@ def criar_despesa(request):
         aluno = Aluno.objects.get(usuario=request.user)
     except Aluno.DoesNotExist:
         messages.error(request, 'Você precisa estar cadastrado como aluno.')
-        return redirect('paginas:painel_aluno')
+        return redirect('paginas:painel_index')
     
     if request.method == 'POST':
         try:
@@ -1674,7 +1497,7 @@ def criar_despesa(request):
             
             despesa.save()
             messages.success(request, 'Despesa criada com sucesso!')
-            return redirect('paginas:minhas_despesas')
+            return redirect('paginas:despesas')
             
         except Exception as e:
             messages.error(request, f'Erro ao criar despesa: {str(e)}')
@@ -1699,7 +1522,7 @@ def editar_despesa(request, despesa_id):
         aluno = Aluno.objects.get(usuario=request.user)
     except Aluno.DoesNotExist:
         messages.error(request, 'Você precisa estar cadastrado como aluno.')
-        return redirect('paginas:painel_aluno')
+        return redirect('paginas:painel_index')
     
     despesa = get_object_or_404(DespesaAluno, id=despesa_id, aluno=aluno)
     
@@ -1731,7 +1554,7 @@ def editar_despesa(request, despesa_id):
             
             despesa.save()
             messages.success(request, 'Despesa atualizada com sucesso!')
-            return redirect('paginas:minhas_despesas')
+            return redirect('paginas:despesas')
             
         except Exception as e:
             messages.error(request, f'Erro ao atualizar despesa: {str(e)}')
@@ -1758,14 +1581,14 @@ def deletar_despesa(request, despesa_id):
         aluno = Aluno.objects.get(usuario=request.user)
     except Aluno.DoesNotExist:
         messages.error(request, 'Você precisa estar cadastrado como aluno.')
-        return redirect('paginas:painel_aluno')
+        return redirect('paginas:painel_index')
     
     despesa = get_object_or_404(DespesaAluno, id=despesa_id, aluno=aluno)
     nome_despesa = despesa.nome
     despesa.delete()
     
     messages.success(request, f'Despesa "{nome_despesa}" excluída com sucesso!')
-    return redirect('paginas:minhas_despesas')
+    return redirect('paginas:despesas')
 
 
 # ============================================================
@@ -1866,7 +1689,7 @@ def despesas_administrativas(request):
         'categorias_valores': json.dumps(categorias_valores),
         'status_labels': json.dumps(status_labels),
         'status_valores': json.dumps(status_valores),
-        'status_cores': json.dumps(status_cores),
+        'status_cores': (status_cores),
         'mes_filtro': mes_filtro,
         'categoria_filtro': categoria_filtro,
         'status_filtro': status_filtro,
@@ -2048,8 +1871,10 @@ def exportar_despesas_admin_excel(request):
     
     # Estilos
     header_font = Font(name='Arial', size=12, bold=True, color='FFFFFF')
-    header_fill = PatternFill(start_color='F56E1D', end_color='F56E1D', fill_type='solid')
+    header_fill = PatternFill(start_color="4472C4", end_color="4472C4", fill_type="solid")
     header_alignment = Alignment(horizontal='center', vertical='center')
+    
+
     
     # Cabeçalhos
     headers = ['Nome', 'Categoria', 'Fornecedor', 'Valor Total', 'Valor Pago', 'Valor Pendente',
@@ -2102,7 +1927,8 @@ def exportar_despesas_admin_excel(request):
     return response
 
 
-@login_required
-def chat_view(request, slug="geral"):
-    room, _ = Room.objects.get_or_create(name=slug)
-    return render(request, "painel/chat.html", {"room": room})
+# Comentado - depende do módulo chat que não existe
+# @login_required
+# def chat_view(request, slug="geral"):
+#     room, _ = Room.objects.get_or_create(name=slug)
+#     return render(request, "painel/chat.html", {"room": room})

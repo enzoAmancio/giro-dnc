@@ -4,7 +4,9 @@ from django.core.validators import MinValueValidator, MaxValueValidator, FileExt
 from django.core.exceptions import ValidationError
 from django.utils import timezone
 from django.db.models import Sum
+from calendario.models import GoogleCalendarCredential, GoogleCalendarEvent
 import os
+
 
 # Create your models here.
 
@@ -146,7 +148,7 @@ class HorarioAula(models.Model):
 
 
 class Aula(models.Model):
-    """Modelo para representar uma aula específica"""
+  
     turma = models.ForeignKey(Turma, on_delete=models.CASCADE, related_name='aulas')
     data = models.DateField()
     hora_inicio = models.TimeField()
@@ -180,7 +182,13 @@ class Aula(models.Model):
         # Atualiza a data de upload do vídeo se um novo vídeo foi adicionado
         if self.video and not self.data_upload_video:
             self.data_upload_video = timezone.now()
+        aula_nova = self.pk is None 
         super().save(*args, **kwargs)
+        if aula_nova:  
+            from calendario.views import criar_evento_google        
+            criar_evento_google(self)
+        
+        
     
     def delete(self, *args, **kwargs):
         # Deleta o arquivo de vídeo do storage quando a aula for deletada
@@ -190,9 +198,12 @@ class Aula(models.Model):
         super().delete(*args, **kwargs)
     
     def get_video_size_mb(self):
-        """Retorna o tamanho do vídeo em MB"""
-        if self.video:
-            return self.video.size / 1024 / 1024
+        """Retorna o tamanho do vídeo em MB, se o arquivo existir"""
+        if self.video and hasattr(self.video, 'path') and os.path.isfile(self.video.path):
+            try:
+                return os.path.getsize(self.video.path) / 1024 / 1024
+            except Exception:
+                return 0
         return 0
     
     def dias_desde_upload(self):

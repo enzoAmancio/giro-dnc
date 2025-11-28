@@ -24,6 +24,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('login/', include('login.urls')),
     path('', include('paginas.urls')),  # Páginas (home, painel, financeiro, etc)
+    path('calendario/', include('calendario.urls')),
 ]
 
 # Adicione as configurações de mídia se necessário

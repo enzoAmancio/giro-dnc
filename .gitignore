@@ -42,3 +42,5 @@ staticfiles/  # ← IMPORTANTE: Não versionar arquivos coletados
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+calendario.json

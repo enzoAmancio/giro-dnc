@@ -31,10 +31,10 @@ class TurmaAdmin(admin.ModelAdmin):
 
 @admin.register(Aluno)
 class AlunoAdmin(admin.ModelAdmin):
-    list_display = ['get_nome_completo', 'cpf', 'telefone', 'data_matricula', 'ativo']
+    list_display = ['get_nome_completo','email', 'cpf', 'telefone', 'data_matricula', 'ativo']
     list_filter = ['ativo', 'data_matricula', 'turmas']
-    search_fields = ['usuario__first_name', 'usuario__last_name', 'cpf', 'telefone']
-    list_editable = ['ativo']
+    search_fields = ['usuario__first_name', 'usuario__last_name','cpf', 'telefone']
+    list_editable = ['ativo',]
     date_hierarchy = 'data_matricula'
     filter_horizontal = ['turmas']
     
@@ -59,6 +59,9 @@ class AlunoAdmin(admin.ModelAdmin):
     def get_nome_completo(self, obj):
         return obj.usuario.get_full_name() or obj.usuario.username
     get_nome_completo.short_description = 'Nome Completo'
+    def email(self, obj):
+        return obj.usuario.email
+    email.short_description = "E-mail"
 
 
 @admin.register(HorarioAula)

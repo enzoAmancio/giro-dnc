@@ -1,7 +1,8 @@
 <!doctype html>
 <html lang="pt-br">
+
 <head>
-    {% load static %}
+  {% load static %}
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>GIRO DNC - Painel do Aluno</title>
@@ -24,7 +25,7 @@
     </div>
   </header>
 
-  <!-- Menu Sanduíche - FORA do header -->
+
   <div class="sidebar-item">
     <button id="sidebar-toggle" class="menu-sanduiche">
       <i class="bi bi-list"></i>
@@ -32,20 +33,18 @@
   </div>
 
   <div class="gd-layout d-flex">
-    <!-- Sidebar Padronizado -->
     {% with sidebar_section='painel' sidebar_active='painel_index' %}
-      {% include 'includes/sidebar.html' %}
+    {% include 'includes/sidebar.html' %}
     {% endwith %}
 
     <main class="gd-main">
       <div>
-        <span>Olá,  {{ user.get_full_name|default:user.username }}</span>
+        <span>Olá, {{ user.get_full_name|default:user.username }}</span>
       </div>
       <div class="conteudo">
         <h1 class="gd-breadcrumb">Painel do aluno / Visão geral</h1>
 
         <div class="dashboard-cards">
-          <!-- Próximas Aulas - Dinâmico -->
           <div class="dashboard-card">
             <div class="card-header">
               <i class="bi bi-calendar3"></i>
@@ -53,23 +52,37 @@
             </div>
             <div class="card-content">
               {% if proximas_aulas %}
-                {% for aula in proximas_aulas %}
-                <div class="aula-item">
-                  <span class="aula-horario">{{ aula.hora_inicio|date:"H:i" }}</span>
-                  <div class="aula-info">
-                    <span class="aula-nome">{{ aula.turma.nome }}</span>
-                    <span class="aula-prof">{{ aula.data|date:"d/m/Y" }} - {{ aula.turma.modalidade }}</span>
-                  </div>
+              {% for aula in proximas_aulas %}
+              <div class="aula-item">
+                <span class="aula-horario">{{ aula.hora_inicio|date:"H:i" }}</span>
+                <div class="aula-info">
+                  <span class="aula-nome">{{ aula.turma.nome }}</span>
+                  <span class="aula-prof">{{ aula.data|date:"d/m/Y" }} - {{ aula.turma.modalidade }}</span>
                 </div>
-                {% endfor %}
+              </div>
+              {% endfor %}
               {% else %}
-                <div class="text-center text-muted py-3">
-                  <i class="bi bi-calendar-x" style="font-size: 2rem;"></i>
-                  <p class="mb-0 mt-2">Nenhuma aula programada</p>
-                </div>
+              <div class="text-center text-muted py-3">
+                <i class="bi bi-calendar-x" style="font-size: 2rem;"></i>
+                <p class="mb-0 mt-2">Nenhuma aula programada</p>
+              </div>
               {% endif %}
             </div>
           </div>
+
+          <!-- CARD DO GOOGLE FORA DO BLOCO DE AULAS -->
+          <div class="dashboard-card">
+            <div class="card-header">
+              <i class="bi bi-calendar"></i>
+              <h3>Sincronizar Google Calendário</h3>
+            </div>
+            <div class="card-content">
+              <a href="{% url 'calendario:conectar_google' %}" class="btn " style="border: 1px solid #000 !important;">
+                <i class="bi bi-google"></i> Sincronizar Google Calendário
+              </a>
+            </div>
+          </div>
+
 
           <!-- Avisos Importantes - Dinâmico -->
           <div class="dashboard-card">
@@ -79,21 +92,21 @@
             </div>
             <div class="card-content">
               {% if avisos_recentes %}
-                {% for aviso in avisos_recentes %}
-                <div class="aviso-item">
-                  <span class="aviso-data">{{ aviso.data_criacao|date:"d/m" }}</span>
-                  <span class="aviso-texto">
-                    {% if aviso.importante %}<strong>{% endif %}
+              {% for aviso in avisos_recentes %}
+              <div class="aviso-item">
+                <span class="aviso-data">{{ aviso.data_criacao|date:"d/m" }}</span>
+                <span class="aviso-texto">
+                  {% if aviso.importante %}<strong>{% endif %}
                     {{ aviso.titulo|truncatechars:50 }}
                     {% if aviso.importante %}</strong>{% endif %}
-                  </span>
-                </div>
-                {% endfor %}
+                </span>
+              </div>
+              {% endfor %}
               {% else %}
-                <div class="text-center text-muted py-3">
-                  <i class="bi bi-bell-slash" style="font-size: 2rem;"></i>
-                  <p class="mb-0 mt-2">Nenhum aviso recente</p>
-                </div>
+              <div class="text-center text-muted py-3">
+                <i class="bi bi-bell-slash" style="font-size: 2rem;"></i>
+                <p class="mb-0 mt-2">Nenhum aviso recente</p>
+              </div>
               {% endif %}
             </div>
           </div>
@@ -106,22 +119,23 @@
             </div>
             <div class="card-content">
               {% if mensalidades_pendentes %}
-                {% for mensalidade in mensalidades_pendentes %}
-                <div class="financeiro-item">
-                  <span class="financeiro-status {% if mensalidade.status == 'PAGO' %}pago{% elif mensalidade.status == 'ATRASADO' %}atrasado{% else %}pendente{% endif %}">
-                    {{ mensalidade.get_status_display }}
-                  </span>
-                  <div class="financeiro-info">
-                    <span class="financeiro-mes">{{ mensalidade.mes_referencia|date:"F/Y" }}</span>
-                    <span class="financeiro-valor">R$ {{ mensalidade.valor_final|floatformat:2 }}</span>
-                  </div>
+              {% for mensalidade in mensalidades_pendentes %}
+              <div class="financeiro-item">
+                <span
+                  class="financeiro-status {% if mensalidade.status == 'PAGO' %}pago{% elif mensalidade.status == 'ATRASADO' %}atrasado{% else %}pendente{% endif %}">
+                  {{ mensalidade.get_status_display }}
+                </span>
+                <div class="financeiro-info">
+                  <span class="financeiro-mes">{{ mensalidade.mes_referencia|date:"F/Y" }}</span>
+                  <span class="financeiro-valor">R$ {{ mensalidade.valor_final|floatformat:2 }}</span>
                 </div>
-                {% endfor %}
+              </div>
+              {% endfor %}
               {% else %}
-                <div class="text-center text-muted py-3">
-                  <i class="bi bi-check-circle" style="font-size: 2rem; color: #10b981;"></i>
-                  <p class="mb-0 mt-2">Nenhuma pendência financeira</p>
-                </div>
+              <div class="text-center text-muted py-3">
+                <i class="bi bi-check-circle" style="font-size: 2rem; color: #10b981;"></i>
+                <p class="mb-0 mt-2">Nenhuma pendência financeira</p>
+              </div>
               {% endif %}
             </div>
           </div>
@@ -143,6 +157,8 @@
                   <span class="stat-label">Frequência</span>
                 </div>
               </div>
+
+
               <!-- Gráfico de Frequência -->
               <div class="mt-3">
                 <canvas id="chartFrequencia" height="150"></canvas>
@@ -217,7 +233,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <script src="{% static 'paginas/js/script.js' %}"></script>
-  
+
   {% if aluno %}
   <script>
     // Gráfico de Frequência
@@ -260,7 +276,7 @@
                   },
                   tooltip: {
                     callbacks: {
-                      label: function(context) {
+                      label: function (context) {
                         return context.dataset.label + ': ' + context.parsed.y + '%';
                       }
                     }
@@ -271,7 +287,7 @@
                     beginAtZero: true,
                     max: 100,
                     ticks: {
-                      callback: function(value) {
+                      callback: function (value) {
                         return value + '%';
                       }
                     }
@@ -286,4 +302,5 @@
   </script>
   {% endif %}
 </body>
+
 </html>

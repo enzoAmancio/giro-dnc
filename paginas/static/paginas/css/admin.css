@@ -1,5 +1,254 @@
 /* Estilos do Painel Administrativo */
 
+/* Despesas Admin */
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #fafafa;
+      color: #1a1a1a;
+    }
+
+    .titulo-principal {
+      font-weight: 600;
+      font-size: 1.75rem;
+      letter-spacing: -0.02em;
+      color: #000;
+    }
+
+    /* Cards Minimalistas */
+    .stat-card-minimal {
+      background: white;
+      border: 1px solid #e5e5e5;
+      border-radius: 12px;
+      padding: 1.5rem;
+      transition: all 0.2s ease;
+    }
+
+    .stat-card-minimal:hover {
+      border-color: #000;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 600;
+      margin: 0.5rem 0;
+    }
+
+    .stat-label {
+      font-size: 0.875rem;
+      color: #737373;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-weight: 500;
+    }
+
+    /* Tabs Minimalistas */
+    .nav-tabs-minimal {
+      border-bottom: 1px solid #e5e5e5;
+      margin-bottom: 2rem;
+    }
+
+    .nav-tabs-minimal .nav-link {
+      border: none;
+      color: #737373;
+      padding: 1rem 1.5rem;
+      font-weight: 500;
+      border-bottom: 2px solid transparent;
+    }
+
+    .nav-tabs-minimal .nav-link:hover {
+      color: #000;
+      border-color: transparent;
+    }
+
+    .nav-tabs-minimal .nav-link.active {
+      color: #000;
+      background: transparent;
+      border-bottom-color: #000;
+    }
+
+    /* Botões Minimalistas */
+    .btn-minimal {
+      border: 1px solid #000;
+      background: white;
+      color: #000;
+      padding: 0.5rem 1.5rem;
+      border-radius: 8px;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+
+    .btn-minimal:hover {
+      background: #000;
+      color: white;
+    }
+
+    .btn-minimal-primary {
+      background: #000;
+      color: white;
+      border: 1px solid #000;
+    }
+
+    .btn-minimal-primary:hover {
+      background: #333;
+      border-color: #333;
+      color: white;
+    }
+
+    /* Filtros Minimalistas */
+    .filter-bar {
+      background: white;
+      border: 1px solid #e5e5e5;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .form-control-minimal, .form-select-minimal {
+      border: 1px solid #e5e5e5;
+      border-radius: 8px;
+      padding: 0.625rem 1rem;
+      font-size: 0.9rem;
+    }
+
+    .form-control-minimal:focus, .form-select-minimal:focus {
+      border-color: #000;
+      box-shadow: 0 0 0 3px rgba(0,0,0,0.05);
+    }
+
+    /* Tabela Minimalista */
+    .table-minimal {
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .table-minimal th {
+      background: #fafafa;
+      border-bottom: 1px solid #e5e5e5;
+      font-weight: 600;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #737373;
+      padding: 1rem;
+    }
+
+    .table-minimal td {
+      padding: 1rem;
+      border-bottom: 1px solid #f5f5f5;
+      vertical-align: middle;
+    }
+
+    .table-minimal tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* Badge Minimalista */
+    .badge-minimal {
+      padding: 0.35rem 0.75rem;
+      border-radius: 6px;
+      font-weight: 500;
+      font-size: 0.75rem;
+      border: 1px solid;
+    }
+
+    .badge-green {
+      background: #f0fdf4;
+      color: #166534;
+      border-color: #bbf7d0;
+    }
+
+    .badge-yellow {
+      background: #fffbeb;
+      color: #92400e;
+      border-color: #fde68a;
+    }
+
+    .badge-red {
+      background: #fef2f2;
+      color: #991b1b;
+      border-color: #fecaca;
+    }
+
+    .badge-blue {
+      background: #eff6ff;
+      color: #1e40af;
+      border-color: #bfdbfe;
+    }
+
+    .badge-gray {
+      background: #f9fafb;
+      color: #374151;
+      border-color: #d1d5db;
+    }
+
+    /* Gráficos */
+    .chart-container-minimal {
+      background: white;
+      border: 1px solid #e5e5e5;
+      border-radius: 12px;
+      padding: 1.5rem;
+    }
+
+    .chart-title {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: #000;
+      margin-bottom: 1.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* Item de Lista */
+    .list-item-minimal {
+      background: white;
+      border: 1px solid #e5e5e5;
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 0.75rem;
+      transition: all 0.2s;
+    }
+
+    .list-item-minimal:hover {
+      border-color: #000;
+    }
+
+    /* Ícones de ação */
+    .action-icon {
+      width: 32px;
+      height: 32px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 6px;
+      border: 1px solid #e5e5e5;
+      background: white;
+      color: #737373;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+
+    .action-icon:hover {
+      border-color: #000;
+      color: #000;
+    }
+
+    /* Empty State */
+    .empty-state {
+      padding: 4rem 2rem;
+      text-align: center;
+      background: white;
+      border: 1px solid #e5e5e5;
+      border-radius: 12px;
+    }
+
+    .empty-state-icon {
+      font-size: 3rem;
+      color: #d4d4d4;
+      margin-bottom: 1rem;
+    }
+
 /* Header Admin */
 .admin-header {
     background: #fff;

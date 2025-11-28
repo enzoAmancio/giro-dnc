@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
 
-/* ---------- VARIÁVEIS GERAIS ---------- */
+
 :root {
   --gd-orange: #f97316;
   --gd-orange-light: #fed7aa;
@@ -15,7 +15,7 @@
   --gd-green: #22c55e;
 }
 
-/* ---------- BASE DO SITE ---------- */
+
 body {
   background: #f1f5f9;
   font-family: 'Montserrat', Arial, Helvetica, sans-serif;
@@ -23,7 +23,7 @@ body {
   padding: 0;
 }
 
-/* ---------- TOPO (NAV BAR) ---------- */
+
 .gd-topbar {
   position: fixed;
   top: 0;
@@ -68,19 +68,13 @@ body {
   margin-left: 150px;
 }
 
-/* ---------- MENU LATERAL ---------- */
-/**
- * COMPORTAMENTO:
- * MOBILE/TABLET (≤1024px): Menu hambúrguer - escondido por padrão
- * DESKTOP (>1024px): Menu lateral sempre visível, pode ser colapsado para APENAS ícones
- */
 
 .gd-sidebar {
   position: fixed;
   top: 76px;
   bottom: 0;
   left: 0;
-  width: 260px; 
+  width: 260px;
   background: var(--gd-bg);
   color: #fff;
   border-right: 1px solid var(--gd-border);
@@ -95,9 +89,10 @@ body {
 @media (min-width: 1025px) {
   .gd-sidebar {
     transform: translateX(0);
-    margin-top: 60px; /* Espaço para o menu sanduíche */
+    margin-top: 60px;
+    /* Espaço para o menu sanduíche */
   }
-  
+
   /* DESKTOP: Quando colapsado, reduz para APENAS ícones */
   .gd-sidebar.collapsed {
     width: 60px;
@@ -118,7 +113,6 @@ body {
     margin-top: 60px !important;
   }
 
-  /* DESKTOP COLLAPSED: Esconde TODOS os textos (inclusive Sair, Voltar, etc) */
   .gd-sidebar.collapsed .gd-submenu span,
   .gd-sidebar.collapsed .btn-toggle.sidebar-option span,
   .gd-sidebar.collapsed .nav-link.sidebar-option span {
@@ -149,20 +143,21 @@ body {
 @media (max-width: 1024px) {
   .gd-sidebar {
     transform: translateX(-100%);
-    margin-top: 0 !important; /* Remove margem do desktop */
+    margin-top: 0 !important;
+    /* Remove margem do desktop */
   }
-  
+
   /* Classe .show torna menu visível */
   .gd-sidebar.show {
     transform: translateX(0);
-    box-shadow: 2px 0 10px rgba(0,0,0,0.3);
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
   }
-  
+
   /* MOBILE: Remove qualquer estado collapsed */
   .gd-sidebar.collapsed {
     width: 260px !important;
   }
-  
+
   /* Overlay escuro quando menu aberto */
   body.menu-open::before {
     content: '';
@@ -171,14 +166,19 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0,0,0,0.5);
+    background: rgba(0, 0, 0, 0.5);
     z-index: 1039;
     animation: fadeIn 0.3s ease;
   }
-  
+
   @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
   }
 }
 
@@ -213,7 +213,7 @@ body {
   transform: scale(1.1);
 }
 
-/* DESKTOP (>1024px): Menu sanduíche embaixo da logo, na lateral */
+
 @media (min-width: 1025px) {
   .sidebar-item {
     position: fixed !important;
@@ -230,7 +230,7 @@ body {
     padding: 0 0 0 10px;
     border-bottom: 1px solid var(--gd-border);
   }
-  
+
   .menu-sanduiche {
     position: relative !important;
     margin: 0 !important;
@@ -239,7 +239,7 @@ body {
   }
 }
 
-/* MOBILE E TABLET (≤1024px): Menu sanduíche no canto direito superior */
+
 @media (max-width: 1024px) {
   .sidebar-item {
     position: fixed;
@@ -249,7 +249,7 @@ body {
     padding: 0;
     border-bottom: none;
   }
-  
+
   .menu-sanduiche {
     position: relative;
     margin: 15px 20px 0 0;
@@ -275,9 +275,9 @@ body {
   font-weight: 500;
   font-size: 0.95rem;
   text-align: left;
-  transition: background 0.2s cubic-bezier(0.4, 0, 0.2, 1), 
-              color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
-              padding 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: background 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+    color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+    padding 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
   pointer-events: auto !important;
 }
@@ -351,7 +351,7 @@ body {
   margin-bottom: 0;
 }
 
-/* ---------- LAYOUT GERAL ---------- */
+
 .gd-main {
   min-height: 100vh;
   background: #f1f5f9;
@@ -360,30 +360,29 @@ body {
   transition: margin-left 0.3s ease, width 0.3s ease;
 }
 
-/* MOBILE E TABLET: Main ocupa tela toda até 1024px */
+
 @media (max-width: 1024px) {
   .gd-main {
     margin-left: 0 !important;
     padding: 100px 20px 40px 20px;
     width: 100% !important;
   }
-  
-  /* MOBILE: Remove classe sidebar-collapsed se existir */
+
+
   .gd-main.sidebar-collapsed {
     margin-left: 0 !important;
     width: 100% !important;
   }
 }
 
-/* DESKTOP: Main ajusta com sidebar acima de 1024px */
 @media (min-width: 1025px) {
   .gd-main {
     margin-left: 260px;
     padding: 100px 40px 40px 40px;
     width: calc(100% - 260px);
   }
-  
-  /* DESKTOP: Quando sidebar está colapsado */
+
+
   .gd-main.sidebar-collapsed {
     margin-left: 60px;
     width: calc(100% - 60px);
@@ -554,9 +553,12 @@ body {
 }
 
 @keyframes pulse {
-  0%, 100% {
+
+  0%,
+  100% {
     opacity: 1;
   }
+
   50% {
     opacity: 0.7;
   }
@@ -645,6 +647,9 @@ body {
 
 .btn-nav:hover {
   color: var(--gd-orange);
+}
+.btn{
+  border:#000 !important;
 }
 
 #current-month {
@@ -735,7 +740,7 @@ body {
   align-items: center;
 }
 
-.horario-info > span {
+.horario-info>span {
   font-weight: 600;
   color: #495057;
   font-size: 0.95rem;
@@ -764,7 +769,7 @@ body {
   .dashboard-cards {
     grid-template-columns: 1fr;
   }
-  
+
   .dashboard-card {
     padding: 1rem;
   }
@@ -787,7 +792,7 @@ button#sidebar-toggle.menu-sanduiche {
 
 /* ---------- ESTADOS ATIVOS ---------- */
 .sidebar-option.active {
-  background: rgba(249, 115, 22,) !important;
+  background: rgba(249, 115, 22, ) !important;
   color: var(--gd-white) !important;
 }
 
@@ -806,25 +811,26 @@ button#sidebar-toggle.menu-sanduiche {
   font-size: 0.875rem;
   color: #94a3b8;
 }
+
 ia {
-    list-style: none;
+  list-style: none;
 }
 
 .mrc {
-    margin-bottom: 3rem;
+  margin-bottom: 3rem;
 }
 
 .locmore {
-    list-style: none;
-    display: flex;
-    align-items: center;
+  list-style: none;
+  display: flex;
+  align-items: center;
 }
 
 .tswift {
-    margin-left: 2rem;
-    font-size: clamp(1rem, 2.2vw, 1.3rem);
+  margin-left: 2rem;
+  font-size: clamp(1rem, 2.2vw, 1.3rem);
 }
 
 #toknow {
-    margin-bottom: 5.25rem;
+  margin-bottom: 5.25rem;
 }

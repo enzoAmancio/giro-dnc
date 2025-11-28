@@ -13,11 +13,17 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 from pathlib import Path
 import os
 import environ
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 env = environ.Env()
+
+# Load environment variables from .env file
+
+GOOGLE_CALENDAR_SECRET_PATH = os.path.join(BASE_DIR, config("GOOGLE_CALENDAR_SECRET_PATH"))
+SITE_URL = "http://localhost:8000"
 
 # Caminho para o arquivo .env
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
@@ -41,7 +47,8 @@ SECRET_KEY = "django-insecure-p6y9^dgkmyasld_c9=3i%()%x#f#k@++odxqap3@-dj)m0jui6
 # Use: DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 DEBUG = True
 
-ALLOWED_HOSTS = ['129.146.67.23','localhost', 'girodnc.qzz.io','127.0.0.1', 'catherin-postoptic-noncontemporaneously.ngrok-free.dev']
+#ALLOWED_HOSTS = ['129.146.67.23','localhost', 'girodnc.qzz.io','127.0.0.1', 'catherin-postoptic-noncontemporaneously.ngrok-free.dev']
+ALLOWED_HOSTS = ['*']
 
 STATIC_URL = '/static/'
 # Application definition
@@ -60,6 +67,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "login",
     "paginas",
+    "calendario",
 ]
 
 MIDDLEWARE = [

@@ -2,541 +2,181 @@
 <html lang="pt-br">
 <head>
     {% load static %}
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>GIRO DNC - Despesas Giro</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>GIRO DNC - Despesas Giro</title>
 
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 
-  <link rel="stylesheet" href="{% static 'paginas/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'paginas/css/style.css' %}">
 </head>
 
 <body>
-  <header class="gd-topbar">
+<header class="gd-topbar">
     <div class="gd-logo-container">
-      <a href="{% url 'paginas:home' %}">
-        <img src="{% static 'paginas/img/Girologo.jpg' %}" alt="Logo Giro" class="gd-logo">
-      </a>
+        <a href="{% url 'paginas:home' %}">
+            <img src="{% static 'paginas/img/Girologo.jpg' %}" alt="Logo Giro" class="gd-logo">
+        </a>
     </div>
     <div class="gd-topbar-content">
-      <span class="gd-pill">GIRO DNC</span>
+        <span class="gd-pill">GIRO DNC</span>
     </div>
-  </header>
-  <!-- Menu Sanduíche - FORA do header -->
-  <div class="sidebar-item">
+</header>
+
+<div class="sidebar-item">
     <button id="sidebar-toggle" class="menu-sanduiche">
-      <i class="bi bi-list"></i>
+        <i class="bi bi-list"></i>
     </button>
-  </div>
+</div>
 
+<div class="gd-layout d-flex">
+{% with sidebar_section='financeiro' sidebar_active='financeiro_despesas' %}
+    {% include 'includes/sidebar.html' %}
+{% endwith %}
 
-  <div class="gd-layout d-flex">
-    <!-- Sidebar Padronizado -->
-    {% with sidebar_section='financeiro' sidebar_active='financeiro_despesas' %}
-      {% include 'includes/sidebar.html' %}
-    {% endwith %}
+<main class="gd-main">
+<div class="conteudo">
 
-    <main class="gd-main">
-      <div class="conteudo">
-        
-        {% if is_admin_view %}
-        {# ========== ADMIN VIEW - Resultados Financeiros Mensais ========== #}
-        <nav aria-label="breadcrumb">
-          <ol class="breadcrumb bg-transparent p-0 mb-2">
-            <li class="breadcrumb-item active fw-semi" aria-current="page">Financeiro</li>
-            <li class="breadcrumb-item active fw-semi" aria-current="page">Resultados Mensais</li>
-          </ol>
-        </nav>
+{% if erro %}
+    <div class="alert alert-danger">
+        <i class="bi bi-exclamation-triangle"></i> {{ erro }}
+    </div>
 
-        <div class="d-flex justify-content-between align-items-center mb-4">
-          <h1 class="titulo-principal mb-0">Resultados Financeiros Mensais</h1>
-          <a href="{% url 'paginas:exportar_resultados_excel' %}{% if mes_filtro %}?mes={{ mes_filtro }}{% endif %}" class="btn btn-success">
-            <i class="bi bi-file-earmark-excel"></i> Exportar Excel
-          </a>
-        </div>
-          <!-- Filtro de Mês -->
-          <div class="card shadow-sm mb-4">
-            <div class="card-body">
-              <form method="GET" class="row g-3 align-items-end">
-                <div class="col-md-4">
-                  <label for="mes" class="form-label">Filtrar por Mês:</label>
-                  <input type="month" class="form-control" id="mes" name="mes" value="{{ mes_filtro }}">
-                </div>
-                <div class="col-md-2">
-                  <button type="submit" class="btn btn-primary">
-                    <i class="bi bi-funnel"></i> Filtrar
-                  </button>
-                </div>
-                <div class="col-md-2">
-                  <a href="{% url 'paginas:resultados_financeiros' %}" class="btn btn-outline-secondary">
-                    <i class="bi bi-x-circle"></i> Limpar
-                  </a>
-                </div>
-              </form>
-            </div>
-          </div>
+{% else %}
+    {% load paginas_filters %}
 
-          <!-- Cards de Resumo -->
-          <div class="row mb-4">
-            <div class="col-md-3">
-              <div class="card border-0 shadow-sm h-100">
-                <div class="card-body text-center">
-                  <div class="d-flex align-items-center justify-content-center mb-2">
-                    <i class="bi bi-cash-coin" style="font-size: 2rem; color: #22c55e;"></i>
-                  </div>
-                  <h6 class="text-muted mb-2">Total de Lucros</h6>
-                  <h3 class="text-success mb-0">R$ {{ totais.total_lucro|floatformat:2|default:"0,00" }}</h3>
-                </div>
-              </div>
-            </div>
-            
-            <div class="col-md-3">
-              <div class="card border-0 shadow-sm h-100">
-                <div class="card-body text-center">
-                  <div class="d-flex align-items-center justify-content-center mb-2">
-                    <i class="bi bi-wallet2" style="font-size: 2rem; color: #ef4444;"></i>
-                  </div>
-                  <h6 class="text-muted mb-2">Total de Gastos</h6>
-                  <h3 class="text-danger mb-0">R$ {{ totais.total_gastos|floatformat:2|default:"0,00" }}</h3>
-                </div>
-              </div>
-            </div>
-            
-            <div class="col-md-3">
-              <div class="card border-0 shadow-sm h-100">
-                <div class="card-body text-center">
-                  <div class="d-flex align-items-center justify-content-center mb-2">
-                    <i class="bi bi-hourglass-split" style="font-size: 2rem; color: #f97316;"></i>
-                  </div>
-                  <h6 class="text-muted mb-2">Total a Receber</h6>
-                  <h3 style="color: #f97316; margin: 0;">R$ {{ totais.total_a_receber|floatformat:2|default:"0,00" }}</h3>
-                </div>
-              </div>
-            </div>
-            
-            <div class="col-md-3">
-              <div class="card border-0 shadow-sm h-100">
-                <div class="card-body text-center">
-                  <div class="d-flex align-items-center justify-content-center mb-2">
-                    <i class="bi bi-graph-up-arrow" style="font-size: 2rem; color: {% if lucro_liquido_total >= 0 %}#22c55e{% else %}#ef4444{% endif %};"></i>
-                  </div>
-                  <h6 class="text-muted mb-2">Lucro Líquido Total</h6>
-                  <h3 class="{% if lucro_liquido_total >= 0 %}text-success{% else %}text-danger{% endif %} mb-0">
-                    R$ {{ lucro_liquido_total|floatformat:2 }}
-                  </h3>
-                </div>
-              </div>
-            </div>
-          </div>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb bg-transparent p-0 mb-2">
+            <li class="breadcrumb-item active fw-semi">Financeiro</li>
+            <li class="breadcrumb-item active fw-semi">Minhas Despesas</li>
+        </ol>
+    </nav>
 
-          <!-- Gráfico Doughnut -->
-          {% if resultado_atual %}
-          <div class="row mb-4">
-            <div class="col-md-6 mx-auto">
-              <div class="card shadow-sm">
-                <div class="card-body">
-                  <h5 class="card-title text-center mb-4">
-                    <i class="bi bi-pie-chart"></i> 
-                    Distribuição - {{ resultado_atual.mes_formatado }}
-                  </h5>
-                  <canvas id="graficoFinanceiro" style="max-height: 300px;"></canvas>
-                </div>
-              </div>
-            </div>
-          </div>
-          {% endif %}
-
-          <!-- Tabela de Resultados Mensais -->
-          <div class="card shadow-sm">
-            <div class="card-body">
-              <h5 class="card-title mb-4">
-                <i class="bi bi-calendar3"></i> Histórico Mensal
-              </h5>
-              
-              {% if resultados %}
-                <div class="table-responsive">
-                  <table class="table table-hover align-middle">
-                    <thead class="table-light">
-                      <tr>
-                        <th>Mês/Ano</th>
-                        <th class="text-end">Lucro Total</th>
-                        <th class="text-end">Gasto Total</th>
-                        <th class="text-end">A Receber</th>
-                        <th class="text-end">Lucro Líquido</th>
-                        <th>Observações</th>
-                        <th class="text-center">Ações</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {% for resultado in resultados %}
-                      <tr>
-                        <td><strong>{{ resultado.mes_formatado }}</strong></td>
-                        <td class="text-end">
-                          <span class="badge" style="background-color: #d4edda; color: #155724; font-size: 0.95rem;">
-                            R$ {{ resultado.lucro_total|floatformat:2 }}
-                          </span>
-                        </td>
-                        <td class="text-end">
-                          <span class="badge" style="background-color: #f8d7da; color: #721c24; font-size: 0.95rem;">
-                            R$ {{ resultado.gasto_total|floatformat:2 }}
-                          </span>
-                        </td>
-                        <td class="text-end">
-                          <span class="badge" style="background-color: #fff3cd; color: #856404; font-size: 0.95rem;">
-                            R$ {{ resultado.a_receber_total|floatformat:2 }}
-                          </span>
-                        </td>
-                        <td class="text-end">
-                          <span class="badge {% if resultado.lucro_liquido >= 0 %}bg-success{% else %}bg-danger{% endif %}" style="font-size: 1rem;">
-                            R$ {{ resultado.lucro_liquido|floatformat:2 }}
-                          </span>
-                        </td>
-                        <td>
-                          {% if resultado.observacoes %}
-                            <small class="text-muted">{{ resultado.observacoes|truncatewords:10 }}</small>
-                          {% else %}
-                            <small class="text-muted">-</small>
-                          {% endif %}
-                        </td>
-                        <td class="text-center">
-                          <a href="/admin/paginas/resultadofinanceiromensal/{{ resultado.id }}/change/" 
-                             class="btn btn-sm btn-outline-primary" 
-                             title="Editar">
-                            <i class="bi bi-pencil"></i>
-                          </a>
-                        </td>
-                      </tr>
-                      {% endfor %}
-                    </tbody>
-                    <tfoot class="table-dark">
-                      <tr>
-                        <td><strong>TOTAIS</strong></td>
-                        <td class="text-end"><strong>R$ {{ totais.total_lucro|floatformat:2|default:"0,00" }}</strong></td>
-                        <td class="text-end"><strong>R$ {{ totais.total_gastos|floatformat:2|default:"0,00" }}</strong></td>
-                        <td class="text-end"><strong>R$ {{ totais.total_a_receber|floatformat:2|default:"0,00" }}</strong></td>
-                        <td class="text-end"><strong>R$ {{ lucro_liquido_total|floatformat:2 }}</strong></td>
-                        <td colspan="2"></td>
-                      </tr>
-                    </tfoot>
-                  </table>
-                </div>
-              {% else %}
-                <div class="alert alert-info text-center">
-                  <i class="bi bi-info-circle" style="font-size: 3rem;"></i>
-                  <h5 class="mt-3">Nenhum resultado financeiro cadastrado</h5>
-                  <p class="mb-3">Acesse o painel administrativo para adicionar os primeiros dados.</p>
-                  <a href="/admin/paginas/resultadofinanceiromensal/add/" class="btn btn-primary">
-                    <i class="bi bi-plus-circle"></i> Adicionar Resultado
-                  </a>
-                </div>
-              {% endif %}
-            </div>
-          </div>
-
-          <!-- Script do Gráfico Chart.js -->
-          {% if dados_grafico %}
-          <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-          <script>
-            document.addEventListener('DOMContentLoaded', function() {
-              const ctx = document.getElementById('graficoFinanceiro').getContext('2d');
-              
-              new Chart(ctx, {
-                type: 'doughnut',
-                data: {
-                  labels: {{ dados_grafico.labels|safe }},
-                  datasets: [{
-                    data: {{ dados_grafico.valores|safe }},
-                    backgroundColor: {{ dados_grafico.cores|safe }},
-                    borderWidth: 2,
-                    borderColor: '#fff'
-                  }]
-                },
-                options: {
-                  responsive: true,
-                  maintainAspectRatio: true,
-                  plugins: {
-                    legend: {
-                      position: 'bottom',
-                      labels: {
-                        font: {
-                          size: 14,
-                          family: 'Montserrat'
-                        },
-                        padding: 15
-                      }
-                    },
-                    tooltip: {
-                      callbacks: {
-                        label: function(context) {
-                          let label = context.label || '';
-                          if (label) {
-                            label += ': ';
-                          }
-                          label += 'R$ ' + context.parsed.toLocaleString('pt-BR', {
-                            minimumFractionDigits: 2,
-                            maximumFractionDigits: 2
-                          });
-                          return label;
-                        }
-                      }
-                    }
-                  }
-                }
-              });
-            });
-          </script>
-          {% endif %}
-
-        
-        {% else %}
-        {# ========== STUDENT VIEW - Despesas Pessoais do Aluno ========== #}
-        {% load paginas_filters %}
-        
-        <nav aria-label="breadcrumb">
-          <ol class="breadcrumb bg-transparent p-0 mb-2">
-            <li class="breadcrumb-item active fw-semi" aria-current="page">Financeiro</li>
-            <li class="breadcrumb-item active fw-semi" aria-current="page">Minhas Despesas</li>
-          </ol>
-        </nav>
-
-        <div class="d-flex justify-content-between align-items-center mb-4">
-          <h1 class="titulo-principal mb-0">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="titulo-principal mb-0">
             <i class="bi bi-wallet"></i> Minhas Despesas
-          </h1>
-          <a href="{% url 'paginas:criar_despesa' %}" class="btn btn-primary">
+        </h1>
+        <a href="{% url 'paginas:criar_despesa' %}" class="btn btn-primary">
             <i class="bi bi-plus-circle"></i> Nova Despesa
-          </a>
+        </a>
+    </div>
+
+    <!-- Cards de Resumo -->
+    <div class="row mb-4">
+        <div class="col-md-4 mb-3">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body text-center">
+                    <h6 class="text-muted mb-2">Total Previsto</h6>
+                    <h3 class="mb-0 text-primary">R$ {{ total_previsto|floatformat:2 }}</h3>
+                </div>
+            </div>
         </div>
 
-        <!-- Cards de Resumo -->
-        <div class="row mb-4">
-          <div class="col-md-4 mb-3">
+        <div class="col-md-4 mb-3">
             <div class="card border-0 shadow-sm h-100">
-              <div class="card-body text-center">
-                <div class="d-flex align-items-center justify-content-center mb-2">
-                  <i class="bi bi-graph-up" style="font-size: 2rem; color: #3b82f6;"></i>
+                <div class="card-body text-center">
+                    <h6 class="text-muted mb-2">Total Gasto</h6>
+                    <h3 class="mb-0 text-danger">R$ {{ total_gasto|floatformat:2 }}</h3>
                 </div>
-                <h6 class="text-muted mb-2">Total Previsto</h6>
-                <h3 class="mb-0" style="color: #3b82f6;">R$ {{ total_previsto|floatformat:2|default:"0.00" }}</h3>
-              </div>
             </div>
-          </div>
-
-          <div class="col-md-4 mb-3">
-            <div class="card border-0 shadow-sm h-100">
-              <div class="card-body text-center">
-                <div class="d-flex align-items-center justify-content-center mb-2">
-                  <i class="bi bi-cash-stack" style="font-size: 2rem; color: #ef4444;"></i>
-                </div>
-                <h6 class="text-muted mb-2">Total Gasto</h6>
-                <h3 class="mb-0 {% if total_gasto > total_previsto %}text-danger{% else %}text-danger{% endif %}">
-                  R$ {{ total_gasto|floatformat:2|default:"0.00" }}
-                </h3>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-4 mb-3">
-            <div class="card border-0 shadow-sm h-100">
-              <div class="card-body text-center">
-                <div class="d-flex align-items-center justify-content-center mb-2">
-                  <i class="bi bi-piggy-bank" style="font-size: 2rem; color: {% if total_restante >= 0 %}#22c55e{% else %}#ef4444{% endif %};"></i>
-                </div>
-                <h6 class="text-muted mb-2">{% if total_restante >= 0 %}Restante{% else %}Estouro{% endif %}</h6>
-                <h3 class="mb-0 {% if total_restante >= 0 %}text-success{% else %}text-danger{% endif %}">
-                  R$ {{ total_restante_abs|floatformat:2|default:"0.00" }}
-                </h3>
-              </div>
-            </div>
-          </div>
         </div>
 
-        <!-- Gráfico de Gastos por Categoria -->
-        {% if despesas %}
-        <div class="card shadow-sm mb-4">
-          <div class="card-body">
-            <h5 class="card-title mb-3">
-              <i class="bi bi-pie-chart"></i> Gastos por Categoria
-            </h5>
+        <div class="col-md-4 mb-3">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body text-center">
+                    <h6 class="text-muted mb-2">{% if total_restante >= 0 %}Restante{% else %}Estouro{% endif %}</h6>
+                    <h3 class="mb-0 {% if total_restante >= 0 %}text-success{% else %}text-danger{% endif %}">
+                        R$ {{ total_restante_abs|floatformat:2 }}
+                    </h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if despesas %}
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <h5 class="card-title mb-3"><i class="bi bi-pie-chart"></i> Gastos por Categoria</h5>
             <div style="max-width: 400px; margin: 0 auto;">
-              <canvas id="categoriasChart"></canvas>
+                <canvas id="categoriasChart"></canvas>
             </div>
-          </div>
         </div>
-        {% endif %}
+    </div>
+    {% endif %}
 
-        <!-- Filtros -->
-        <div class="card shadow-sm mb-4">
-          <div class="card-body">
-            <form method="GET" class="row g-3">
-              <div class="col-md-3">
-                <label class="form-label">Mês</label>
-                <input type="month" name="mes" class="form-control" value="{{ mes_filtro }}">
-              </div>
-              <div class="col-md-3">
-                <label class="form-label">Categoria</label>
-                <select name="categoria" class="form-select">
-                  <option value="">Todas</option>
-                  {% for value, label in categorias_choices %}
-                  <option value="{{ value }}" {% if value == categoria_filtro %}selected{% endif %}>
-                    {{ label }}
-                  </option>
-                  {% endfor %}
-                </select>
-              </div>
-              <div class="col-md-3">
-                <label class="form-label">Status</label>
-                <select name="status" class="form-select">
-                  <option value="">Todos</option>
-                  {% for value, label in status_choices %}
-                  <option value="{{ value }}" {% if value == status_filtro %}selected{% endif %}>
-                    {{ label }}
-                  </option>
-                  {% endfor %}
-                </select>
-              </div>
-              <div class="col-md-3 d-flex align-items-end">
-                <button type="submit" class="btn btn-primary me-2">
-                  <i class="bi bi-funnel"></i> Filtrar
-                </button>
-                <a href="{% url 'paginas:financeiro_despesas' %}" class="btn btn-outline-secondary">
-                  <i class="bi bi-x-circle"></i> Limpar
-                </a>
-              </div>
-            </form>
-          </div>
+    <!-- Tabela -->
+    <div class="card shadow-sm">
+        <div class="card-header bg-white">
+            <h5><i class="bi bi-list-ul"></i> Lista de Despesas</h5>
         </div>
-
-        <!-- Tabela de Despesas -->
-        <div class="card shadow-sm">
-          <div class="card-header bg-white">
-            <h5 class="mb-0"><i class="bi bi-list-ul"></i> Lista de Despesas</h5>
-          </div>
-          <div class="card-body p-0">
+        <div class="card-body p-0">
             {% if despesas %}
             <div class="table-responsive">
-              <table class="table table-hover mb-0">
-                <thead class="table-light">
-                  <tr>
-                    <th>Nome</th>
-                    <th>Categoria</th>
-                    <th>Data Prevista</th>
-                    <th>Valor Previsto</th>
-                    <th>Valor Gasto</th>
-                    <th>Status</th>
-                    <th>Ações</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {% for despesa in despesas %}
-                  <tr>
-                    <td>
-                      <strong>{{ despesa.nome }}</strong>
-                      {% if despesa.descricao %}
-                      <br><small class="text-muted">{{ despesa.descricao|truncatewords:10 }}</small>
-                      {% endif %}
-                    </td>
-                    <td>
-                      <span class="badge" style="background-color: {{ despesa.get_categoria_color }};">
-                        {{ despesa.categoria_display }}
-                      </span>
-                    </td>
-                    <td>{{ despesa.data_prevista|date:"d/m/Y" }}</td>
-                    <td>R$ {{ despesa.valor_previsto|floatformat:2 }}</td>
-                    <td>
-                      <strong class="{% if despesa.valor_gasto > despesa.valor_previsto %}text-danger{% else %}text-success{% endif %}">
-                        R$ {{ despesa.valor_gasto|floatformat:2 }}
-                      </strong>
-                    </td>
-                    <td>
-                      <span class="badge" style="background-color: {{ despesa.get_status_color }};">
-                        {{ despesa.status_display }}
-                      </span>
-                    </td>
-                    <td>
-                      <a href="{% url 'paginas:editar_despesa' despesa.id %}" class="btn btn-sm btn-outline-primary" title="Editar">
-                        <i class="bi bi-pencil"></i>
-                      </a>
-                    </td>
-                  </tr>
-                  {% endfor %}
-                </tbody>
-              </table>
+                <table class="table table-hover mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Nome</th>
+                            <th>Categoria</th>
+                            <th>Data Prevista</th>
+                            <th>Valor Previsto</th>
+                            <th>Valor Gasto</th>
+                            <th>Status</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for despesa in despesas %}
+                        <tr>
+                            <td><strong>{{ despesa.nome }}</strong></td>
+                            <td>{{ despesa.categoria_display }}</td>
+                            <td>{{ despesa.data_prevista|date:"d/m/Y" }}</td>
+                            <td>R$ {{ despesa.valor_previsto|floatformat:2 }}</td>
+                            <td>R$ {{ despesa.valor_gasto|floatformat:2 }}</td>
+                            <td>{{ despesa.status_display }}</td>
+                            <td>
+                                <a href="{% url 'paginas:editar_despesa' despesa.id %}" class="btn btn-sm btn-outline-primary">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
             </div>
             {% else %}
             <div class="p-5 text-center text-muted">
-              <i class="bi bi-inbox" style="font-size: 3rem;"></i>
-              <p class="mt-3">Nenhuma despesa encontrada.</p>
-              <a href="{% url 'paginas:criar_despesa' %}" class="btn btn-primary mt-2">
-                <i class="bi bi-plus-circle"></i> Criar Primeira Despesa
-              </a>
+                Nenhuma despesa encontrada
             </div>
             {% endif %}
-          </div>
         </div>
+    </div>
 
-        <!-- Chart.js Script para Gráfico de Categorias -->
-        {% if despesas %}
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <script>
-          document.addEventListener('DOMContentLoaded', function() {
-            const ctx = document.getElementById('categoriasChart');
-            if (ctx) {
-              new Chart(ctx.getContext('2d'), {
+    {% if despesas %}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const ctx = document.getElementById('categoriasChart');
+        if (ctx) {
+            new Chart(ctx, {
                 type: 'doughnut',
                 data: {
-                  labels: {{ categorias_labels|safe }},
-                  datasets: [{
-                    data: {{ categorias_valores|safe }},
-                    backgroundColor: [
-                      '#3b82f6', '#ef4444', '#22c55e', '#f59e0b', 
-                      '#8b5cf6', '#ec4899', '#14b8a6', '#f97316',
-                      '#6366f1', '#84cc16', '#06b6d4'
-                    ],
-                    borderWidth: 2,
-                    borderColor: '#fff'
-                  }]
-                },
-                options: {
-                  responsive: true,
-                  maintainAspectRatio: true,
-                  plugins: {
-                    legend: {
-                      position: 'bottom',
-                      labels: {
-                        font: { size: 12 },
-                        padding: 15
-                      }
-                    },
-                    tooltip: {
-                      callbacks: {
-                        label: function(context) {
-                          let label = context.label || '';
-                          if (label) label += ': ';
-                          label += 'R$ ' + context.parsed.toLocaleString('pt-BR', {
-                            minimumFractionDigits: 2,
-                            maximumFractionDigits: 2
-                          });
-                          return label;
-                        }
-                      }
-                    }
-                  }
+                    labels: {{ categorias_labels|safe }},
+                    datasets: [{
+                        data: {{ categorias_valores|safe }},
+                        backgroundColor: ['#3b82f6', '#ef4444', '#22c55e']
+                    }]
                 }
-              });
-            }
-          });
-        </script>
-        {% endif %}
+            });
+        }
+    </script>
+    {% endif %}
 
-        {% endif %}
+{% endif %}
+</div>
+</main>
+</div>
 
-      </div>
-    </main>
-  </div>
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="{% static 'paginas/js/script.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{% static 'paginas/js/script.js' %}"></script>
 </body>
 </html>

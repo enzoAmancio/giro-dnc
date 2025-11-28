@@ -14,6 +14,8 @@ urlpatterns = [
     path('api/webhook-mercadopago/', views.webhook_mercadopago, name='webhook_mercadopago'),
     path('financeiro/mensalidade/<int:mensalidade_id>/pagar/',views.pagar_mensalidade,name='pagar_mensalidade'),
     path('financeiro/processar-pagamento/', views.processar_pagamento, name='processar_pagamento'),
+    path('api/exportar-frequencias/', api_views.export_frequencias, name='export_frequencias'),
+    path('api/resultados-mensais/exportar-json/', api_views.exportar_resultados_json, name='exportar_resultados_json'),
          
     # Redireciona raiz para home
     path('', RedirectView.as_view(url='/home/', permanent=False), name='root'),
@@ -57,7 +59,8 @@ urlpatterns = [
     
     # Gestão Financeira Mensal (Admin)
     path('financeiro/resultados-mensais/', views.resultados_financeiros, name='resultados_financeiros'),
-    path('financeiro/resultados-mensais/exportar/', views.exportar_resultados_excel, name='exportar_resultados_excel'),
+    #[retirado]path('financeiro/resultados-mensais/exportar/', views.exportar_resultados_excel, name='exportar_resultados_excel'),
+    
     
     # Despesas Pessoais dos Alunos
     path('minhas-despesas/', views.minhas_despesas, name='minhas_despesas'),

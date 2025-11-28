@@ -3,14 +3,15 @@ from django.http import JsonResponse
 from django.views.decorators.http import require_GET
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.dateparse import parse_date
-from .models import Aluno, Mensalidade
+from .models import Aluno, Mensalidade, ResultadoFinanceiroMensal
+from datetime import datetime
+from .views import grafico_frequencia
 
     
 API_TOKEN = os.environ.get("API_EXPORT_TOKEN")
 print("=== TOKEN CARREGADO ===", API_TOKEN)
-# ---------------------------------------------------------
-# EXPORTAÇÃO DE ALUNOS
-# ---------------------------------------------------------
+
+
 @csrf_exempt
 @require_GET
 def export_alunos(request):
@@ -105,3 +106,42 @@ def export_mensalidades(request):
 
     return JsonResponse(data, safe=False)
 
+@csrf_exempt
+@require_GET
+def export_frequencias(request):
+    token = request.GET.get("token")
+    data = grafico_frequencia(request) 
+    
+    if token != API_TOKEN:
+        return JsonResponse({"detail": "Unauthorized"}, status=401)
+
+    return data
+
+@require_GET
+def exportar_resultados_json(request):
+    """Endpoint para exportar resultados financeiros mensais em JSON"""
+    mes_filtro = request.GET.get('mes', None)
+    if mes_filtro:
+        try:
+            ano, mes = mes_filtro.split('-')
+            data_filtro = datetime(int(ano), int(mes), 1).date()
+            resultados = ResultadoFinanceiroMensal.objects.filter(mes=data_filtro)
+        except (ValueError, AttributeError):
+            resultados = ResultadoFinanceiroMensal.objects.all()
+    else:
+        resultados = ResultadoFinanceiroMensal.objects.all()
+
+    data = []
+    for resultado in resultados:
+        data.append({
+            'mes': resultado.mes_formatado(),
+            'lucro_total': float(resultado.lucro_total),
+            'gasto_total': float(resultado.gasto_total),
+            'a_receber_total': float(resultado.a_receber_total),
+            'lucro_liquido': float(resultado.lucro_liquido()),
+        })
+
+    return JsonResponse({'resultados': data})
+    
+
+        
