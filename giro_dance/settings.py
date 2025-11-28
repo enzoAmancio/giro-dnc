@@ -68,6 +68,8 @@ INSTALLED_APPS = [
     "login",
     "paginas",
     "calendario",
+    "channels",
+    "chatAplicativo",
 ]
 
 MIDDLEWARE = [
@@ -229,3 +231,8 @@ DATA_UPLOAD_MAX_NUMBER_FIELDS = 1000    # Limite de campos no formulário
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/painel/'
 LOGOUT_REDIRECT_URL = '/login/'
+
+
+ASGI_APPLICATION = "giro_dance.asgi.application"
+
+

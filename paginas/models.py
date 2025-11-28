@@ -4,8 +4,12 @@ from django.core.validators import MinValueValidator, MaxValueValidator, FileExt
 from django.core.exceptions import ValidationError
 from django.utils import timezone
 from django.db.models import Sum
+
+# Se você realmente vai usar integração com Google Calendar
 from calendario.models import GoogleCalendarCredential, GoogleCalendarEvent
+
 import os
+
 
 
 # Create your models here.
@@ -1449,6 +1453,17 @@ class EntradaFinanceira(models.Model):
             return f"{self.parcela_atual}/{self.numero_parcelas}"
         return "-"
 
+class Message(models.Model):
+    sender = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name="messages"
+    )
+    content = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.sender.username}: {self.content[:30]}..."
 
 
 
