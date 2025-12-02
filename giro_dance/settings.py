@@ -23,7 +23,7 @@ env = environ.Env()
 # Load environment variables from .env file
 
 GOOGLE_CALENDAR_SECRET_PATH = os.path.join(BASE_DIR, config("GOOGLE_CALENDAR_SECRET_PATH"))
-SITE_URL = "http://localhost:8000"
+SITE_URL = ""
 
 # Caminho para o arquivo .env
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
