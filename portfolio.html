@@ -1,0 +1,1773 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <!-- Meta Tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Portfolio de Enzo Amancio - Desenvolvedor Full Stack especializado em Django, Python e integrações de APIs">
+    <meta name="keywords" content="desenvolvedor, full stack, python, django, web developer, portfolio">
+    <meta name="author" content="Enzo Amancio">
+    
+    <title>Enzo Amancio | Desenvolvedor Full Stack</title>
+    
+    <!-- Font Awesome CDN para ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ========================================
+           CSS Variables - Sistema de cores e tipografia
+           ======================================== */
+        :root {
+            /* Cores principais */
+            --primary-color: #2563eb;
+            --primary-dark: #1d4ed8;
+            --primary-light: #3b82f6;
+            --secondary-color: #0f172a;
+            --accent-color: #06b6d4;
+            
+            /* Cores neutras */
+            --bg-color: #ffffff;
+            --bg-secondary: #f8fafc;
+            --bg-tertiary: #f1f5f9;
+            --text-primary: #1e293b;
+            --text-secondary: #475569;
+            --text-muted: #94a3b8;
+            
+            /* Outras cores */
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --border-color: #e2e8f0;
+            
+            /* Sombras */
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            
+            /* Transições */
+            --transition-fast: 0.2s ease;
+            --transition-normal: 0.3s ease;
+            --transition-slow: 0.5s ease;
+            
+            /* Tipografia */
+            --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            
+            /* Espaçamentos */
+            --section-padding: 100px 0;
+            --container-max: 1200px;
+        }
+
+        /* ========================================
+           Reset e estilos base
+           ======================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-family);
+            font-size: 16px;
+            line-height: 1.7;
+            color: var(--text-primary);
+            background-color: var(--bg-color);
+            overflow-x: hidden;
+        }
+
+        /* Container padrão */
+        .container {
+            max-width: var(--container-max);
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Links padrão */
+        a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: color var(--transition-fast);
+        }
+
+        a:hover {
+            color: var(--primary-dark);
+        }
+
+        /* Seções */
+        section {
+            padding: var(--section-padding);
+        }
+
+        /* Títulos de seção */
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 1rem;
+            color: var(--secondary-color);
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 3rem;
+            font-size: 1.1rem;
+        }
+
+        /* ========================================
+           Navegação
+           ======================================== */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            transition: all var(--transition-normal);
+        }
+
+        .navbar.scrolled {
+            box-shadow: var(--shadow-md);
+        }
+
+        .nav-container {
+            max-width: var(--container-max);
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .nav-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--secondary-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-logo span {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            font-weight: 500;
+            padding: 0.5rem 0;
+            position: relative;
+            transition: color var(--transition-fast);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            transition: width var(--transition-normal);
+        }
+
+        .nav-link:hover {
+            color: var(--primary-color);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* Menu hamburguer (mobile) */
+        .nav-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+        }
+
+        .nav-toggle span {
+            width: 25px;
+            height: 3px;
+            background: var(--secondary-color);
+            border-radius: 3px;
+            transition: all var(--transition-fast);
+        }
+
+        /* ========================================
+           Hero Section
+           ======================================== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-color) 100%);
+            padding-top: 70px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 80%;
+            height: 150%;
+            background: radial-gradient(circle, rgba(37, 99, 235, 0.05) 0%, transparent 70%);
+            z-index: 0;
+        }
+
+        .hero-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-content {
+            animation: fadeInLeft 0.8s ease;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.1), rgba(6, 182, 212, 0.1));
+            color: var(--primary-color);
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-badge i {
+            animation: pulse 2s infinite;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            color: var(--secondary-color);
+        }
+
+        .hero-title .highlight {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-description {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            max-width: 500px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 28px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all var(--transition-normal);
+            border: none;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(37, 99, 235, 0.4);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: var(--bg-color);
+            color: var(--text-primary);
+            border: 2px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            transform: translateY(-3px);
+        }
+
+        .hero-image {
+            display: flex;
+            justify-content: center;
+            animation: fadeInRight 0.8s ease;
+        }
+
+        .hero-avatar {
+            position: relative;
+        }
+
+        .hero-avatar img {
+            width: 350px;
+            height: 350px;
+            border-radius: 30px;
+            object-fit: cover;
+            box-shadow: var(--shadow-xl);
+            border: 5px solid white;
+        }
+
+        .hero-avatar::before {
+            content: '';
+            position: absolute;
+            inset: -15px;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            border-radius: 40px;
+            z-index: -1;
+            opacity: 0.3;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 2rem;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        /* ========================================
+           About Section
+           ======================================== */
+        .about {
+            background: var(--bg-color);
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .about-image {
+            position: relative;
+        }
+
+        .about-img-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+
+        .about-img-wrapper::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            right: -20px;
+            bottom: -20px;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            border-radius: 20px;
+            z-index: -1;
+            opacity: 0.2;
+        }
+
+        .about-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--secondary-color);
+        }
+
+        .about-content p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+
+        .about-features {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .feature-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.1), rgba(6, 182, 212, 0.1));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .feature-icon i {
+            font-size: 1.25rem;
+            color: var(--primary-color);
+        }
+
+        .feature-text h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            color: var(--secondary-color);
+        }
+
+        .feature-text p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin: 0;
+        }
+
+        /* ========================================
+           Skills Section
+           ======================================== */
+        .skills {
+            background: var(--bg-secondary);
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .skill-card {
+            background: var(--bg-color);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: var(--shadow-md);
+            transition: all var(--transition-normal);
+            border: 1px solid var(--border-color);
+        }
+
+        .skill-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .skill-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .skill-icon i {
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .skill-card h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--secondary-color);
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .skill-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--bg-tertiary);
+            color: var(--text-secondary);
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all var(--transition-fast);
+        }
+
+        .skill-tag:hover {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+        }
+
+        .skill-tag i {
+            font-size: 0.9rem;
+        }
+
+        /* ========================================
+           Projects Section
+           ======================================== */
+        .projects {
+            background: var(--bg-color);
+        }
+
+        .project-featured {
+            background: linear-gradient(135deg, var(--secondary-color), #1e3a5f);
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: var(--shadow-xl);
+        }
+
+        .project-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+        }
+
+        .project-info {
+            padding: 3rem;
+            color: white;
+        }
+
+        .project-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+        }
+
+        .project-info h3 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .project-info > p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+
+        .project-features {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .project-features li {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 1rem;
+        }
+
+        .project-features li i {
+            color: var(--accent-color);
+            font-size: 1.1rem;
+        }
+
+        .project-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+        }
+
+        .tech-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all var(--transition-fast);
+        }
+
+        .tech-badge:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .project-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .project-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 28px;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all var(--transition-normal);
+            text-decoration: none;
+        }
+
+        .project-btn-primary {
+            background: white;
+            color: var(--secondary-color);
+        }
+
+        .project-btn-primary:hover {
+            background: var(--accent-color);
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        .project-visual {
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.2), rgba(37, 99, 235, 0.2));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem;
+            position: relative;
+        }
+
+        .project-mockup {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: var(--shadow-xl);
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .mockup-header {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 1.5rem;
+        }
+
+        .mockup-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .mockup-dot.red { background: #ff5f57; }
+        .mockup-dot.yellow { background: #febc2e; }
+        .mockup-dot.green { background: #28c840; }
+
+        .mockup-content {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .mockup-line {
+            height: 12px;
+            background: var(--bg-tertiary);
+            border-radius: 6px;
+        }
+
+        .mockup-line.short { width: 60%; }
+        .mockup-line.medium { width: 80%; }
+        .mockup-line.long { width: 100%; }
+
+        .mockup-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .mockup-card {
+            background: var(--bg-tertiary);
+            border-radius: 12px;
+            padding: 1rem;
+            height: 80px;
+        }
+
+        /* Seção de desafios */
+        .project-challenges {
+            background: var(--bg-secondary);
+            border-radius: 20px;
+            padding: 3rem;
+            margin-top: 3rem;
+        }
+
+        .project-challenges h4 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            color: var(--secondary-color);
+            text-align: center;
+        }
+
+        .challenges-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .challenge-item {
+            text-align: center;
+            padding: 1.5rem;
+        }
+
+        .challenge-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+        }
+
+        .challenge-icon i {
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .challenge-item h5 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--secondary-color);
+        }
+
+        .challenge-item p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        /* ========================================
+           Contact Section
+           ======================================== */
+        .contact {
+            background: var(--bg-secondary);
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .contact-content h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--secondary-color);
+        }
+
+        .contact-content p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.25rem;
+            background: var(--bg-color);
+            border-radius: 16px;
+            box-shadow: var(--shadow-sm);
+            transition: all var(--transition-normal);
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .contact-item:hover {
+            transform: translateX(10px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .contact-icon i {
+            font-size: 1.25rem;
+            color: white;
+        }
+
+        .contact-text h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            color: var(--secondary-color);
+        }
+
+        .contact-text p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin: 0;
+        }
+
+        .contact-cta {
+            background: var(--bg-color);
+            border-radius: 24px;
+            padding: 3rem;
+            box-shadow: var(--shadow-lg);
+            text-align: center;
+        }
+
+        .contact-cta h3 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--secondary-color);
+        }
+
+        .contact-cta p {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .contact-cta .btn {
+            width: 100%;
+            justify-content: center;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .social-link {
+            width: 50px;
+            height: 50px;
+            background: var(--bg-tertiary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            transition: all var(--transition-fast);
+        }
+
+        .social-link:hover {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            transform: translateY(-5px);
+        }
+
+        /* ========================================
+           Footer
+           ======================================== */
+        .footer {
+            background: var(--secondary-color);
+            color: white;
+            padding: 3rem 0 2rem;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .footer-logo span {
+            background: linear-gradient(135deg, var(--primary-light), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            transition: color var(--transition-fast);
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.9rem;
+        }
+
+        /* ========================================
+           Animações
+           ======================================== */
+        @keyframes fadeInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        /* Classes de animação para scroll */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .animate-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ========================================
+           Responsividade
+           ======================================== */
+        @media (max-width: 1024px) {
+            .hero-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-content {
+                order: 2;
+            }
+
+            .hero-image {
+                order: 1;
+            }
+
+            .hero-description {
+                max-width: 100%;
+                margin: 0 auto 2rem;
+            }
+
+            .hero-buttons {
+                justify-content: center;
+            }
+
+            .hero-stats {
+                justify-content: center;
+            }
+
+            .hero-avatar img {
+                width: 280px;
+                height: 280px;
+            }
+
+            .about-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .about-image {
+                display: none;
+            }
+
+            .skills-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .project-content {
+                grid-template-columns: 1fr;
+            }
+
+            .project-visual {
+                display: none;
+            }
+
+            .challenges-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-menu {
+                position: fixed;
+                top: 70px;
+                left: 0;
+                right: 0;
+                background: white;
+                flex-direction: column;
+                padding: 2rem;
+                gap: 1rem;
+                box-shadow: var(--shadow-lg);
+                transform: translateY(-150%);
+                transition: transform var(--transition-normal);
+            }
+
+            .nav-menu.active {
+                transform: translateY(0);
+            }
+
+            .nav-toggle {
+                display: flex;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .challenges-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                gap: 1.5rem;
+                text-align: center;
+            }
+
+            .footer-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero {
+                padding: 100px 0 60px;
+            }
+
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .hero-avatar img {
+                width: 200px;
+                height: 200px;
+            }
+
+            .hero-stats {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .btn {
+                padding: 12px 20px;
+                font-size: 0.9rem;
+            }
+
+            .about-features {
+                grid-template-columns: 1fr;
+            }
+
+            .project-info {
+                padding: 2rem;
+            }
+
+            .project-info h3 {
+                font-size: 1.75rem;
+            }
+
+            .project-tech {
+                gap: 0.5rem;
+            }
+
+            .project-challenges {
+                padding: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ========================================
+         Navegação
+         ======================================== -->
+    <nav class="navbar" role="navigation" aria-label="Menu principal">
+        <div class="nav-container">
+            <a href="#" class="nav-logo" aria-label="Início">
+                <span>&lt;EA/&gt;</span>
+            </a>
+            
+            <ul class="nav-menu" role="menubar">
+                <li role="none"><a href="#inicio" class="nav-link" role="menuitem">Início</a></li>
+                <li role="none"><a href="#sobre" class="nav-link" role="menuitem">Sobre</a></li>
+                <li role="none"><a href="#habilidades" class="nav-link" role="menuitem">Habilidades</a></li>
+                <li role="none"><a href="#projetos" class="nav-link" role="menuitem">Projetos</a></li>
+                <li role="none"><a href="#contato" class="nav-link" role="menuitem">Contato</a></li>
+            </ul>
+            
+            <div class="nav-toggle" aria-label="Abrir menu" role="button" tabindex="0">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ========================================
+         Hero Section
+         ======================================== -->
+    <section class="hero" id="inicio">
+        <div class="container hero-container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <i class="fas fa-circle" aria-hidden="true"></i>
+                    Disponível para novos projetos
+                </div>
+                
+                <h1 class="hero-title">
+                    Olá, eu sou<br>
+                    <span class="highlight">Enzo Amancio</span>
+                </h1>
+                
+                <p class="hero-description">
+                    Desenvolvedor Full Stack apaixonado por criar soluções web completas e escaláveis. 
+                    Especializado em Django, Python e integrações de APIs para transformar ideias em 
+                    aplicações robustas e funcionais.
+                </p>
+                
+                <div class="hero-buttons">
+                    <a href="https://github.com/enzoAmancio" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+                        <i class="fab fa-github" aria-hidden="true"></i>
+                        Ver GitHub
+                    </a>
+                    <a href="#contato" class="btn btn-secondary">
+                        <i class="fas fa-envelope" aria-hidden="true"></i>
+                        Entre em Contato
+                    </a>
+                </div>
+                
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <div class="stat-number">5+</div>
+                        <div class="stat-label">Tecnologias</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">10+</div>
+                        <div class="stat-label">Integrações</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">100%</div>
+                        <div class="stat-label">Dedicação</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="hero-image">
+                <div class="hero-avatar">
+                    <img src="https://avatars.githubusercontent.com/enzoAmancio?s=350" 
+                         alt="Foto de perfil de Enzo Amancio" 
+                         loading="lazy">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================
+         Sobre Mim
+         ======================================== -->
+    <section class="about" id="sobre">
+        <div class="container">
+            <div class="about-grid">
+                <div class="about-image animate-on-scroll">
+                    <div class="about-img-wrapper">
+                        <!-- Decorativo - sem imagem adicional necessária -->
+                    </div>
+                </div>
+                
+                <div class="about-content animate-on-scroll">
+                    <h2>Sobre Mim</h2>
+                    
+                    <p>
+                        Sou um desenvolvedor Full Stack com foco em criar soluções completas que 
+                        resolvem problemas reais. Minha especialidade está no desenvolvimento backend 
+                        com Django e Python, combinando com integrações robustas de APIs e serviços externos.
+                    </p>
+                    
+                    <p>
+                        Acredito que um bom software vai além do código: ele deve ser intuitivo, 
+                        seguro e escalável. Busco constantemente aprender novas tecnologias e 
+                        aplicar as melhores práticas de desenvolvimento em cada projeto.
+                    </p>
+                    
+                    <div class="about-features">
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="fas fa-code" aria-hidden="true"></i>
+                            </div>
+                            <div class="feature-text">
+                                <h4>Backend Development</h4>
+                                <p>Django, Python, REST APIs</p>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="fas fa-plug" aria-hidden="true"></i>
+                            </div>
+                            <div class="feature-text">
+                                <h4>Integrações</h4>
+                                <p>APIs, OAuth, Pagamentos</p>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="fas fa-database" aria-hidden="true"></i>
+                            </div>
+                            <div class="feature-text">
+                                <h4>Gestão de Dados</h4>
+                                <p>SQL, PostgreSQL, Excel</p>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="fas fa-shield-alt" aria-hidden="true"></i>
+                            </div>
+                            <div class="feature-text">
+                                <h4>Segurança</h4>
+                                <p>Autenticação, OAuth 2.0</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================
+         Habilidades Técnicas
+         ======================================== -->
+    <section class="skills" id="habilidades">
+        <div class="container">
+            <h2 class="section-title">Habilidades Técnicas</h2>
+            <p class="section-subtitle">
+                Tecnologias e ferramentas que utilizo para criar soluções completas e profissionais
+            </p>
+            
+            <div class="skills-grid">
+                <!-- Backend Development -->
+                <div class="skill-card animate-on-scroll">
+                    <div class="skill-icon">
+                        <i class="fas fa-server" aria-hidden="true"></i>
+                    </div>
+                    <h3>Backend Development</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag"><i class="fab fa-python" aria-hidden="true"></i> Python</span>
+                        <span class="skill-tag"><i class="fas fa-cube" aria-hidden="true"></i> Django 5.2.7</span>
+                        <span class="skill-tag"><i class="fas fa-code" aria-hidden="true"></i> Django REST</span>
+                        <span class="skill-tag"><i class="fas fa-broadcast-tower" aria-hidden="true"></i> Channels</span>
+                        <span class="skill-tag"><i class="fas fa-horse" aria-hidden="true"></i> Gunicorn</span>
+                    </div>
+                </div>
+                
+                <!-- Integrações de APIs -->
+                <div class="skill-card animate-on-scroll">
+                    <div class="skill-icon">
+                        <i class="fas fa-plug" aria-hidden="true"></i>
+                    </div>
+                    <h3>Integrações de APIs</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag"><i class="fab fa-google" aria-hidden="true"></i> Google Calendar</span>
+                        <span class="skill-tag"><i class="fas fa-key" aria-hidden="true"></i> OAuth 2.0</span>
+                        <span class="skill-tag"><i class="fas fa-credit-card" aria-hidden="true"></i> Mercado Pago</span>
+                        <span class="skill-tag"><i class="fas fa-exchange-alt" aria-hidden="true"></i> REST API</span>
+                    </div>
+                </div>
+                
+                <!-- Gestão de Dados -->
+                <div class="skill-card animate-on-scroll">
+                    <div class="skill-icon">
+                        <i class="fas fa-database" aria-hidden="true"></i>
+                    </div>
+                    <h3>Gestão de Dados</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag"><i class="fas fa-file-excel" aria-hidden="true"></i> OpenPyXL</span>
+                        <span class="skill-tag"><i class="fas fa-image" aria-hidden="true"></i> Pillow</span>
+                        <span class="skill-tag"><i class="fas fa-database" aria-hidden="true"></i> SQL/SQLite</span>
+                        <span class="skill-tag"><i class="fas fa-elephant" aria-hidden="true"></i> PostgreSQL</span>
+                    </div>
+                </div>
+                
+                <!-- Frontend -->
+                <div class="skill-card animate-on-scroll">
+                    <div class="skill-icon">
+                        <i class="fas fa-palette" aria-hidden="true"></i>
+                    </div>
+                    <h3>Frontend</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag"><i class="fab fa-html5" aria-hidden="true"></i> HTML5</span>
+                        <span class="skill-tag"><i class="fab fa-css3-alt" aria-hidden="true"></i> CSS3</span>
+                        <span class="skill-tag"><i class="fab fa-js" aria-hidden="true"></i> JavaScript</span>
+                        <span class="skill-tag"><i class="fas fa-file-code" aria-hidden="true"></i> Django Templates</span>
+                        <span class="skill-tag"><i class="fas fa-mobile-alt" aria-hidden="true"></i> Responsivo</span>
+                    </div>
+                </div>
+                
+                <!-- DevOps & Ferramentas -->
+                <div class="skill-card animate-on-scroll">
+                    <div class="skill-icon">
+                        <i class="fas fa-tools" aria-hidden="true"></i>
+                    </div>
+                    <h3>DevOps & Ferramentas</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag"><i class="fab fa-git-alt" aria-hidden="true"></i> Git</span>
+                        <span class="skill-tag"><i class="fab fa-github" aria-hidden="true"></i> GitHub</span>
+                        <span class="skill-tag"><i class="fas fa-network-wired" aria-hidden="true"></i> Ngrok</span>
+                        <span class="skill-tag"><i class="fas fa-cog" aria-hidden="true"></i> Django Environ</span>
+                    </div>
+                </div>
+                
+                <!-- Segurança -->
+                <div class="skill-card animate-on-scroll">
+                    <div class="skill-icon">
+                        <i class="fas fa-shield-alt" aria-hidden="true"></i>
+                    </div>
+                    <h3>Segurança</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag"><i class="fas fa-user-lock" aria-hidden="true"></i> Auth Django</span>
+                        <span class="skill-tag"><i class="fas fa-key" aria-hidden="true"></i> OAuth 2.0</span>
+                        <span class="skill-tag"><i class="fas fa-check-circle" aria-hidden="true"></i> Best Practices</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================
+         Projeto Destaque
+         ======================================== -->
+    <section class="projects" id="projetos">
+        <div class="container">
+            <h2 class="section-title">Projeto Destaque</h2>
+            <p class="section-subtitle">
+                Conheça o projeto que demonstra minhas habilidades em desenvolvimento Full Stack
+            </p>
+            
+            <div class="project-featured animate-on-scroll">
+                <div class="project-content">
+                    <div class="project-info">
+                        <div class="project-badge">
+                            <i class="fas fa-star" aria-hidden="true"></i>
+                            Projeto Principal
+                        </div>
+                        
+                        <h3>Giro Dance</h3>
+                        
+                        <p>
+                            Sistema completo de gestão para escola de danças urbanas. Uma solução 
+                            full stack que integra múltiplas tecnologias para automatizar e 
+                            otimizar a administração do negócio.
+                        </p>
+                        
+                        <ul class="project-features">
+                            <li>
+                                <i class="fas fa-check-circle" aria-hidden="true"></i>
+                                Sistema de calendário integrado com Google Calendar
+                            </li>
+                            <li>
+                                <i class="fas fa-check-circle" aria-hidden="true"></i>
+                                Controle financeiro completo (despesas e receitas)
+                            </li>
+                            <li>
+                                <i class="fas fa-check-circle" aria-hidden="true"></i>
+                                Sistema de autenticação e login seguro
+                            </li>
+                            <li>
+                                <i class="fas fa-check-circle" aria-hidden="true"></i>
+                                Integração com Mercado Pago para pagamentos
+                            </li>
+                            <li>
+                                <i class="fas fa-check-circle" aria-hidden="true"></i>
+                                Painel administrativo completo
+                            </li>
+                            <li>
+                                <i class="fas fa-check-circle" aria-hidden="true"></i>
+                                Exportação de dados para Excel
+                            </li>
+                        </ul>
+                        
+                        <div class="project-tech">
+                            <span class="tech-badge"><i class="fab fa-python" aria-hidden="true"></i> Django</span>
+                            <span class="tech-badge"><i class="fab fa-google" aria-hidden="true"></i> Google API</span>
+                            <span class="tech-badge"><i class="fas fa-credit-card" aria-hidden="true"></i> Mercado Pago</span>
+                            <span class="tech-badge"><i class="fas fa-file-excel" aria-hidden="true"></i> OpenPyXL</span>
+                            <span class="tech-badge"><i class="fas fa-database" aria-hidden="true"></i> PostgreSQL</span>
+                            <span class="tech-badge"><i class="fab fa-html5" aria-hidden="true"></i> HTML/CSS/JS</span>
+                        </div>
+                        
+                        <div class="project-links">
+                            <a href="https://github.com/enzoAmancio/giro-dnc" class="project-btn project-btn-primary" target="_blank" rel="noopener noreferrer">
+                                <i class="fab fa-github" aria-hidden="true"></i>
+                                Ver Repositório
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="project-visual">
+                        <div class="project-mockup">
+                            <div class="mockup-header">
+                                <span class="mockup-dot red"></span>
+                                <span class="mockup-dot yellow"></span>
+                                <span class="mockup-dot green"></span>
+                            </div>
+                            <div class="mockup-content">
+                                <div class="mockup-line short"></div>
+                                <div class="mockup-line long"></div>
+                                <div class="mockup-line medium"></div>
+                                <div class="mockup-grid">
+                                    <div class="mockup-card"></div>
+                                    <div class="mockup-card"></div>
+                                    <div class="mockup-card"></div>
+                                    <div class="mockup-card"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Desafios superados -->
+            <div class="project-challenges animate-on-scroll">
+                <h4>Desafios Superados & Soluções Implementadas</h4>
+                
+                <div class="challenges-grid">
+                    <div class="challenge-item">
+                        <div class="challenge-icon">
+                            <i class="fab fa-google" aria-hidden="true"></i>
+                        </div>
+                        <h5>Integração Google Calendar</h5>
+                        <p>Sincronização bidirecional de eventos com OAuth 2.0 para autenticação segura</p>
+                    </div>
+                    
+                    <div class="challenge-item">
+                        <div class="challenge-icon">
+                            <i class="fas fa-credit-card" aria-hidden="true"></i>
+                        </div>
+                        <h5>Pagamentos Online</h5>
+                        <p>Integração completa com SDK do Mercado Pago para processar transações</p>
+                    </div>
+                    
+                    <div class="challenge-item">
+                        <div class="challenge-icon">
+                            <i class="fas fa-chart-line" aria-hidden="true"></i>
+                        </div>
+                        <h5>Gestão Financeira</h5>
+                        <p>Sistema completo de controle de despesas e receitas com exportação para Excel</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================
+         Contato
+         ======================================== -->
+    <section class="contact" id="contato">
+        <div class="container">
+            <h2 class="section-title">Entre em Contato</h2>
+            <p class="section-subtitle">
+                Vamos conversar sobre como posso ajudar no seu próximo projeto
+            </p>
+            
+            <div class="contact-grid">
+                <div class="contact-content animate-on-scroll">
+                    <h2>Vamos trabalhar juntos!</h2>
+                    <p>
+                        Estou sempre aberto a novas oportunidades e projetos interessantes. 
+                        Se você tem uma ideia ou precisa de um desenvolvedor dedicado, 
+                        entre em contato!
+                    </p>
+                    
+                    <div class="contact-info">
+                        <a href="https://github.com/enzoAmancio" class="contact-item" target="_blank" rel="noopener noreferrer">
+                            <div class="contact-icon">
+                                <i class="fab fa-github" aria-hidden="true"></i>
+                            </div>
+                            <div class="contact-text">
+                                <h4>GitHub</h4>
+                                <p>github.com/enzoAmancio</p>
+                            </div>
+                        </a>
+                        
+                        <a href="mailto:contato@enzoamancio.dev" class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-envelope" aria-hidden="true"></i>
+                            </div>
+                            <div class="contact-text">
+                                <h4>Email</h4>
+                                <p>Entre em contato por email</p>
+                            </div>
+                        </a>
+                        
+                        <a href="https://www.linkedin.com/in/enzoAmancio" class="contact-item" target="_blank" rel="noopener noreferrer">
+                            <div class="contact-icon">
+                                <i class="fab fa-linkedin-in" aria-hidden="true"></i>
+                            </div>
+                            <div class="contact-text">
+                                <h4>LinkedIn</h4>
+                                <p>Conecte-se comigo</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="contact-cta animate-on-scroll">
+                    <h3>Pronto para começar?</h3>
+                    <p>
+                        Confira meu trabalho no GitHub e veja como posso contribuir 
+                        para o sucesso do seu projeto.
+                    </p>
+                    
+                    <a href="https://github.com/enzoAmancio" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+                        <i class="fab fa-github" aria-hidden="true"></i>
+                        Ver Projetos no GitHub
+                    </a>
+                    
+                    <div class="social-links">
+                        <a href="https://github.com/enzoAmancio" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+                            <i class="fab fa-github" aria-hidden="true"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/in/enzoAmancio" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                            <i class="fab fa-linkedin-in" aria-hidden="true"></i>
+                        </a>
+                        <a href="mailto:contato@enzoamancio.dev" class="social-link" aria-label="Email">
+                            <i class="fas fa-envelope" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================
+         Footer
+         ======================================== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <span>&lt;EA/&gt;</span> Enzo Amancio
+                </div>
+                
+                <div class="footer-links">
+                    <a href="#inicio">Início</a>
+                    <a href="#sobre">Sobre</a>
+                    <a href="#habilidades">Habilidades</a>
+                    <a href="#projetos">Projetos</a>
+                    <a href="#contato">Contato</a>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 Enzo Amancio. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ========================================
+         JavaScript
+         ======================================== -->
+    <script>
+        // ========================================
+        // Menu Mobile Toggle
+        // ========================================
+        const navToggle = document.querySelector('.nav-toggle');
+        const navMenu = document.querySelector('.nav-menu');
+
+        navToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+        });
+
+        // Fechar menu ao clicar em um link
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+            });
+        });
+
+        // ========================================
+        // Navbar scroll effect
+        // ========================================
+        const navbar = document.querySelector('.navbar');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // ========================================
+        // Animação de scroll - Intersection Observer
+        // ========================================
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        // Observar todos os elementos com animação
+        document.querySelectorAll('.animate-on-scroll').forEach(el => {
+            observer.observe(el);
+        });
+
+        // ========================================
+        // Smooth scroll para navegação
+        // ========================================
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const headerOffset = 70;
+                    const elementPosition = target.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // ========================================
+        // Keyboard navigation for menu toggle
+        // ========================================
+        navToggle.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                navMenu.classList.toggle('active');
+            }
+        });
+    </script>
+</body>
+</html>
